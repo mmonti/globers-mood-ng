@@ -1,0 +1,68 @@
+<div class="container">
+    <h4>Preferences</h4>
+
+    <div class="separator-10"/>
+
+    <p>Sets the global settings of the application.</p>
+
+    <div class="separator-10"/>
+
+    <tabset>
+        <tab heading="Mailing">
+            <div class="separator-30"/>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="form" class="form-horizontal" role="form">
+
+                        <div class="form-group">
+                            <label for="inputSenderAlias" class="col-lg-2 control-label">Sender Alias</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="inputSenderAlias" placeholder="Sender Alias" ng-model="senderAlias" required/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputSenderMail" class="col-lg-2 control-label">Sender Mail</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input type="email" class="form-control" id="inputSenderMail" placeholder="Sender Mail" ng-model="senderMail" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </tab>
+
+        <tab heading="Templates">
+            <div class="col-md-12">
+                <form name="form" class="form-horizontal" role="form">
+
+                    <div ng-repeat="template in templates">
+                        <div ng-bind-html="template.template"></div>
+                    </div>
+
+                </form>
+            </div>
+        </tab>
+
+        <!--<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">-->
+            <!--{{tab.content}}-->
+        <!--</tab>-->
+
+        <!--<tab select="alertMe()">-->
+            <!--<tab-heading>-->
+                <!--<i class="icon-bell"></i> Select me for alert!-->
+            <!--</tab-heading>-->
+            <!--I've got an HTML heading, and a select callback. Pretty cool!-->
+        <!--</tab>-->
+    </tabset>
+
+    <button type="button" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="applyPreferences()">APPLY</button>
+    <button type="button" class="btn btn-default">CANCEL</button>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="container">
+
+    <h4>New Campaign</h4>
+
+    <div class="separator-10"/>
+
+    <blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis odio eu lobortis pellentesque.
+        Aliquam nec placerat magna. In euismod condimentum nunc, id vehicula erat ultricies et. Ut ac dignissim libero. Sed risus eros, bibendum sed dolor egestas, posuere sagittis quam. Aenean mollis euismod erat. In aliquet, nisi id luctus tincidunt, velit nibh mollis orci, ac gravida justo est</blockquote>
+
+    <div class="separator-10"/>
+
+    <form name="form" class="form-horizontal" role="form">
+
+        <tabset>
+            <tab heading="General">
+
+                <div class="form-group">
+                    <label for="inputName" class="col-lg-1 control-label">Name</label>
+                    <div class="col-lg-4">
+                        <input type="text" id="inputName" class="form-control" placeholder="Name" ng-model="campaign.name" ng-required="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescription" class="col-lg-1 control-label">Description</label>
+                    <div class="col-lg-6">
+                        <textarea id="inputDescription" class="form-control" placeholder="Description" rows="3" ng-model="campaign.description"></textarea>
+                    </div>
+                </div>
+
+            </tab>
+
+            <tab heading="Projects">
+
+                <div class="form-group">
+                    <label for="inputProjects" class="col-lg-1 control-label">Projects</label>
+                    <div class="col-lg-6">
+                        <input type="text" id="inputProjects" ui-select2="projectOptions" ng-model="campaign.projects" style="width: 300px;"/>
+                    </div>
+                </div>
+
+            </tab>
+
+            <tab heading="Template">
+
+                <div class="form-group">
+                    <label for="inputTemplate" class="col-lg-1 control-label">Template</label>
+                    <div class="col-lg-6">
+                        <select id="inputTemplate" ui-select2 ng-model="campaign.template" data-placeholder="Template" ng-required="true" style="width: 300px;" >
+                            <option value=""></option>
+                            <option ng-repeat="template in availableTemplates" value="{{template.id}}">{{template.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </tab>
+
+            <tab heading="MultiSelect">
+                <div>
+                    <multi-select ng-model="user.roles" available="roles"
+                                  selected-label="Current roles"
+                                  available-label="Available roles"
+                                  display-attr="roleName"></multi-select>
+
+                    <div>{{ user.username }}'s roles: </div>
+                    <ul class="results">
+                        <li ng-repeat="role in user.roles">{{ role.roleName }}</li>
+                    </ul>
+                </div>
+            </tab>
+        </tabset>
+
+    </form>
+
+    <div class="col-lg-12 command-bar">
+        <div>
+            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submitCampaign()">CREATE</button>
+            <button type="submit" class="btn btn-default" ng-click="reset()">CLEAR</button>
+        </div>
+
+    </div>
+</div>

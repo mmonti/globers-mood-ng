@@ -1,0 +1,39 @@
+$iconSpritePath: "../images/glyphicons-halflings.png";
+$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
+$icon-font-path: "../styles/fonts/";
+
+@import "../bower_components/sass-bootstrap/lib/bootstrap";
+@import "sticky-fn";
+@import "multi-select";
+
+html, body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.file {
+  line-height: 1.42860;
+}
+
+// = Separator
+@for $index from 1 through 5 {
+  .separator-#{$index*10} {
+    padding-top: #{$index*10}px;
+  }
+}
+
+// = Tabs
+.tab-content {
+  min-height: 180px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+// = Command
+.command-bar {
+  border-top: 1px solid #dddddd;
+  padding-top: 20px;
+}

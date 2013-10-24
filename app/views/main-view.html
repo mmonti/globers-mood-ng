@@ -1,0 +1,77 @@
+<div class="container" ng-controller="dashboardController">
+    <h4><span class="glyphicon  glyphicon-chevron-right"></span>&nbsp;Dashboard</h4>
+
+    <div class="separator-10"/>
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+    </p>
+
+    <div class="separator-10"/>
+
+    <div class="row">
+        <div class="col-lg-7">
+
+            <h4>Overview</h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Campaign Name</th>
+                        <th class="text-center">#Feedback</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="!campaigns.length">
+                    <tr>
+                        <td colspan="4" class="text-center"><h5>There's no campaigns registered at the moment</h5></td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="campaign in campaigns">
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ campaign.name }}</td>
+                        <td class="text-center">{{ campaign.feedbackNumber }}</td>
+                        <td class="text-left"><button type="button" ng-class="{'btn-danger disabled': (campaign.status == 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status == 'START'), 'btn-success disabled': (campaign.status == 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
+                        <td class="text-left">
+                            <button type="button" class="btn btn-xs btn-success" ng-show="{{(campaign.status == 'CREATED')}}">
+                                <span>START</span>
+                            </button>
+                            <button type="button" class="btn btn-xs btn-danger" ng-show="{{(campaign.status == 'WAITING_FOR_FEEDBACK')}}">
+                                <span>STOP & CLOSE</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ng-show="campaigns.length">
+                <ul class="pagination">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+
+            <h4>Most Active Campaigns</h4>
+
+            <div class="separator-20"/>
+
+            <highchart id="chart1" series="chart.series" options="chart.options"/>
+
+            <div id="chartContainer" style="width: 100%; height: 280px;"></div>
+        </div>
+
+    </div>
+
+</div>

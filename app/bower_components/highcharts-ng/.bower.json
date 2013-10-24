@@ -1,0 +1,20 @@
+{
+  "name": "highcharts-ng",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": ">=1.6.x",
+    "angular": "~1.0.4"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/pablojim/highcharts-ng",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "f1129634aa3224a3740fbe521ca024a148869ddf"
+  },
+  "_source": "git://github.com/pablojim/highcharts-ng.git",
+  "_target": "~0.0.1",
+  "_originalSource": "highcharts-ng",
+  "_direct": true
+}

@@ -1,0 +1,51 @@
+<div class="container">
+    <h4>Initial Setup</h4>
+
+    <div class="separator-10"/>
+
+    <p>Initial setup lets you populate the database with initial data. Backend services accepts a JSON file with a predefined structure.</br>
+        In order to POST an existent file, select the file an then click on the SUBMIT button.</p>
+
+    <div class="separator-10"/>
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <form action="/" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" class="hidden" file-upload />
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default file" tabindex="-1" ng-click="choose('file')"><b>Select File</b></button>
+                        <button type="button" class="btn btn-default file" ng-click="clear()">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                    </div>
+                    <input type="text" class="form-control" value="{{fileName}}" disabled/>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-lg-1">
+            <button type="button" class="btn btn-primary file" ng-click="submit()">POST</button>
+        </div>
+    </div>
+
+    <div class="separator-20"/>
+
+    <h4>Current load</h4>
+
+    <p>Entities loaded in the datastore.</p>
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="entity in entities">
+                    <span ng-class="{'pull-right': true, 'label': true, 'label-primary': (entity.count > 0), 'label-danger': (entity.count <= 0)}">{{ entity.count }}</span>{{ entity.name }}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>
