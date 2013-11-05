@@ -1,82 +1,288 @@
-<div class="container">
+<div>
 
     <h4>New Campaign</h4>
 
     <div class="separator-10"/>
 
-    <blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis odio eu lobortis pellentesque.
-        Aliquam nec placerat magna. In euismod condimentum nunc, id vehicula erat ultricies et. Ut ac dignissim libero. Sed risus eros, bibendum sed dolor egestas, posuere sagittis quam. Aenean mollis euismod erat. In aliquet, nisi id luctus tincidunt, velit nibh mollis orci, ac gravida justo est</blockquote>
+    <!--<blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis odio eu lobortis pellentesque.-->
+    <!--Aliquam nec placerat magna. In euismod condimentum nunc, id vehicula erat ultricies et. Ut ac dignissim libero. Sed risus eros, bibendum sed dolor egestas, posuere sagittis quam. Aenean mollis euismod erat. In aliquet, nisi id luctus tincidunt, velit nibh mollis orci, ac gravida justo est</blockquote>-->
 
-    <div class="separator-10"/>
+    <!--<div class="separator-10"/>-->
 
-    <form name="form" class="form-horizontal" role="form">
+    <form name="form">
 
-        <tabset>
-            <tab heading="General">
+    <tabset>
 
-                <div class="form-group">
-                    <label for="inputName" class="col-lg-1 control-label">Name</label>
-                    <div class="col-lg-4">
-                        <input type="text" id="inputName" class="form-control" placeholder="Name" ng-model="campaign.name" ng-required="true"/>
+        <tab heading="General">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="inputName" class="control-label col-lg-2">Name:</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="inputName" class="form-control" placeholder="Name" ng-model="campaign.overview.name" ng-required="true"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputDescription" class="control-label col-lg-2">Description:</label>
+                                <div class="col-lg-8"><textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="campaign.overview.description"></textarea></div>
+                            </div>
+                        </div>
+
                     </div>
+                    <div class="col-lg-offset-4"/>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="inputDescription" class="col-lg-1 control-label">Description</label>
+        </tab>
+
+        <tab heading="Targets">
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-7">
+                        <div role="form" class="form-horizontal">
+
+                            <div class="form-group">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-10">
+                                    <div class="checkbox">
+                                        <label for="checkDomain">
+                                            <input type="checkbox" id="checkDomain" ng-model="campaign.targets.limitDomain"><span>Limit to Globant accounts only (@globant.com).</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTarget" class="control-label col-lg-2">Target(s):</label>
+                                <div class="col-lg-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">@</span>
+
+                                        <input type="text" class="form-control" id="inputTarget"
+                                               placeholder="Enter email(s)"
+                                               ng-model="targetInput"
+                                               typeahead-on-select="onTargetSelected()" typeahead="target.email for target in targetSource | filter:$viewValue | limitTo:8">
+
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-primary add-on" type="button" ng-click="onTargetSelected()">ADD</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-offset-1"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTarget" class="control-label col-lg-2">From file:</label>
+                                <div class="col-lg-8">
+                                    <fieldset disabled>
+                                    <div class="input-group">
+                                        <input type="file" name="file" class="hidden" file-upload />
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default file" tabindex="-1" ng-click="choose('file')"><b>choose</b></button>
+                                                <button type="button" class="btn btn-default file" ng-click="clear()">
+                                                    <span class="glyphicon glyphicon-remove-circle"></span>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="form-control" value="{{fileName}}" disabled/>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default btn-primary add-on" type="button" ng-click="targetSelected()">IMPORT</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-offset-2"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                    <div class="form-inline" role="form">
+                                        <label class="form-group col-sm-6" style="padding-top: 6px;">
+                                            <span>Selected Target(s): ({{campaign.targets.destinations.length}})</span>
+                                        </label>
+                                        <div class="form-group col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" placeholder="filter by name..." ng-model="targetFilterTerm">
+                                                <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="first-column text-center">#</th>
+                                            <th><span>Target Mail</span></th>
+                                            <th class="text-center">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+                                <div ng-show="(campaign.targets.destinations.length == 0)" style="margin: 10px;">
+                                    <span>No target(s) selected. Please add them using Target(s) input or importing a file.</span>
+                                </div>
+
+                                <div ng-hide="(campaign.targets.destinations.length == 0)" style="max-height: 180px; overflow-y:auto;">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr ng-repeat="target in campaign.targets.destinations | filter: targetFilterTerm">
+                                        <td class="first-column text-center">{{$index + 1}}</td>
+                                        <td class="first-column text-center">
+                                            <input type="checkbox" id="checkTarget" ng-model="campaign.targets.selected">
+                                        </td>
+                                        <td><span>{{target.email}}</span></td>
+                                        <td>
+                                            <div class="text-center">
+                                                <span><button type="button" class="btn btn-default btn-sm"><i class="fa fa-list"></i></button></span>
+                                                <span><button type="button" class="btn btn-default btn-sm" ng-click="onDiscardTarget($index)"><i class="fa fa-times-circle-o"></i></button></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="panel-footer">
+                                <fieldset ng-disabled="(campaign.targets.destinations.length == 0)">
+                                    <span><button type="button" class="btn btn-default btn-sm">context</button></span>
+                                    <span><button type="button" class="btn btn-danger btn-sm" ng-click="onDiscardAll()">discard all</button></span>
+                                </fieldset>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </tab>
+
+        <tab heading="Template">
+            <div class="container">
+                <div class="row">
                     <div class="col-lg-6">
-                        <textarea id="inputDescription" class="form-control" placeholder="Description" rows="3" ng-model="campaign.description"></textarea>
+
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="inputTemplateFilter" class="control-label col-lg-2">Template:</label>
+                                <div class="col-lg-10">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="text" id="inputTemplateFilter" class="form-control" placeholder="filter by name..." ng-model="templateFilterTerm"/>
+                                    </div>
+
+                                    <div class="separator-20"/>
+
+                                    <div class="template-selector">
+                                        <table class="table">
+                                            <tbody>
+                                            <tr ng-repeat="template in availableTemplates | filter:templateFilterTerm">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{template.name}}</td>
+                                                <td><div class="pull-right"><span class="label" ng-class="(campaign.template.selection != null) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span></div></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-
-            </tab>
-
-            <tab heading="Projects">
-
-                <div class="form-group">
-                    <label for="inputProjects" class="col-lg-1 control-label">Projects</label>
                     <div class="col-lg-6">
-                        <input type="text" id="inputProjects" ui-select2="projectOptions" ng-model="campaign.projects" style="width: 300px;"/>
+                        <div ng-show="campaign.template.selection != null">
+                            <ul class="list-unstyled selected-template">
+                                <li>
+                                    <div>
+                                        <span ng-click="onTemplateRemoved()"><i class="fa fa-times-circle-o fa-2x"></i></span>
+                                        <span>Weekly Feedback</span>
+                                    </div>
+
+                                    <!--<div>-->
+                                        <!--<span ng-click="onTemplateRemoved()"><i class="fa fa-times-circle-o fa-2x"></i></span>-->
+                                    <!--</div>-->
+                                    <!--<h3 style="display: inline-block;">{{campaign.template.selection.name}}</h3>-->
+                                </li>
+                                <li><span>Date:</span>&nbsp;{{ campaign.template.selection.created | date:'medium' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </tab>
+
+        <tab heading="Scheduling">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Mode:</label>
+                                <div class="col-lg-6">
+                                    <div class="btn-group btn-group-sm">
+                                        <button name="schedulingMode" type="button" class="btn" ng-class="(campaign.scheduling.mode == 'M') ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.mode" btn-radio="'M'">Manual</button>
+                                        <button name="schedulingMode" type="button" class="btn" ng-class="(campaign.scheduling.mode == 'A') ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.mode" btn-radio="'A'">Automatic</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <fieldset ng-disabled="campaign.scheduling.mode!='A'">
+                                <div class="form-group">
+                                    <label for="startDateTime" class="col-md-2 control-label">Start Date:</label>
+                                    <div class="input-group date col-md-5">
+                                        <input id="startDateTime" class="form-control" size="16" type="text" ui-mask="9999-99-99 99:99" ng-model="campaign.scheduling.automatic.startDate">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDateTime" class="col-md-2 control-label">End Date:</label>
+                                    <div class="input-group date col-md-5">
+                                        <input id="endDateTime" class="form-control" size="16" type="text" ui-mask="9999-99-99 99:99" ng-model="campaign.scheduling.automatic.endDate">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+
                     </div>
                 </div>
+            </div>
 
-            </tab>
+        </tab>
 
-            <tab heading="Template">
-
-                <div class="form-group">
-                    <label for="inputTemplate" class="col-lg-1 control-label">Template</label>
-                    <div class="col-lg-6">
-                        <select id="inputTemplate" ui-select2 ng-model="campaign.template" data-placeholder="Template" ng-required="true" style="width: 300px;" >
-                            <option value=""></option>
-                            <option ng-repeat="template in availableTemplates" value="{{template.id}}">{{template.name}}</option>
-                        </select>
-                    </div>
-                </div>
-
-            </tab>
-
-            <tab heading="MultiSelect">
-                <div>
-                    <multi-select ng-model="user.roles" available="roles"
-                                  selected-label="Current roles"
-                                  available-label="Available roles"
-                                  display-attr="roleName"></multi-select>
-
-                    <div>{{ user.username }}'s roles: </div>
-                    <ul class="results">
-                        <li ng-repeat="role in user.roles">{{ role.roleName }}</li>
-                    </ul>
-                </div>
-            </tab>
-        </tabset>
-
+    </tabset>
     </form>
 
+
     <div class="col-lg-12 command-bar">
-        <div>
-            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submitCampaign()">CREATE</button>
+        <div class="pull-right">
+
+            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !isModelReady()" ng-click="submitCampaign()">
+                CREATE
+            </button>
             <button type="submit" class="btn btn-default" ng-click="reset()">CLEAR</button>
         </div>
-
     </div>
 </div>

@@ -4,7 +4,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
     var configuration = {
 
         // = Current Environment.
-        environment: "dev",
+        environment: "prod",
 
         // = Environment configuration.
         dev : {
@@ -14,12 +14,19 @@ angular.module('globersMoodApp').factory('configuration', function () {
             base: "http://globers-mood-rest.appspot.com/rest/api"
         },
 
-        // = Services Path Configuration
         services : {
+            ping : false
+        },
+
+        // = Services Path Configuration
+        endpoints : {
+
             "ping" : "/v1/ping",
 
             "user.get" : "/v1/user/{id}",
             "user.list" : "/v1/user",
+            "user.assigned" : "/v1/user/assigned",
+            "user.unassigned" : "/v1/user/unassigned",
 
             "customer.get" : "/v1/customer/{id}",
             "customer.list" : "/v1/customer",
@@ -71,15 +78,18 @@ angular.module('globersMoodApp').factory('configuration', function () {
 
     // = Public API
     return {
+        isServicesInSynchActive : function() {
+            return configuration.services.ping;
+        },
         getServiceEndpoint : function(serviceName, context) {
-            for (var service in configuration.services) {
-                if (configuration.services.hasOwnProperty(serviceName)) {
-                    if (service === serviceName) {
-                        var endpoint = configuration[configuration.environment].base + configuration.services[serviceName];
+            for (var currentEndpoint in configuration.endpoints) {
+                if (configuration.endpoints.hasOwnProperty(serviceName)) {
+                    if (currentEndpoint === serviceName) {
+                        var solvedEndpoint = configuration[configuration.environment].base + configuration.endpoints[serviceName];
                         if (context) {
-                            return expander(endpoint, context);
+                            return expander(solvedEndpoint, context);
                         }
-                        return endpoint;
+                        return solvedEndpoint;
                     }
                 }
             }

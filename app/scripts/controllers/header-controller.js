@@ -1,36 +1,38 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('headerController', function ($scope, $rootScope, pingService) {
+angular.module('globersMoodApp').controller('headerController', function ($scope, $rootScope, configuration, pingService) {
 
-    $rootScope.synch = false;
-
-    $scope.showNotification = !$rootScope.synch;
+    $scope.synch = false;
+    $scope.showNotification = !$scope.synch;
     $scope.closeNotification = function() {
         $scope.showNotification = false;
+    }
+
+    // Check if PING service is active.
+    if (!configuration.isServicesInSynchActive()) {
+        return;
     }
 
     var handleResponse = function(property, response, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope[property] = response;
-        $rootScope.synch = true;
+        $scope.synch = true;
     }
 
     var syncServices = function() {
+        console.debug("calling ping service to sync...")
+
         pingService.pingDelay(function(data, status, headers, config) {
             handleResponse($scope.ping, data, status, headers, config);
         }, function(data, status, headers, config) {
             console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
-            $rootScope.synch = false;
+            $scope.synch = false;
         });
+
+        // = Check if there is someone on the other side each 10sec.
+        setTimeout(syncServices, 10000);
     }
 
     // = Synch
     syncServices();
-
-    // = Check if there is someone on the other side each 10sec.
-    setInterval(function() {
-        syncServices();
-        console.debug("calling ping service to sync...")
-    }, 10000);
-
 });

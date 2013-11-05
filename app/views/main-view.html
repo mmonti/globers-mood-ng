@@ -27,7 +27,9 @@
                 </thead>
                 <tbody ng-show="!campaigns.length">
                     <tr>
-                        <td colspan="4" class="text-center"><h5>There's no campaigns registered at the moment</h5></td>
+                        <td colspan="4" class="text-center">
+                            <h5>There's no campaigns registered at the moment</h5>
+                        </td>
                     </tr>
                 </tbody>
                 <tbody ng-repeat="campaign in campaigns">
@@ -35,12 +37,12 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ campaign.name }}</td>
                         <td class="text-center">{{ campaign.feedbackNumber }}</td>
-                        <td class="text-left"><button type="button" ng-class="{'btn-danger disabled': (campaign.status == 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status == 'START'), 'btn-success disabled': (campaign.status == 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
+                        <td class="text-left"><button type="button" ng-class="{'btn-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status === 'START'), 'btn-success disabled': (campaign.status === 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
                         <td class="text-left">
-                            <button type="button" class="btn btn-xs btn-success" ng-show="{{(campaign.status == 'CREATED')}}">
+                            <button type="button" class="btn btn-xs btn-success" ng-show="{{(campaign.status === 'CREATED')}}">
                                 <span>START</span>
                             </button>
-                            <button type="button" class="btn btn-xs btn-danger" ng-show="{{(campaign.status == 'WAITING_FOR_FEEDBACK')}}">
+                            <button type="button" class="btn btn-xs btn-danger" ng-show="{{(campaign.status === 'WAITING_FOR_FEEDBACK')}}">
                                 <span>STOP & CLOSE</span>
                             </button>
                         </td>
@@ -61,15 +63,23 @@
             </div>
         </div>
 
-        <div class="col-lg-5">
+        <div class="col-lg-5 dashboard-chart-section">
 
-            <h4>Most Active Campaigns</h4>
+            <div class="form-inline">
+                <div class="form-group">
+                    <h4>Weekly Feedback</h4>
+                </div>
+                <div class="form-group pull-right weekly-chart">
+                    <span ng-click="refresh()"><a href="#">refresh</a>&nbsp;&nbsp;<i class="fa fa-refresh"></i></span>
+                </div>
+            </div>
 
             <div class="separator-20"/>
 
-            <highchart id="chart1" series="chart.series" options="chart.options"/>
+            <div class="weekly-chart-container">
+                <highchart class="weekly-chart" config="weeklyChart"/>
+            </div>
 
-            <div id="chartContainer" style="width: 100%; height: 280px;"></div>
         </div>
 
     </div>

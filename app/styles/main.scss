@@ -3,19 +3,83 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $icon-font-path: "../styles/fonts/";
 
 @import "../bower_components/sass-bootstrap/lib/bootstrap";
+@import "../bower_components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css";
 @import "sticky-fn";
 @import "multi-select";
+@import "../bower_components/select2/select2.css";
+@import "../bower_components/bootstrap3-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css";
+@import "font-awesome";
 
 html, body {
   font-family: 'Open Sans', sans-serif;
 }
 
+// = Cursor
 .hand {
   cursor: pointer;
 }
 
+// = Input file button fix.
 .file {
   line-height: 1.42860;
+}
+.add-on {
+  line-height: 1.42860;
+}
+
+// = Table
+.first-column {
+  width: 40px;
+}
+
+// = Header
+div.navbar.navbar-fixed-top {
+  -moz-box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  background-color: white;
+}
+
+// = New Campaign
+div.tabbable ul.nav.nav-tabs li {
+  cursor: pointer;
+}
+
+// = Dashboard - Graph
+div.dashboard-chart-section div.weekly-chart {
+  padding-top: 8px;
+}
+div.dashboard-chart-section div.weekly-chart span {
+  cursor: pointer;
+}
+div.dashboard-chart-section div.weekly-chart-container {
+  width: 100%;
+  height: 280px;
+}
+div.dashboard-chart-section div.weekly-chart-container .weekly-chart {
+  width: 100%;
+  height: 280px;
+}
+
+// = Template Selector
+.template-selector {
+  height: 180px;
+  overflow-y: scroll;
+}
+.template-selector table tbody tr:first-child td {
+  border-top: 0px;
+}
+
+ul.selected-template li:first-child {
+  display: inline-block;
+}
+ul.selected-template li:first-child div:first-child span {
+  padding-right: 10px;
+}
+ul.selected-template li:first-child div:nth-last-child span {
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 // = Separator

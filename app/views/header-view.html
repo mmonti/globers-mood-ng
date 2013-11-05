@@ -23,7 +23,7 @@
                     <a class="dropdown-toggle hand" data-toggle="dropdown">Campaigns <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#/campaign">Create new Campaign</a></li>
-                        <li><a href="#">Show active campaigns</a></li>
+                        <li><a href="#">Show campaigns</a></li>
                     </ul>
                 </li>
 
@@ -50,15 +50,15 @@
 
             <p class="navbar-text pull-right">
                 <span>services:</span>
-                <strong>
-                    <span ng-show="synch" class="label label-success">SYNCED</span>
-                    <span ng-show="!synch" class="label label-danger">OUT-OF-SYNC</span>
+                <span ng-show="synch" class="label label-success"><strong>SYNCED</strong></span>
+                <span ng-show="!synch" class="label label-danger"><strong>OUT-OF-SYNC</strong></span>
+                <notify-popup>
                     <div ng-class="showNotification && !synch ? 'show':'hide'" class="popover bottom fade in" style="left: 920px; top: 40px">
                         <div class="arrow" style="left: 85%"></div>
-                        <h3 class="popover-title">Out of Sync.<button type="button" class="btn btn-xs pull-right" ng-click="closeNotification()">close</button></h3>
+                        <h3 class="popover-title">Out of Sync.<button type="button" class="btn btn-primary btn-xs pull-right" ng-click="closeNotification()">close</button></h3>
                         <div class="popover-content">Seems that there is a problem contacting the services.</div>
                     </div>
-                </strong>
+                </notify-popup>
             </p>
 
         </div><!--/.nav-collapse -->

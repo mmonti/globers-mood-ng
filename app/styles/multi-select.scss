@@ -10,6 +10,9 @@
   clear: both;
   font-size: 11px;
 }
+div.select label.control-label {
+  margin-bottom: 15px;
+}
 .multiSelect label.control-label::after {
   content: ":";
 }
@@ -20,10 +23,12 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  height: 130px;
+  overflow-y: auto;
 }
 .btn.mover {
   display: block;
-  margin-top: 25px;
+  margin-top: 40px;
   vertical-align: top;
 }
 .btn.mover.left {

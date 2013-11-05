@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('multiselect', function ($q) {
+angular.module('globersMoodApp').directive('multiSelect', function ($q) {
 
     function appendSelected(entities) {
         var newEntities = [];
@@ -21,38 +21,7 @@ angular.module('globersMoodApp').directive('multiselect', function ($q) {
             available: "=",
             model: "=ngModel"
         },
-        template: '<div class="multiSelect">' +
-            '<div class="select">' +
-            '<label class="control-label" for="multiSelectSelected">{{ selectedLabel }} ' + '({{ model.length }})</label>' +
-            '<ul>' +
-            '<li ng-repeat="entity in model">' +
-            '<label class="checkbox">' + '<input type="checkbox" ng-model="selected.current[$index].selected"> ' + '{{ entity[displayAttr] }}' + '</label>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '<div class="select buttons">' +
-            '<button class="btn mover left" ng-click="add()" title="Add selected" ' + 'ng-disabled="!selected(selected.available).length">' +
-            '<i class="icon-arrow-left"></i>' +
-            '</button>' +
-            '<button class="btn mover right" ng-click="remove()" title="Remove selected" ' +
-            'ng-disabled="!selected(selected.current).length">' +
-            '<i class="icon-arrow-right"></i>' +
-            '</button>' +
-            '</div>' +
-            '<div class="select">' +
-            '<label class="control-label" for="multiSelectAvailable">{{ availableLabel }} ' +
-            '({{ available.length }})</label>' +
-            '<ul>' +
-            '<li ng-repeat="entity in available">' +
-            '<label class="checkbox">' +
-            '<input type="checkbox" ng-model="selected.available[$index].selected"> ' +
-            '{{ entity[displayAttr] }}' +
-            '</label>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '</div>',
-
+        templateUrl: '/tpl/multi-select.html',
         link: function(scope, elm, attrs) {
             scope.selected = {
                 available: [],
@@ -102,11 +71,13 @@ angular.module('globersMoodApp').directive('multiselect', function ($q) {
             scope.add = function() {
                 scope.model = scope.model.concat(scope.selected(scope.selected.available));
             };
+
             scope.remove = function() {
                 var selected = scope.selected(scope.selected.current);
                 scope.available = scope.available.concat(selected);
                 scope.model = filterOut(scope.model, selected);
             };
+
             scope.selected = function(list) {
                 var found = [];
                 angular.forEach(list, function(item) { if(item.selected === true) found.push(item); });

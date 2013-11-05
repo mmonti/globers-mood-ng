@@ -14,7 +14,6 @@
 
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="bower_components/select2/select2.css">
 
     <!-- web-fonts - OpenSans -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
@@ -49,9 +48,8 @@
         ga('send', 'pageview');
     </script>
 
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
 
     <!-- build:js scripts/plugins.js -->
     <script src="bower_components/sass-bootstrap/js/affix.js"></script>
@@ -69,23 +67,33 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/modules.js -->
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <!-- // -->
-    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/select2/select2.js"></script>
+
+    <!-- // -->
+    <script src="bower_components/ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/select2/select2.min.js"></script>
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
-    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/highcharts-ng/src/directives/highcharts-ng.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/mask/mask.js"></script>
+    <script src="bower_components/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
+    <script src="bower_components/wysihtml5/dist/wysihtml5-0.3.0.min.js"></script>
+    <script src="bower_components/bootstrap3-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/sugar/release/sugar-full.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/configuration.js"></script>
+    <!-- // -->
 
+    <!-- // -->
     <script src="scripts/controllers/main-controller.js"></script>
     <script src="scripts/controllers/header-controller.js"></script>
     <script src="scripts/controllers/footer-controller.js"></script>
@@ -93,10 +101,20 @@
     <script src="scripts/controllers/campaign-controller.js"></script>
     <script src="scripts/controllers/dashboard-controller.js"></script>
     <script src="scripts/controllers/preference-controller.js"></script>
+    <!-- // -->
 
+    <!-- // -->
     <script src="scripts/directives/file-upload.js"></script>
+    <script src="scripts/directives/multiselect-directive.js"></script>
+    <script src="scripts/directives/wysihtml5-directive.js"></script>
+    <script src="scripts/directives/datetime-directive.js"></script>
+    <!-- // -->
 
+    <!-- // -->
     <script src="scripts/services/http-interceptor.js"></script>
+    <!-- // -->
+
+    <!-- // -->
     <script src="scripts/services/ping-service.js"></script>
     <script src="scripts/services/campaign-service.js"></script>
     <script src="scripts/services/preference-service.js"></script>
@@ -105,7 +123,9 @@
     <script src="scripts/services/template-service.js"></script>
     <script src="scripts/services/user-service.js"></script>
     <script src="scripts/services/customer-service.js"></script>
-    <script src="scripts/directives/multiselect-directive.js"></script>
+
+    <!-- // -->
+    <script src="scripts/factories/underscore-factory.js"></script>
     <!-- endbuild -->
 </body>
 </html>
