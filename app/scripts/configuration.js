@@ -4,18 +4,18 @@ angular.module('globersMoodApp').factory('configuration', function () {
     var configuration = {
 
         // = Current Environment.
-        environment: "prod",
+        environment: "dev",
 
         // = Environment configuration.
         dev : {
-            base: "http://localhost:8080/rest/api"
+            base: "http://127.0.0.1:8080/rest/api"
         },
         prod : {
             base: "http://globers-mood-rest.appspot.com/rest/api"
         },
 
         services : {
-            ping : false
+            ping : true
         },
 
         // = Services Path Configuration

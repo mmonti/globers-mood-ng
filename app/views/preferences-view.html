@@ -8,6 +8,33 @@
     <div class="separator-10"/>
 
     <tabset>
+        <tab heading="General">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="inputHost" class="control-label col-lg-2">Host:</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="inputHost" class="form-control" placeholder="Host" ng-model="preferences.general.host" ng-required="true"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputAPI" class="control-label col-lg-2">API:</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="inputAPI" class="form-control" placeholder="API" ng-model="preferences.general.api" ng-required="true"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-offset-4"/>
+                </div>
+            </div>
+        </tab>
+
         <tab heading="Mailing">
             <div class="separator-30"/>
 
@@ -37,32 +64,16 @@
                 </div>
             </div>
         </tab>
+        <tab heading="Templates"></tab>
 
-        <tab heading="Templates">
-            <div class="col-md-12">
-                <form name="form" class="form-horizontal" role="form">
-
-                    <div ng-repeat="template in templates">
-                        <div ng-bind-html="template.template"></div>
-                    </div>
-
-                </form>
-            </div>
-        </tab>
-
-        <!--<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">-->
-            <!--{{tab.content}}-->
-        <!--</tab>-->
-
-        <!--<tab select="alertMe()">-->
-            <!--<tab-heading>-->
-                <!--<i class="icon-bell"></i> Select me for alert!-->
-            <!--</tab-heading>-->
-            <!--I've got an HTML heading, and a select callback. Pretty cool!-->
-        <!--</tab>-->
     </tabset>
 
-    <button type="button" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="applyPreferences()">APPLY</button>
-    <button type="button" class="btn btn-default">CANCEL</button>
 
+    <div class="col-lg-12 command-bar">
+        <div class="pull-right">
+
+            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !isModelReady()" ng-click="submitCampaign()">CREATE</button>
+            <button type="submit" class="btn btn-default" ng-click="reset()">CLEAR</button>
+        </div>
+    </div>
 </div>

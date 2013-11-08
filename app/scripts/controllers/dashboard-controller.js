@@ -15,6 +15,14 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
     // = Dashboard
     campaignService.campaigns(campaignSuccessCallback, errorCallback);
 
+    // == Campaigns
+    var campaignStartSuccessCallback = function(data) {
+        console.log("campaign started");
+    }
+    $scope.onCampaignStart = function(campaignId) {
+        campaignService.start(campaignId, campaignStartSuccessCallback, errorCallback);
+    };
+
     $scope.noOfPages = 7;
     $scope.currentPage = 4;
     $scope.maxSize = 5;

@@ -32,11 +32,11 @@
 
     <!-- Add your site or application content here -->
     <div id="wrap">
-        <div ng-include src="getHeaderTemplate()" ng-controller="headerController"></div>
+        <div ng-include src="getHeaderTemplate()"></div>
         <div class="container" ui-view></div>
     </div>
 
-    <div ng-include src="getFooterTemplate()" ng-controller="footerController"></div>
+    <div ng-include src="getFooterTemplate()"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -104,10 +104,10 @@
     <!-- // -->
 
     <!-- // -->
-    <script src="scripts/directives/file-upload.js"></script>
     <script src="scripts/directives/multiselect-directive.js"></script>
     <script src="scripts/directives/wysihtml5-directive.js"></script>
-    <script src="scripts/directives/datetime-directive.js"></script>
+    <script src="scripts/directives/ng-frame-directive.js"></script>
+    <script src="scripts/directives/ng-reset-directive.js"></script>
     <!-- // -->
 
     <!-- // -->

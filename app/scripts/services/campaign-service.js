@@ -14,8 +14,25 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
             var request = $http({
                 method : 'POST',
                 url : configuration.getServiceEndpoint("campaign.store"),
-                data: campaign,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                data: {
+                    name: campaign.overview.name,
+                    description: campaign.overview.description,
+                    template: {
+                        id: campaign.template.selection.id,
+                        name: campaign.template.selection.name,
+                        description: campaign.template.selection.description,
+                        file: campaign.template.selection.template
+                    },
+                    targets: campaign.targets.destinations
+                }
+            });
+            request.success(successCallback);
+            request.error(errorCallback);
+        },
+        start : function(campaignId, successCallback, errorCallback) {
+            var request = $http({
+                method : 'POST',
+                url : configuration.getServiceEndpoint("campaign.start", { id: campaignId })
             });
             request.success(successCallback);
             request.error(errorCallback);

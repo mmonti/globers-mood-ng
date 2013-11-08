@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignController', function ($scope, _, campaignService, projectService, templateService, userService) {
-
+angular.module('globersMoodApp').controller('campaignController', function ($scope, $modal, _, campaignService, projectService, templateService, userService) {
     var getNewCampaign = function() {
         return {
             overview: {
@@ -52,7 +51,7 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     }
 
     // == Targets.
-    $scope.targetSource = [{email: "mauro_monti@hotmail.com"},{email: "roberto@mendez.com"},{email: "jose.dominguez@globant.com"}];
+    $scope.targetSource = [];
     var targets = function(targetInput) {
         targetInput = targetInput.trim();
         var targetList = targetInput.split(",");
@@ -85,57 +84,77 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
         if (_.isUndefined($scope.targetInput) || (!_.isUndefined($scope.targetInput) && _.isEmpty($scope.targetInput.trim()))) {
             return;
         }
-
         var targets = sanitizeTargets($scope.campaign.targets.limitDomain, $scope.targetInput);
-        var validTargets = _.map(targets.valid, function(target){ return { email: target }; });
-
+        var validTargets = [];
+        _.each(targets.valid, function(email) {
+            var targetUser =_.where($scope.targetSource, {email: email});
+            if (!_.isUndefined(targetUser)) {
+                validTargets.push((_.isArray(targetUser) && targetUser.length > 0) ? targetUser[0] : { email: email, name: email });
+            }
+        });
         $scope.campaign.targets.destinations = _.union($scope.campaign.targets.destinations, validTargets);
         $scope.targetSource = _.difference($scope.targetSource, $scope.campaign.targets.destinations);
         $scope.targetInput = "";
     };
+
     $scope.onDiscardTarget = function(index) {
         var target = $scope.campaign.targets.destinations.splice(index, 1);
         $scope.targetSource.push(target[0]);
     };
+
     $scope.onDiscardAll = function() {
         $scope.targetSource = _.union($scope.targetSource, $scope.campaign.targets.destinations);
         $scope.campaign.targets.destinations = [];
     };
 
     // == Templates.
-    $scope.availableTemplates = [
-        {id: 0, name: "Template-0", created: new Date()},
-        {id: 1, name: "Template-1", created: new Date()},
-        {id: 2, name: "Template-2", created: new Date()},
-        {id: 3, name: "Template-3", created: new Date()},
-        {id: 4, name: "Template-4", created: new Date()}
-    ];
+    $scope.availableTemplates = [];
     $scope.onTemplateSelected = function(index) {
         $scope.campaign.template.selection = $scope.availableTemplates[index];
     };
+
     $scope.onTemplateRemoved = function() {
         $scope.campaign.template.selection = null;
-    }
+    };
 
-    $scope.availableUsers = [];
-    $scope.availableProjects = [];
-    $scope.selectionProjects = [];
+    $scope.onTemplatePreviewOpen = function () {
+        var templatePreviewModal = $modal.open({
+            templateUrl: '/tpl/template-preview.html',
+            controller: function($scope, $modalInstance, template) {
+                $scope.template = template;
+                $scope.onTemplatePreviewClose = function () {
+                    templatePreviewModal.dismiss('cancel');
+                };
+            },
+            resolve: {
+                template: function () {
+                    return $scope.campaign.template.selection;
+                }
+            },
+            windowClass: "template-preview"
+        });
+        // == Handler
+        templatePreviewModal.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            console.log("dismiss");
+        });
+    };
 
-
-    // = Generic callback error logger.
+    // == Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {
         console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
     }
 
-    // = Users
+    // == Users
     console.debug("fetching users...")
     var usersSuccessCallback = function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.availableUsers = data;
+        $scope.targetSource = data;
     };
-    userService.unassignedUsers(usersSuccessCallback, errorCallback);
+    userService.users(usersSuccessCallback, errorCallback);
 
-    // = Projects
+    // == Projects
     console.debug("fetching projects...")
     var projectsSuccessCallback = function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
@@ -143,7 +162,7 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     };
     projectService.projects(projectsSuccessCallback, errorCallback);
 
-    // = Templates
+    // == Templates
     console.debug("fetching templates...")
     var templatesSuccessCallback = function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
@@ -151,36 +170,17 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     };
     templateService.templates(templatesSuccessCallback, errorCallback);
 
-    // = Projects - Select Widget
-    $scope.projectOptions = {
-        openOnEnter : true,
-        multiple: true,
-        simple_tags: true,
-        data: function() {
-            return {
-                text: function(item) { return item.name; },
-                results: $scope.availableProjects
-            };
-        },
-        formatResult: function(item) { return item.name; },
-        formatSelection: function(item) { return item.name; }
+    // == Stores a new campaign
+    var campaignSuccessCallback = function(data, status, headers, config) {
+        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        console.log("Campaign created");
     };
-
-    $scope.projectChange = function(index, available){
-        var left = $scope.availableProjects;
-        var right = $scope.selectedProjects;
-        if (!available) {
-            left = $scope.selectedProjects;
-            right = $scope.availableProjects;
-        }
-        right.push(left.splice(index, 1)[0]);
-    };
-
-    // = Stores a new campaign
     $scope.submitCampaign = function() {
+        console.log("submitting campaign=" + JSON.stringify($scope.campaign));
+        campaignService.store($scope.campaign, campaignSuccessCallback, errorCallback);
     };
 
-    // = Reset the form.
+    // == Reset the form.
     $scope.reset = function() {
         delete $scope.campaign;
         $scope.campaign = getNewCampaign();
