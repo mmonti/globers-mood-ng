@@ -1,4 +1,3 @@
-@import url(../bower_components/angular-growl/build/angular-growl.min.css);
 @import url(../bower_components/bootstrap3-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css);
 /*!
  * Bootstrap v3.0.0
@@ -6335,12 +6334,21 @@ div.navbar.navbar-fixed-top {
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   background-color: white; }
 
+.ng-spinner-waiting {
+  color: #808080 !important; }
+
+.ng-spinner-error {
+  color: darkred !important; }
+
+.ng-spinner-success {
+  color: #808080 !important; }
+
 span.ng-spinner {
   padding-left: 5px;
   padding-right: 5px; }
 
 span.ng-spinner i {
-  color: #808080; }
+  color: lightgrey; }
 
 span.ng-reset {
   background-color: #ffffff !important; }

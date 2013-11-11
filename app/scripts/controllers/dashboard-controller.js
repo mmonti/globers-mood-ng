@@ -1,24 +1,31 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', function ($scope, campaignService) {
+angular.module('globersMoodApp').controller('dashboardController', function ($scope, $timeout, campaignService) {
 
     // = Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {
         console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
     }
 
-    // = Dashboard
-    var campaignSuccessCallback = function(data) {
+    // == Campaigns
+    var campaignSuccessCallback = function(data, status, headers, config) {
+        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+
         $scope.campaigns = data;
     };
     campaignService.campaigns(campaignSuccessCallback, errorCallback);
 
-    // == Campaigns
     $scope.onCampaignStart = function(campaignId) {
-        campaignService.start(campaignId, function(data) {
+        campaignService.start(campaignId, function(data, status, headers, config) {
+            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+
             campaignService.campaigns(campaignSuccessCallback, errorCallback);
         }, errorCallback);
     };
+
+    setInterval(function(){
+        campaignService.campaigns(campaignSuccessCallback, errorCallback);
+    }, 10000);
 
     // = Charts
     $scope.options = {
