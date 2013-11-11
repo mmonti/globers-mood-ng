@@ -10,7 +10,6 @@
     <!--<div class="separator-10"/>-->
 
     <form name="form">
-
     <tabset>
 
         <tab heading="General">
@@ -31,6 +30,26 @@
                                 <label for="inputDescription" class="control-label col-lg-2">Description:</label>
                                 <div class="col-lg-8"><textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="campaign.overview.description"></textarea></div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Expiring:</label>
+                                <div class="col-lg-6">
+                                    <div class="btn-group btn-group-sm">
+                                        <button name="expiring" type="button" class="btn" ng-class="(campaign.overview.expiration.enabled == false) ? 'btn-info' : 'btn-default'" ng-model="campaign.overview.expiration.enabled" btn-radio="false">OFF</button>
+                                        <button name="expiring" type="button" class="btn" ng-class="(campaign.overview.expiration.enabled == true) ? 'btn-info' : 'btn-default'" ng-model="campaign.overview.expiration.enabled" btn-radio="true">ON</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <fieldset ng-disabled="campaign.overview.expiration.enabled == false">
+                                <div class="form-group">
+                                    <label for="campaignExpirationDateTime" class="col-md-2 control-label">Date:</label>
+                                    <div class="input-group date col-md-5">
+                                        <input id="campaignExpirationDateTime" class="form-control" size="16" type="datetime-local" ui-mask="9999-99-99 99:99" ng-model="campaign.overview.expiration.date">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </div>
 
                     </div>
@@ -38,6 +57,69 @@
                 </div>
             </div>
 
+        </tab>
+
+        <tab heading="Template">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="inputTemplateFilter" class="control-label col-lg-2">Template:</label>
+                                <div class="col-lg-10">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input reset-addon="{ side: 'right' }" type="text" id="inputTemplateFilter" class="form-control" placeholder="filter by name..." ng-model="templateFilterTerm"/>
+                                    </div>
+
+                                    <div class="separator-20"/>
+
+                                    <div class="template-selector">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                            <tr ng-repeat="template in availableTemplates | filter:templateFilterTerm">
+                                                <td class="text-center">{{$index + 1}}</td>
+                                                <td>{{template.name}}</td>
+                                                <td>
+                                                    <div class="pull-right">
+                                                        <span class="label hand" ng-class="(campaign.template.selection != null && isTemplateSelected($index)) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div ng-show="campaign.template.selection == null">
+                            <ul class="list-unstyled">
+                                <li>Select a template for the campaign...</li>
+                                <li>You can also filter the available templates typing the template name.</li>
+                            </ul>
+                        </div>
+                        <div ng-show="campaign.template.selection != null">
+                            <ul class="list-unstyled selected-template">
+                                <li>
+                                    <div>
+                                        <span><i class="fa fa-file-text-o fa-2x"></i></span>
+                                        <span class="selected-template-header">{{ campaign.template.selection.name }}</span>
+                                    </div>
+                                </li>
+                                <li class="selected-template-item"><span style="font-weight: bold;">Date:</span>&nbsp;{{ campaign.template.selection.created | date:'medium' }}</li>
+                                <li class="selected-template-item"><span style="font-weight: bold;">Description:</span>&nbsp;{{ campaign.template.selection.description }}</li>
+                                <li class="selected-template-item"><span class="label label-default hand" ng-click="onTemplateRemoved()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;<span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </tab>
 
         <tab heading="Targets">
@@ -72,33 +154,33 @@
                                                typeahead-on-select="onTargetSelected()" typeahead="target.email for target in targetSource | filter:$viewValue | limitTo:8">
 
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default btn-primary add-on" type="button" ng-click="onTargetSelected()">ADD</button>
+                                            <button class="btn btn-default add-on" type="button" ng-click="onTargetSelected()"><i class="fa fa-chevron-right"></i></button>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-offset-1"/>
                             </div>
 
-                            <div class="form-group">
-                                <label for="inputTarget" class="control-label col-lg-2">From file:</label>
-                                <div class="col-lg-8">
-                                    <fieldset disabled>
-                                    <div class="input-group">
-                                        <input type="file" name="file" class="hidden" file-upload />
-                                        <div class="input-group">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default file" tabindex="-1" ng-click="choose('file')"><b>choose</b></button>
-                                            </div>
-                                            <input reset-addon type="text" class="form-control" value="{{fileName}}" disabled/>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default btn-primary add-on" type="button" ng-click="targetSelected()">IMPORT</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    </fieldset>
-                                </div>
-                                <div class="col-lg-offset-2"/>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label for="inputTarget" class="control-label col-lg-2">From file:</label>-->
+                                <!--<div class="col-lg-8">-->
+                                    <!--<fieldset disabled>-->
+                                    <!--<div class="input-group">-->
+                                        <!--<input type="file" name="file" class="hidden" file-upload />-->
+                                        <!--<div class="input-group">-->
+                                            <!--<div class="input-group-btn">-->
+                                                <!--<button type="button" class="btn btn-default file" tabindex="-1" ng-click="choose('file')"><b>choose</b></button>-->
+                                            <!--</div>-->
+                                            <!--<input reset-addon type="text" class="form-control" value="{{fileName}}" disabled/>-->
+                                            <!--<span class="input-group-btn">-->
+                                                <!--<button class="btn btn-default btn-primary add-on" type="button" ng-click="targetSelected()">IMPORT</button>-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</fieldset>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-offset-2"/>-->
+                            <!--</div>-->
                         </div>
                     </div>
 
@@ -122,12 +204,20 @@
                                 </div>
                             </div>
 
-                            <table class="table">
+                            <table class="table target-selector-header">
                                 <thead>
                                     <tr>
                                         <th class="first-column text-center">#</th>
-                                        <th><span>Target Mail</span></th>
-                                        <th class="text-center">&nbsp;</th>
+                                        <th><span class="header-title">Target Mail</span></th>
+                                        <th>
+                                            <fieldset ng-disabled="campaign.targets.destinations.length == 0">
+                                                <div class="pull-right target-selector-control">
+                                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-th-list"></i></button>
+                                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil">&nbsp;&nbsp;</i>add context</button>
+                                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-times">&nbsp;&nbsp;</i>remove</button>
+                                                </div>
+                                            </fieldset>
+                                        </th>
                                     </tr>
                                 </thead>
                             </table>
@@ -162,12 +252,12 @@
                                 </div>
                             </div>
 
-                            <div class="panel-footer">
-                                <fieldset ng-disabled="(campaign.targets.destinations.length == 0)">
-                                    <span><button type="button" class="btn btn-default btn-sm">context</button></span>
-                                    <span><button type="button" class="btn btn-danger btn-sm" ng-click="onDiscardAll()">discard all</button></span>
-                                </fieldset>
-                            </div>
+                            <!--<div class="panel-footer">-->
+                                <!--<fieldset ng-disabled="(campaign.targets.destinations.length == 0)">-->
+                                    <!--<span><button type="button" class="btn btn-default btn-sm">context</button></span>-->
+                                    <!--<span><button type="button" class="btn btn-danger btn-sm" ng-click="onDiscardAll()">discard all</button></span>-->
+                                <!--</fieldset>-->
+                            <!--</div>-->
                         </div>
                     </div>
 
@@ -176,64 +266,8 @@
 
         </tab>
 
-        <tab heading="Template">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
 
-                        <div class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label for="inputTemplateFilter" class="control-label col-lg-2">Template:</label>
-                                <div class="col-lg-10">
-
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input reset-addon="{ side: 'right' }" type="text" id="inputTemplateFilter" class="form-control" placeholder="filter by name..." ng-model="templateFilterTerm"/>
-                                    </div>
-
-                                    <div class="separator-20"/>
-
-                                    <div class="template-selector">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                            <tr ng-repeat="template in availableTemplates | filter:templateFilterTerm">
-                                                <td class="text-center">{{$index + 1}}</td>
-                                                <td>{{template.name}}</td>
-                                                <td>
-                                                    <div class="pull-right">
-                                                        <span class="label hand" ng-class="(campaign.template.selection != null) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div ng-show="campaign.template.selection != null">
-                            <ul class="list-unstyled selected-template">
-                                <li>
-                                    <div>
-                                        <span><i class="fa fa-file-text-o fa-2x"></i></span>
-                                        <span class="selected-template-header">Weekly Feedback</span>
-                                    </div>
-                                </li>
-                                <li class="selected-template-item"><span>Date:</span>&nbsp;{{ campaign.template.selection.created | date:'medium' }}</li>
-                                <li class="selected-template-item"><span>Description:</span>&nbsp;{{ campaign.template.selection.description }}</li>
-                                <li class="selected-template-item"><span class="label label-default hand" ng-click="onTemplateRemoved()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;<span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </tab>
-
-        <tab heading="Scheduling">
+        <tab heading="Dispatching">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
@@ -249,20 +283,11 @@
                                 </div>
                             </div>
 
-                            <fieldset ng-disabled="campaign.scheduling.mode!='A'">
+                            <fieldset ng-disabled="campaign.scheduling.mode == 'M'">
                                 <div class="form-group">
                                     <label for="startDateTime" class="col-md-2 control-label">Start Date:</label>
                                     <div class="input-group date col-md-5">
-                                        <input id="startDateTime" class="form-control" size="16" type="text" ui-mask="9999-99-99 99:99" ng-model="campaign.scheduling.automatic.startDate">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="endDateTime" class="col-md-2 control-label">End Date:</label>
-                                    <div class="input-group date col-md-5">
-                                        <input id="endDateTime" class="form-control" size="16" type="text" ui-mask="9999-99-99 99:99" ng-model="campaign.scheduling.automatic.endDate">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <input reset-addon="{side: 'right'}" id="startDateTime" class="form-control" size="16" type="datetime-local" ui-mask="9999-99-99 99:99" ng-model="campaign.scheduling.date">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                 </div>

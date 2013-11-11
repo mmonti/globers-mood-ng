@@ -1,12 +1,8 @@
 'use strict';
 
-var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', 'ui.mask', 'ui.select2', 'ui.bootstrap', 'highcharts-ng']).
+var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', 'ui.mask', 'ui.bootstrap', 'highcharts-ng']).
 
-    config(function($stateProvider, $urlRouterProvider, $httpProvider){
-
-        // = HTTP Interceptor.
-        // $httpProvider.interceptors.push("httpInterceptor");
-
+    config(function($stateProvider, $urlRouterProvider){
         // = For any unmatched url, send to /main
         $urlRouterProvider.otherwise("/")
 
@@ -32,6 +28,31 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
                 templateUrl: "/views/preferences-view.html",
                 controller: "preferenceController"
             });
+    }).
+
+    config(function($httpProvider) {
+        var $http, interceptor = ['$q', '$injector', '$rootScope', function ($q, $injector, $rootScope) {
+            var error;
+            function success(response) {
+                $http = $http || $injector.get('$http');
+                if($http.pendingRequests.length < 1) {
+                    $rootScope.$broadcast("loading-success");
+                }
+                return response;
+            }
+            function error(response) {
+                $http = $http || $injector.get('$http');
+                if($http.pendingRequests.length < 1) {
+                    $rootScope.$broadcast("loading-error");
+                }
+                return $q.reject(response);
+            }
+            return function (promise) {
+                $rootScope.$broadcast("loading-waiting");
+                return promise.then(success, error);
+            }
+        }];
+        $httpProvider.responseInterceptors.push(interceptor);
     }).
 
     run(function($templateCache, $rootScope) {

@@ -1,11 +1,15 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignController', function ($scope, $modal, _, campaignService, projectService, templateService, userService) {
+angular.module('globersMoodApp').controller('campaignController', function ($scope, $location, $modal, _, campaignService, projectService, templateService, userService) {
     var getNewCampaign = function() {
         return {
             overview: {
                 name: null,
-                description: null
+                description: null,
+                expiration: {
+                    enabled: false,
+                    date: null
+                }
             },
             targets: {
                 limitDomain: true,
@@ -16,10 +20,7 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
             },
             scheduling: {
                 mode: 'M',
-                automatic: {
-                    startDate: null,
-                    endDate: null
-                }
+                date: null
             }
         };
     };
@@ -46,9 +47,17 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
             console.log("scheduling - mode different of Manual and dates are not set.");
             return false;
         }
-
         return true;
     }
+
+    // == Overview
+    $scope.$watch('campaign.overview.expiration.enabled', function(newValue, oldValue){
+        if (!newValue) {
+            delete $scope.campaign.overview.expiring.date;
+        } else {
+            $scope.campaign.overview.expiring.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
+        }
+    });
 
     // == Targets.
     $scope.targetSource = [];
@@ -60,7 +69,6 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
         }
         return targetList;
     };
-
     var sanitizeTargets = function(limitDomain, targetInput) {
         // = Regexp from https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L4
         var EMAIL_REGEXP = (limitDomain) ? /^[A-Za-z0-9._%+-]+@globant.com$/ : /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
@@ -78,7 +86,6 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
             invalid: invalidTargets
         };
     };
-
     $scope.targetInput = "";
     $scope.onTargetSelected = function() {
         if (_.isUndefined($scope.targetInput) || (!_.isUndefined($scope.targetInput) && _.isEmpty($scope.targetInput.trim()))) {
@@ -96,12 +103,10 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
         $scope.targetSource = _.difference($scope.targetSource, $scope.campaign.targets.destinations);
         $scope.targetInput = "";
     };
-
     $scope.onDiscardTarget = function(index) {
         var target = $scope.campaign.targets.destinations.splice(index, 1);
         $scope.targetSource.push(target[0]);
     };
-
     $scope.onDiscardAll = function() {
         $scope.targetSource = _.union($scope.targetSource, $scope.campaign.targets.destinations);
         $scope.campaign.targets.destinations = [];
@@ -110,13 +115,17 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     // == Templates.
     $scope.availableTemplates = [];
     $scope.onTemplateSelected = function(index) {
+        $scope.onTemplateRemoved();
+        $scope.availableTemplates[index].selected = true;
         $scope.campaign.template.selection = $scope.availableTemplates[index];
     };
-
+    $scope.isTemplateSelected = function(index) {
+        return (_.isUndefined($scope.availableTemplates[index].selected) ? false : $scope.availableTemplates[index].selected);
+    };
     $scope.onTemplateRemoved = function() {
+        _.each($scope.availableTemplates, function(template) { template.selected = false; });
         $scope.campaign.template.selection = null;
     };
-
     $scope.onTemplatePreviewOpen = function () {
         var templatePreviewModal = $modal.open({
             templateUrl: '/tpl/template-preview.html',
@@ -141,6 +150,15 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
         });
     };
 
+    // == Dispatching
+    $scope.$watch('campaign.overview.scheduling.mode', function(newValue, oldValue){
+        if (newValue == 'M') {
+            delete $scope.campaign.overview.scheduling.date;
+        } else {
+            $scope.campaign.overview.scheduling.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
+        }
+    });
+
     // == Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {
         console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
@@ -148,36 +166,24 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
 
     // == Users
     console.debug("fetching users...")
-    var usersSuccessCallback = function(data, status, headers, config) {
+    userService.users(function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.targetSource = data;
-    };
-    userService.users(usersSuccessCallback, errorCallback);
-
-    // == Projects
-    console.debug("fetching projects...")
-    var projectsSuccessCallback = function(data, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.availableProjects = data;
-    };
-    projectService.projects(projectsSuccessCallback, errorCallback);
+    }, errorCallback);
 
     // == Templates
     console.debug("fetching templates...")
-    var templatesSuccessCallback = function(data, status, headers, config) {
+    templateService.templates(function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.availableTemplates = data;
-    };
-    templateService.templates(templatesSuccessCallback, errorCallback);
+    }, errorCallback);
 
     // == Stores a new campaign
-    var campaignSuccessCallback = function(data, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        console.log("Campaign created");
-    };
     $scope.submitCampaign = function() {
-        console.log("submitting campaign=" + JSON.stringify($scope.campaign));
-        campaignService.store($scope.campaign, campaignSuccessCallback, errorCallback);
+        campaignService.store($scope.campaign, function(data, status, headers, config) {
+            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $location.path("/");
+        }, errorCallback);
     };
 
     // == Reset the form.

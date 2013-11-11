@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-                <strong>{{app.title}}</strong>
+                <span>{{app.title}}</span>
             </a>
         </div>
 
@@ -40,15 +40,15 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle hand" data-toggle="dropdown">Settings <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#/settings/setup">Initial Data Setup</a></li>
-                        <li class="divider"></li>
                         <li><a ng-href="#/settings/preferences">Preferences</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#/settings/setup">Initial Data Setup</a></li>
                     </ul>
                 </li>
 
             </ul>
 
-            <p class="navbar-text pull-right">
+            <span class="navbar-text pull-right">
                 <span>services:</span>
                 <span ng-show="synch" class="label label-success"><strong>SYNCED</strong></span>
                 <span ng-show="!synch" class="label label-danger"><strong>OUT-OF-SYNC</strong></span>
@@ -59,7 +59,8 @@
                         <div class="popover-content">Seems that there is a problem contacting the services.</div>
                     </div>
                 </notify-popup>
-            </p>
+                <ng-spinner></ng-spinner>
+            </span>
 
         </div>
     </div>

@@ -17,6 +17,8 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 data: {
                     name: campaign.overview.name,
                     description: campaign.overview.description,
+                    startDate: (campaign.scheduling.mode == 'A') ? campaign.scheduling.date : null,
+                    endDate: (campaign.overview.expiration.enabled) ? campaign.overview.expiration.date : null,
                     template: {
                         id: campaign.template.selection.id,
                         name: campaign.template.selection.name,

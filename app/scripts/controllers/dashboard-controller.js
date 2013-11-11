@@ -7,32 +7,18 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
         console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
     }
 
-    // = Sets the campaigns data.
+    // = Dashboard
     var campaignSuccessCallback = function(data) {
         $scope.campaigns = data;
-    }
-
-    // = Dashboard
+    };
     campaignService.campaigns(campaignSuccessCallback, errorCallback);
 
     // == Campaigns
-    var campaignStartSuccessCallback = function(data) {
-        console.log("campaign started");
-    }
     $scope.onCampaignStart = function(campaignId) {
-        campaignService.start(campaignId, campaignStartSuccessCallback, errorCallback);
+        campaignService.start(campaignId, function(data) {
+            campaignService.campaigns(campaignSuccessCallback, errorCallback);
+        }, errorCallback);
     };
-
-    $scope.noOfPages = 7;
-    $scope.currentPage = 4;
-    $scope.maxSize = 5;
-
-    $scope.setPage = function (pageNo) {
-        $scope.currentPage = pageNo;
-    };
-
-    $scope.bigNoOfPages = 18;
-    $scope.bigCurrentPage = 1;
 
     // = Charts
     $scope.options = {

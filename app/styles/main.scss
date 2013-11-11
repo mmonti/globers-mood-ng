@@ -3,15 +3,18 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $icon-font-path: "../styles/fonts/";
 
 @import "../bower_components/sass-bootstrap/lib/bootstrap";
-@import "../bower_components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css";
 @import "sticky-fn";
 @import "multi-select";
-@import "../bower_components/select2/select2.css";
+@import "../bower_components/angular-growl/build/angular-growl.min.css";
 @import "../bower_components/bootstrap3-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css";
 @import "font-awesome";
 
 html, body {
   font-family: 'Open Sans', sans-serif;
+}
+// = Growl
+.growl {
+  z-index: 10000;
 }
 
 // = Cursor
@@ -40,6 +43,34 @@ div.navbar.navbar-fixed-top {
   background-color: white;
 }
 
+// == ng-spinner
+span.ng-spinner {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+span.ng-spinner i {
+  color: #808080;
+}
+// == ng-reset
+span.ng-reset {
+  background-color: #ffffff !important;
+}
+span.ng-reset.disabled {
+  background-color: #eeeeee !important;
+}
+span.ng-reset i {
+  color: #d9534f;
+}
+button.ng-reset {
+  background-color: #ffffff !important;
+}
+button.ng-reset.disabled {
+  background-color: #eeeeee !important;
+}
+button.ng-reset i {
+  color: #d9534f;
+}
+
 // = New Campaign
 div.tabbable ul.nav.nav-tabs li {
   cursor: pointer;
@@ -63,16 +94,25 @@ div.dashboard-chart-section div.weekly-chart-container .weekly-chart {
 
 // = Target Selector
 div.target-selector {
-  height: 250px;
+  height: 255px;
+}
+div.target-selector table.target-selector-header thead tr th span.header-title  {
+  font-weight: bolder;
 }
 div.target-selector div.panel-body {
   padding: 0px;
+}
+div.target-selector div.target-selector-control i.fa-pencil {
+  color: green;
+}
+div.target-selector div.target-selector-control i.fa-times {
+  color: #d9534f;
 }
 table.target-selector-body tbody > tr > td {
   vertical-align: middle ! important;
 }
 div.target-selector-body-scroller {
-  max-height: 110px;
+  max-height: 156px;
   overflow-y:auto;
 }
 div.target-selector-body-empty {
@@ -140,4 +180,8 @@ div.template-preview div.template-preview-footer {
 .command-bar {
   border-top: 1px solid #dddddd;
   padding-top: 20px;
+}
+
+.table thead > tr > th {
+  vertical-align: middle;
 }
