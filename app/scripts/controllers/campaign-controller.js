@@ -50,14 +50,17 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
         return true;
     }
 
+    $scope.click = function() {
+        console.log($scope.campaign.scheduling.date);
+    }
     // == Overview
-    $scope.$watch('campaign.overview.expiration.enabled', function(newValue, oldValue){
-        if (!newValue) {
-            delete $scope.campaign.overview.expiring.date;
-        } else {
-            $scope.campaign.overview.expiring.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
-        }
-    });
+//    $scope.$watch('campaign.overview.expiration.enabled', function(newValue, oldValue){
+//        if (!newValue) {
+//            delete $scope.campaign.overview.expiring.date;
+//        } else {
+//            $scope.campaign.overview.expiring.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
+//        }
+//    });
 
     // == Targets.
     $scope.targetSource = [];
@@ -151,13 +154,13 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     };
 
     // == Dispatching
-    $scope.$watch('campaign.overview.scheduling.mode', function(newValue, oldValue){
-        if (newValue == 'M') {
-            delete $scope.campaign.overview.scheduling.date;
-        } else {
-            $scope.campaign.overview.scheduling.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
-        }
-    });
+//    $scope.$watch('campaign.overview.scheduling.mode', function(newValue, oldValue){
+//        if (newValue == 'M') {
+//            delete $scope.campaign.overview.scheduling.date;
+//        } else {
+//            $scope.campaign.overview.scheduling.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
+//        }
+//    });
 
     // == Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {

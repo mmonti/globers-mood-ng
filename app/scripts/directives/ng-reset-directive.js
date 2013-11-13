@@ -33,9 +33,9 @@ angular.module('globersMoodApp').directive('resetAddon', function ($interpolate)
                 scope.$apply(function () {
                     var inputScope = element.scope();
                     if (context.model != null) {
-                        delete inputScope[context.model];
+                        inputScope[context.model] = null;
                     }
-                    delete inputScope[attrs.ngModel];
+                    inputScope[attrs.ngModel] = null;
                 });
             });
 
