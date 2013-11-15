@@ -15,7 +15,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
         },
 
         services : {
-            ping : true
+            ping : false
         },
 
         // = Services Path Configuration
@@ -41,6 +41,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
             "campaign.get" : "/v1/campaign/{id}",
             "campaign.list" : "/v1/campaign",
             "campaign.start" : "/v1/campaign/{id}/start",
+            "campaign.close" : "/v1/campaign/{id}/close",
             "campaign.store" : "/v1/campaign",
 
             "feedback.user" : "/v1/feedback/user/{id}",
@@ -62,6 +63,9 @@ angular.module('globersMoodApp').factory('configuration', function () {
             "setup.store.body" : "/v1/setup",
             "setup.store.file" : "/v1/setup/file-import"
         }
+
+        // = DashBoard
+
     };
 
     // = Internal API

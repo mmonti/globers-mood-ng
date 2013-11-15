@@ -10,7 +10,6 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
     // == Campaigns
     var campaignSuccessCallback = function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-
         $scope.campaigns = data;
     };
     campaignService.campaigns(campaignSuccessCallback, errorCallback);
@@ -18,7 +17,13 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
     $scope.onCampaignStart = function(campaignId) {
         campaignService.start(campaignId, function(data, status, headers, config) {
             console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            campaignService.campaigns(campaignSuccessCallback, errorCallback);
+        }, errorCallback);
+    };
 
+    $scope.onCampaignStopClose = function(campaignId) {
+        campaignService.close(campaignId, function(data, status, headers, config) {
+            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             campaignService.campaigns(campaignSuccessCallback, errorCallback);
         }, errorCallback);
     };

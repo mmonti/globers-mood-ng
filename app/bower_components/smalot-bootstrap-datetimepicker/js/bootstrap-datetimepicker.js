@@ -1243,7 +1243,7 @@
         },
 
         enable: function(e) {
-            this._attachEvents;
+            this._attachEvents();
             this.element.trigger({
                 type:      'enabled',
                 date:      this.date,

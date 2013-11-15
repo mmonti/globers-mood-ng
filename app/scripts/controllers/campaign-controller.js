@@ -19,7 +19,7 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
                 selection: null
             },
             scheduling: {
-                mode: 'M',
+                enabled: false,
                 date: null
             }
         };
@@ -42,25 +42,13 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
             console.log("template - selection is null.");
             return false;
         }
-        if ($scope.campaign.scheduling.mode != 'M'
-            && (_.isNull($scope.campaign.scheduling.startDate) || _.isNull($scope.campaign.scheduling.endDate))) {
-            console.log("scheduling - mode different of Manual and dates are not set.");
+        if ($scope.campaign.scheduling.enabled
+            && (_.isNull($scope.campaign.scheduling.startDate))) {
+            console.log("scheduling - scheduling enabled and date not set.");
             return false;
         }
         return true;
     }
-
-    $scope.click = function() {
-        console.log($scope.campaign.scheduling.date);
-    }
-    // == Overview
-//    $scope.$watch('campaign.overview.expiration.enabled', function(newValue, oldValue){
-//        if (!newValue) {
-//            delete $scope.campaign.overview.expiring.date;
-//        } else {
-//            $scope.campaign.overview.expiring.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
-//        }
-//    });
 
     // == Targets.
     $scope.targetSource = [];
@@ -152,15 +140,6 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
             console.log("dismiss");
         });
     };
-
-    // == Dispatching
-//    $scope.$watch('campaign.overview.scheduling.mode', function(newValue, oldValue){
-//        if (newValue == 'M') {
-//            delete $scope.campaign.overview.scheduling.date;
-//        } else {
-//            $scope.campaign.overview.scheduling.date = Date.create().format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
-//        }
-//    });
 
     // == Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {

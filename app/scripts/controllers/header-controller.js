@@ -8,11 +8,6 @@ angular.module('globersMoodApp').controller('headerController', function ($scope
         $scope.showNotification = false;
     }
 
-    // Check if PING service is active.
-    if (!configuration.isServicesInSynchActive()) {
-        return;
-    }
-
     var handleResponse = function(property, response, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope[property] = response;
@@ -29,10 +24,12 @@ angular.module('globersMoodApp').controller('headerController', function ($scope
             $scope.synch = false;
         });
 
+        // Check if PING service is active.
+        if (!configuration.isServicesInSynchActive()) {
+            return;
+        }
+
         // = Check if there is someone on the other side each 10sec.
         setTimeout(syncServices, 10000);
-    }
-
-    // = Synch
-    syncServices();
+    }();
 });

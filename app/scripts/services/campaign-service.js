@@ -17,8 +17,8 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 data: {
                     name: campaign.overview.name,
                     description: campaign.overview.description,
-                    startDate: (campaign.scheduling.mode == 'A') ? campaign.scheduling.date : null,
-                    endDate: (campaign.overview.expiration.enabled) ? campaign.overview.expiration.date : null,
+                    startDate: (campaign.scheduling.enabled) ? Date.create(campaign.scheduling.date).iso() : null,
+                    endDate: (campaign.overview.expiration.enabled) ? Date.create(campaign.overview.expiration.date).iso() : null,
                     template: {
                         id: campaign.template.selection.id,
                         name: campaign.template.selection.name,
@@ -38,6 +38,15 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
             });
             request.success(successCallback);
             request.error(errorCallback);
+        },
+        close : function(campaignId, successCallback, errorCallback) {
+            var request = $http({
+                method : 'POST',
+                url : configuration.getServiceEndpoint("campaign.close", { id: campaignId })
+            });
+            request.success(successCallback);
+            request.error(errorCallback);
         }
+
     };
 });

@@ -40,6 +40,10 @@ angular.module('globersMoodApp').directive('ngDatetime', function() {
                 disable: attributeValue(attrs, 'disable', null)
             };
 
+            scope.$watch(function() { return scope.ngDisabled }, function(value){
+                (value) ? $(element).datetimepicker('disable') : $(element).datetimepicker('enable');
+            });
+
             $(element).datetimepicker(context).
                 on('changeDate', function(evt){
                     if (evt.date){

@@ -64,7 +64,9 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
         // = modal
         $templateCache.put("template/modal/backdrop.html", "<div class=\"modal-backdrop fade {{modal.backdropClass}}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1040 + index*10}\"></div>");
         $templateCache.put("template/modal/window.html", "<div class=\"modal fade {{ windowClass }}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\"><div class=\"modal-dialog\"><div class=\"modal-content\" ng-transclude></div></div></div>");
+    }).
 
+    run(function($rootScope, preferenceService){
         $rootScope.app = {
             title : "Glober's Mood",
             author: "mauro monti",
@@ -73,12 +75,9 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
             version: "0.0.1"
         };
 
-        $rootScope.entities = [
-            { name: "Template", count: 2 },
-            { name: "Campaign", count: 3 },
-            { name: "User", count: 405 },
-            { name: "Project", count: 21 },
-            { name: "Customers", count: 2 }
-        ];
+        preferenceService.preferences(function(data, status, headers, config) {
+            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $rootScope.preferences = data;
+        })
     }
 );

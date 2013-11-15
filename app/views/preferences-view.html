@@ -7,73 +7,38 @@
 
     <div class="separator-10"/>
 
-    <tabset>
-        <tab heading="General">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
+    <div class="row">
 
-                        <div class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label for="inputHost" class="control-label col-lg-2">Host:</label>
-                                <div class="col-lg-6">
-                                    <input type="text" id="inputHost" class="form-control" placeholder="Host" ng-model="preferences.general.host" ng-required="true"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputAPI" class="control-label col-lg-2">API:</label>
-                                <div class="col-lg-6">
-                                    <input type="text" id="inputAPI" class="form-control" placeholder="API" ng-model="preferences.general.api" ng-required="true"/>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-offset-4"/>
-                </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input reset-addon="{ side: 'right' }" type="text" id="inputPreferenceFilter" class="form-control" placeholder="filter by ..." ng-model="preferenceFilterTerm"/>
             </div>
-        </tab>
+        </div>
 
-        <tab heading="Mailing">
-            <div class="separator-30"/>
+        <div class="col-lg-offset-6"></div>
+    </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <form name="form" class="form-horizontal" role="form">
+    <div class="separator-20"/>
 
-                        <div class="form-group">
-                            <label for="inputSenderAlias" class="col-lg-2 control-label">Sender Alias</label>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" id="inputSenderAlias" placeholder="Sender Alias" ng-model="senderAlias" required/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputSenderMail" class="col-lg-2 control-label">Sender Mail</label>
-                            <div class="col-lg-4">
-                                <div class="input-group">
-                                    <span class="input-group-addon">@</span>
-                                    <input type="email" class="form-control" id="inputSenderMail" placeholder="Sender Mail" ng-model="senderMail" required/>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-        </tab>
-        <tab heading="Templates"></tab>
-
-    </tabset>
-
-
-    <div class="col-lg-12 command-bar">
-        <div class="pull-right">
-
-            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !isModelReady()" ng-click="submitCampaign()">CREATE</button>
-            <button type="submit" class="btn btn-default" ng-click="reset()">CLEAR</button>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Preference Key</th>
+                        <th>Preference Value</th>
+                        <th>Namespace</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="preference in preferences | filter:preferenceFilterTerm">
+                        <td>{{preference.preferenceKey}}</td>
+                        <td>{{preference.preferenceValue}}</td>
+                        <td><span class="label label-primary">{{preference.namespace}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('preferenceService', function($http, configuration) {
+angular.module('globersMoodApp').factory('preferenceService', function($rootScope, $http, _, configuration) {
     return {
         preference : function(preferenceKey, successCallback, errorCallback) {
             var request = $http({
@@ -27,6 +27,30 @@ angular.module('globersMoodApp').factory('preferenceService', function($http, co
             });
             request.success(successCallback);
             request.error(errorCallback);
+        },
+
+        get : function(key) {
+            var preference = _.where($rootScope.preferences, { preferenceKey: key });
+            if (_.isUndefined(preference) && !_.isEmpty(preference)) {
+                return preference[0];
+            }
+            return null;
+        },
+
+        getInNamespace : function(key, namespace) {
+            var preference = _.where($rootScope.preferences, { preferenceKey: key, namespace: namespace });
+            if (_.isUndefined(preference) && !_.isEmpty(preference)) {
+                return preference[0];
+            }
+            return null;
+        },
+
+        getAllFromNamespace : function(namespace) {
+            var preference = _.where($rootScope.preferences, { namespace: namespace });
+            if (_.isUndefined(preference) && !_.isEmpty(preference)) {
+                return preference;
+            }
+            return null;
         }
     };
 });
