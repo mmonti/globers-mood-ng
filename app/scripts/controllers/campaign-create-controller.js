@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignController', function ($scope, $location, $modal, _, campaignService, projectService, templateService, userService) {
+angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, _, campaignService, projectService, templateService, userService) {
     var getNewCampaign = function() {
         return {
             overview: {
@@ -150,14 +150,14 @@ angular.module('globersMoodApp').controller('campaignController', function ($sco
     console.debug("fetching users...")
     userService.users(function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.targetSource = data;
+        $scope.targetSource = data.content;
     }, errorCallback);
 
     // == Templates
     console.debug("fetching templates...")
     templateService.templates(function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.availableTemplates = data;
+        $scope.availableTemplates = data.content;
     }, errorCallback);
 
     // == Stores a new campaign

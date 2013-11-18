@@ -14,9 +14,14 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
                 controller: 'mainController'
             })
             .state('campaign', {
-                url: "/campaign",
-                templateUrl: "/views/campaign-view.html",
-                controller: "campaignController"
+                url: "/campaign/create",
+                templateUrl: "/views/campaign-create-view.html",
+                controller: "campaignCreateController"
+            })
+            .state('campaign-show-all', {
+                url: "/campaign/all",
+                templateUrl: "/views/campaign-all-view.html",
+                controller: "campaignAllController"
             })
             .state('setup', {
                 url: "/settings/setup",
@@ -64,6 +69,7 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
         // = modal
         $templateCache.put("template/modal/backdrop.html", "<div class=\"modal-backdrop fade {{modal.backdropClass}}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1040 + index*10}\"></div>");
         $templateCache.put("template/modal/window.html", "<div class=\"modal fade {{ windowClass }}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\"><div class=\"modal-dialog\"><div class=\"modal-content\" ng-transclude></div></div></div>");
+        $templateCache.put("template/pagination/pagination.html", "<ul class=\"pagination\"><li ng-repeat=\"page in pages\" ng-class=\"{active: page.active, disabled: page.disabled}\"><a ng-click=\"selectPage(page.number)\">{{page.text}}</a></li></ul>");
     }).
 
     run(function($rootScope, preferenceService){

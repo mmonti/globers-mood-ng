@@ -1,36 +1,58 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', function ($scope, $timeout, campaignService) {
-
+angular.module('globersMoodApp').controller('dashboardController', function ($scope, $timeout, $q, campaignService, preferenceService) {
     // = Generic callback error logger.
     var errorCallback = function(data, status, headers, config) {
         console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
     }
 
-    // == Campaigns
+    var pageRequest = {
+        page: 0,
+        size: 5,
+        direction: "asc",
+        property: "created"
+    };
+
+    var key = function(settingKey) {
+        var deferred = $q.defer();
+        preferenceService.preference(settingKey, function(value){
+            deferred.resolve(value);
+        }, function(data, status, headers, config){
+            errorCallback(data, status, headers, config);
+            deferred.reject(data);
+        });
+        return deferred.promise;
+    };
+
+    var fetchCampaigns = function() {
+        campaignService.campaigns(pageRequest, campaignSuccessCallback, errorCallback);
+    }
+
+    key('dashboard.campaign.items.size').then(function(settingValue){
+        angular.extend(pageRequest, {size: settingValue});
+        // = Fetch the first page of results.
+        fetchCampaigns();
+    });
+
+    // = Campaigns
     var campaignSuccessCallback = function(data, status, headers, config) {
         console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.campaigns = data;
+        $scope.campaigns = data.content;
     };
-    campaignService.campaigns(campaignSuccessCallback, errorCallback);
 
     $scope.onCampaignStart = function(campaignId) {
         campaignService.start(campaignId, function(data, status, headers, config) {
             console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-            campaignService.campaigns(campaignSuccessCallback, errorCallback);
+            fetchCampaigns();
         }, errorCallback);
     };
 
     $scope.onCampaignStopClose = function(campaignId) {
         campaignService.close(campaignId, function(data, status, headers, config) {
             console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-            campaignService.campaigns(campaignSuccessCallback, errorCallback);
+            fetchCampaigns();
         }, errorCallback);
     };
-
-    setInterval(function(){
-        campaignService.campaigns(campaignSuccessCallback, errorCallback);
-    }, 10000);
 
     // = Charts
     $scope.options = {

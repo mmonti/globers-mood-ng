@@ -32,7 +32,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tbody ng-repeat="campaign in campaigns | orderBy: '-created' | limitTo: 5">
+                <tbody ng-repeat="campaign in campaigns">
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ campaign.name }}</td>
@@ -53,7 +53,7 @@
             </table>
 
             <div ng-show="campaigns.length">
-                <a href="#" class="label label-primary">VIEW-ALL</a>
+                <a ng-href="#/campaign/all" class="label label-primary">VIEW-ALL</a>
             </div>
         </div>
 
