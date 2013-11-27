@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('mainController', function ($scope, $rootScope, configuration) {
+angular.module('globersMoodApp').controller('mainController', function ($scope) {
 
     var headerTemplate = "/views/header-view.html";
     var footerTemplate = "/views/footer-view.html";

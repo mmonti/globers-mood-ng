@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('ngSpinner', function () {
+angular.module('globersMoodApp').directive('ngSpinner', ['$log', function ($log) {
     return {
         template: '<span class=\"ng-spinner\"><i class=\"fa fa-refresh fa-spin\"></i><span ng-transclude>&nbsp;&nbsp;loading...</span></span>',
         restrict: 'E',
@@ -52,26 +52,26 @@ angular.module('globersMoodApp').directive('ngSpinner', function () {
 
                         break;
                     default:
-                        console.log("unrecognized event=["+event.name+"]");
+                        $log.debug("unrecognized event=["+event.name+"]");
                 };
             };
 
             scope.$on("loading-success", function(event, args) {
-                console.log("loading: success");
+                $log.info("loading: success");
                 setTimeout(function() {
                     displayCallback(context, event);
                 }, 1000);
             });
             scope.$on("loading-error", function(event, args) {
-                console.log("loading: error");
+                $log.error("loading: error");
                 setTimeout(function() {
                     displayCallback(context, event);
                 }, 1000);
             });
             scope.$on("loading-waiting", function(event, args) {
-                console.log("loading: waiting");
+                $log.info("loading: waiting");
                 displayCallback(context, event);
             });
         }
     };
-});
+}]);

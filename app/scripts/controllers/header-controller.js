@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('headerController', function ($scope, $rootScope, configuration, pingService) {
+angular.module('globersMoodApp').controller('headerController', function ($scope, $timeout, $log, configuration, pingService) {
 
     $scope.synch = false;
     $scope.showNotification = !$scope.synch;
@@ -9,18 +9,18 @@ angular.module('globersMoodApp').controller('headerController', function ($scope
     }
 
     var handleResponse = function(property, response, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope[property] = response;
         $scope.synch = true;
     }
 
     var syncServices = function() {
-        console.debug("calling ping service to sync...")
+        $log.debug("calling ping service to sync...")
 
         pingService.pingDelay(function(data, status, headers, config) {
             handleResponse($scope.ping, data, status, headers, config);
         }, function(data, status, headers, config) {
-            console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
+            $log.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
             $scope.synch = false;
         });
 
@@ -30,6 +30,6 @@ angular.module('globersMoodApp').controller('headerController', function ($scope
         }
 
         // = Check if there is someone on the other side each 10sec.
-        setTimeout(syncServices, 10000);
+        $timeout(syncServices, 10000);
     }();
 });

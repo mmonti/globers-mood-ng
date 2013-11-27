@@ -12,10 +12,6 @@ $icon-font-path: "../styles/fonts/";
 html, body {
   font-family: 'Open Sans', sans-serif;
 }
-// = Growl
-.growl {
-  z-index: 10000;
-}
 
 // = Cursor
 .hand {
@@ -214,4 +210,13 @@ div.template-preview div.template-preview-footer {
 
 .table thead > tr > th {
   vertical-align: middle;
+}
+
+// Pagination
+div.pagination-container { }
+div.pagination-container div.pagination-widget ul {
+  margin: 0px !important;
+}
+div.pagination-container div.pagination-legend {
+  margin-top: 10px;
 }

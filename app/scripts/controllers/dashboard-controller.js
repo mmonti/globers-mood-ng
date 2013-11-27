@@ -1,11 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', function ($scope, $timeout, $q, campaignService, preferenceService) {
-    // = Generic callback error logger.
-    var errorCallback = function(data, status, headers, config) {
-        console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
-    }
-
+angular.module('globersMoodApp').controller('dashboardController', function ($scope, $q, $log, _, preferenceService, campaignService) {
     var pageRequest = {
         page: 0,
         size: 5,
@@ -13,45 +8,34 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
         property: "created"
     };
 
-    var key = function(settingKey) {
-        var deferred = $q.defer();
-        preferenceService.preference(settingKey, function(value){
-            deferred.resolve(value);
-        }, function(data, status, headers, config){
-            errorCallback(data, status, headers, config);
-            deferred.reject(data);
-        });
-        return deferred.promise;
-    };
-
     var fetchCampaigns = function() {
-        campaignService.campaigns(pageRequest, campaignSuccessCallback, errorCallback);
+        campaignService.campaigns(pageRequest, campaignSuccessCallback);
     }
 
-    key('dashboard.campaign.items.size').then(function(settingValue){
-        angular.extend(pageRequest, {size: settingValue});
+    preferenceService.$ns('dashboard.campaign').then(function(settings){
+        angular.extend(pageRequest, {size: settings.dashboard.campaign.items.size });
         // = Fetch the first page of results.
         fetchCampaigns();
     });
 
     // = Campaigns
     var campaignSuccessCallback = function(data, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.campaigns = data.content;
     };
 
     $scope.onCampaignStart = function(campaignId) {
         campaignService.start(campaignId, function(data, status, headers, config) {
-            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             fetchCampaigns();
-        }, errorCallback);
+        });
     };
 
     $scope.onCampaignStopClose = function(campaignId) {
         campaignService.close(campaignId, function(data, status, headers, config) {
-            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             fetchCampaigns();
-        }, errorCallback);
+        });
     };
 
     // = Charts

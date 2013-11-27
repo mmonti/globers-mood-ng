@@ -73,17 +73,8 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', '
     }).
 
     run(function($rootScope, preferenceService){
-        $rootScope.app = {
-            title : "Glober's Mood",
-            author: "mauro monti",
-            mail: "mauro.monti@globant.com",
-            logo: "http://www.globant.com/sites/all/themes/globantv2/images/logo_globant.png",
-            version: "0.0.1"
-        };
-
-        preferenceService.preferences(function(data, status, headers, config) {
-            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-            $rootScope.preferences = data;
-        })
+        preferenceService.$ns("application").then(function(settings) {
+            $rootScope.application = settings.application;
+        });
     }
 );

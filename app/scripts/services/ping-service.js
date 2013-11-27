@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('pingService', function($http, configuration) {
+angular.module('globersMoodApp').factory('pingService', function($http, logger, configuration) {
     return {
         ping : function(successCallback, errorCallback) {
             var request = $http({
@@ -8,7 +8,7 @@ angular.module('globersMoodApp').factory('pingService', function($http, configur
                 url : configuration.getServiceEndpoint("ping")
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         },
         pingDelay : function(successCallback, errorCallback) {
             var start = new Date().getMilliseconds();

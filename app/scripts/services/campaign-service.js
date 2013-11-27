@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('campaignService', function($http, configuration) {
+angular.module('globersMoodApp').factory('campaignService', function($http, logger, configuration) {
     return {
         campaigns : function(pageable, successCallback, errorCallback) {
             var request = $http({
@@ -9,7 +9,7 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 params: pageable
             });
             request.success(successCallback);
-            request.error(errorCallback); // errorCallback || injectedErrorHandler
+            request.error(errorCallback || logger.errorServiceCallback); // errorCallback || injectedErrorHandler
         },
         store : function(campaign, successCallback, errorCallback) {
             var request = $http({
@@ -30,7 +30,7 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 }
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         },
         start : function(campaignId, successCallback, errorCallback) {
             var request = $http({
@@ -38,7 +38,7 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 url : configuration.getServiceEndpoint("campaign.start", { id: campaignId })
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         },
         close : function(campaignId, successCallback, errorCallback) {
             var request = $http({
@@ -46,7 +46,7 @@ angular.module('globersMoodApp').factory('campaignService', function($http, conf
                 url : configuration.getServiceEndpoint("campaign.close", { id: campaignId })
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         }
 
     };

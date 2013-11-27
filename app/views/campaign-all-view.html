@@ -9,4 +9,56 @@
 
     <div class="separator-10"/>
 
+    <div class="col-lg-12">
+        <div class="row">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th>Campaign Name</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Started</th>
+                        <th class="text-center">Ended</th>
+                        <th class="text-center">#Targets</th>
+                        <th class="text-center">#Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="campaign in campaigns">
+                        <td class="text-center">{{index + 1}}</td>
+                        <td>{{ campaign.name }}</td>
+                        <td class="text-center">{{campaign.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="text-center"><span class="label label-default" ng-class="{'label label-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label label-info': (campaign.status === 'STARTED'), 'label label-success disabled': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></td>
+                        <td class="text-center">{{campaign.startDate}}</td>
+                        <td class="text-center">{{campaign.endDate}}</td>
+                        <td class="text-center">{{campaign.targets.length}}</td>
+                        <td class="text-center">{{campaign.feedbackNumber}}</td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="!campaigns.length">
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <span>There's no campaigns to show. To start creating campaigns click <a href="#/campaign/create">here</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row pagination-container">
+            <div class="pull-left pagination-legend">
+                <span>Showing page {{ pagination.page.number }} of {{ pagination.page.totalPages }} page(s) - {{ pagination.page.size }} campaigns per page.</span>
+            </div>
+            <div class="pull-right pagination-widget">
+                <pagination class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true"
+                              total-items="pagination.page.totalElements"
+                              page="pagination.page.number"
+                              items-per-page="pagination.page.size"
+                              num-pages="pagination.page.totalPages"
+                              on-select-page="pagination.setPage(page)">
+                </pagination>
+            </div>
+
+        </div>
+    </div>
 </div>

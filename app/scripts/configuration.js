@@ -48,6 +48,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
             "feedback.list" : "/v1/feedback/campaign/{id}",
             "feedback.store" : "/v1/feedback/campaign/submit",
 
+            "preference.namespace" : "/v1/preference/namespace/{ns}",
             "preference.get" : "/v1/preference/{key}",
             "preference.list" : "/v1/preference",
             "preference.update" : "/v1/preference/{key}/update/{value}",

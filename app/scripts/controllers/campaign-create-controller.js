@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, _, campaignService, projectService, templateService, userService) {
+angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, $log, _, preferenceService, campaignService, projectService, templateService, userService) {
     var getNewCampaign = function() {
         return {
             overview: {
@@ -31,20 +31,20 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
     // == Validate Campaign Model
     $scope.isModelReady = function() {
         if (_.isNull($scope.campaign.overview.name)) {
-            console.log("overview - name is null.");
+            $log.debug("overview - name is null.");
             return false;
         }
         if (_.isEmpty($scope.campaign.targets.destinations)){
-            console.log("targets - destinations is empty.");
+            $log.debug("targets - destinations is empty.");
             return false;
         }
         if (_.isNull($scope.campaign.template.selection)) {
-            console.log("template - selection is null.");
+            $log.debug("template - selection is null.");
             return false;
         }
         if ($scope.campaign.scheduling.enabled
             && (_.isNull($scope.campaign.scheduling.startDate))) {
-            console.log("scheduling - scheduling enabled and date not set.");
+            $log.debug("scheduling - scheduling enabled and date not set.");
             return false;
         }
         return true;
@@ -137,35 +137,30 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
         templatePreviewModal.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
         }, function () {
-            console.log("dismiss");
+            $log.debug("dismiss");
         });
     };
 
-    // == Generic callback error logger.
-    var errorCallback = function(data, status, headers, config) {
-        console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
-    }
-
     // == Users
-    console.debug("fetching users...")
+    $log.info("fetching users...")
     userService.users(function(data, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.targetSource = data.content;
-    }, errorCallback);
+    });
 
     // == Templates
-    console.debug("fetching templates...")
+    $log.info("fetching templates...")
     templateService.templates(function(data, status, headers, config) {
-        console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.availableTemplates = data.content;
-    }, errorCallback);
+    });
 
     // == Stores a new campaign
     $scope.submitCampaign = function() {
         campaignService.store($scope.campaign, function(data, status, headers, config) {
-            console.log("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             $location.path("/");
-        }, errorCallback);
+        });
     };
 
     // == Reset the form.

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('customerService', function($http, configuration) {
+angular.module('globersMoodApp').factory('customerService', function($http, logger, configuration) {
     return {
         customers : function(successCallback, errorCallback) {
             var request = $http({
@@ -8,7 +8,7 @@ angular.module('globersMoodApp').factory('customerService', function($http, conf
                 url : configuration.getServiceEndpoint("customer.list")
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         }
     }
 });

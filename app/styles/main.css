@@ -6314,9 +6314,6 @@ div.select label.control-label {
 html, body {
   font-family: 'Open Sans', sans-serif; }
 
-.growl {
-  z-index: 10000; }
-
 .hand {
   cursor: pointer; }
 
@@ -6495,3 +6492,9 @@ div.template-preview div.template-preview-footer {
 
 .table thead > tr > th {
   vertical-align: middle; }
+
+div.pagination-container div.pagination-widget ul {
+  margin: 0px !important; }
+
+div.pagination-container div.pagination-legend {
+  margin-top: 10px; }
