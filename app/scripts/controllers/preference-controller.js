@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('preferenceController', function ($scope, preferenceService, templateService) {
+angular.module('globersMoodApp').controller('preferenceController', function ($scope, preferenceService, $modal) {
 
     var senderAliasKey = "sender.alias";
     var senderMailKey = "sender.mail";
@@ -25,9 +25,34 @@ angular.module('globersMoodApp').controller('preferenceController', function ($s
         preferenceService.updatePreference(senderMailKey, $scope.senderMail);
     }
 
-    $scope.templates = [];
-    templateService.templates(function(data, status, headers, config){
-        $scope.templates = data;
-    }, function(){});
+    $scope.preferences = [];
+    preferenceService.preferences(function(data, status, headers, config){
+        $scope.preferences = data;
+    });
 
+    $scope.open = function(key, value) {
+        var modalInstance = $modal.open({
+            templateUrl: 'edit-preference.html',
+            size: 'sm',
+            controller: function ($scope, $modalInstance) {
+                $scope.preferenceKey = key;
+                $scope.preferenceValue = value;
+
+                $scope.update = function () {
+                    $modalInstance.close($scope.preferenceValue);
+                };
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            }
+        });
+
+        modalInstance.result.then(function(preferenceValue) {
+            console.log("Update Preference with value="+preferenceValue)
+        }, function () {
+            console.info('Modal dismissed at: ' + new Date());
+        });
+    };
 });
+
+

@@ -1,6 +1,6 @@
 {
   "name": "sass-bootstrap",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "main": [
     "./dist/js/bootstrap.js",
     "./dist/css/bootstrap.css",
@@ -13,13 +13,13 @@
     "jquery": ">= 1.9.0"
   },
   "homepage": "https://github.com/jlong/sass-twitter-bootstrap",
-  "_release": "3.0.1",
+  "_release": "3.0.2",
   "_resolution": {
     "type": "version",
-    "tag": "v3.0.1",
-    "commit": "48f98fdb6161444dd53e9e7b16876ed103df7593"
+    "tag": "v3.0.2",
+    "commit": "efd13cf8bf77c623cd38c927ad14a30eb1a1384b"
   },
   "_source": "git://github.com/jlong/sass-twitter-bootstrap.git",
-  "_target": "~3.0.0",
+  "_target": "~3.0.2",
   "_originalSource": "bootstrap-sass"
 }

@@ -15,7 +15,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
         },
 
         services : {
-            ping : false
+            ping : true
         },
 
         // = Services Path Configuration

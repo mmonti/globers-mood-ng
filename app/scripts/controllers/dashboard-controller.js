@@ -13,7 +13,7 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
     }
 
     preferenceService.$ns('dashboard.campaign').then(function(settings){
-        angular.extend(pageRequest, {size: settings.dashboard.campaign.items.size });
+        angular.extend(pageRequest, { size: settings.dashboard.campaign.items.size });
         // = Fetch the first page of results.
         fetchCampaigns();
     });
