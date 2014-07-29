@@ -2,12 +2,10 @@ $iconSpritePath: "../images/glyphicons-halflings.png";
 $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $icon-font-path: "../styles/fonts/";
 
-@import "../bower_components/sass-bootstrap/lib/bootstrap";
-@import "../bower_components/bootstrap3-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css";
+@import "../bower_components/bootstrap-sass/lib/bootstrap";
 @import "sticky-fn";
 @import "multi-select";
 @import "font-awesome";
-@import "../bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.css";
 
 html, body {
   font-family: 'Open Sans', sans-serif;

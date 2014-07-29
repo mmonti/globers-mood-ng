@@ -274,8 +274,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
-            'styles/fonts/*',
-            'build/Procfile'
+            'styles/fonts/*'
           ]
         }, {
           expand: true,
@@ -294,10 +293,20 @@ module.exports = function (grunt) {
       },
       server: {
         expand: true,
-        cwd: '<%= yeoman.app %>',
-        dest: '<%= yeoman.dist %>/scripts',
+        dot: true,
+        cwd: 'build',
+        dest: 'dist/scripts',
         src: [
-            'build/web-server.js'
+            'web-server.js'
+        ]
+      },
+      deploy: {
+        expand: true,
+        dot: true,
+        cwd: 'build',
+          dest: '<%= yeoman.dist %>',
+        src: [
+            'Procfile'
         ]
       }
     },
@@ -384,6 +393,7 @@ module.exports = function (grunt) {
     'concat',
     'copy:dist',
     'copy:server',
+    'copy:deploy',
     'cdnify',
     'ngmin',
     'cssmin',
