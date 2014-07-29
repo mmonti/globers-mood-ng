@@ -392,14 +392,14 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'copy:dist',
-    'copy:server',
-    'copy:deploy',
     'cdnify',
     'ngmin',
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'copy:server',
+    'copy:deploy'
   ]);
 
   grunt.registerTask('default', [
