@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('headerController', function ($scope, $timeout, $log, configuration, pingService) {
+angular.module('globersMoodApp').controller('headerController', ['$scope', '$timeout', '$log', 'configuration', 'pingService', function ($scope, $timeout, $log, configuration, pingService) {
 
     $scope.synch = false;
     $scope.showNotification = !$scope.synch;
@@ -32,4 +32,4 @@ angular.module('globersMoodApp').controller('headerController', function ($scope
         // = Check if there is someone on the other side each 10sec.
         $timeout(syncServices, 10000);
     }();
-});
+}]);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignAllController', function ($scope, $log, pagination, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', '$log', 'pagination', 'preferenceService', 'campaignService', function ($scope, $log, pagination, preferenceService, campaignService) {
 
     $scope.campaigns = [];
 
@@ -33,4 +33,4 @@ angular.module('globersMoodApp').controller('campaignAllController', function ($
     campaignService.campaigns(null, function(data, status, headers, config) {
         $scope.campaigns = data.content;
     });
-});
+}]);

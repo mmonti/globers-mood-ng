@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, $log, _, preferenceService, campaignService, projectService, templateService, userService) {
+angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '$log', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function ($scope, $location, $modal, $log, _, preferenceService, campaignService, projectService, templateService, userService) {
     var getNewCampaign = function() {
         return {
             overview: {
@@ -169,4 +169,4 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
         $scope.campaign = getNewCampaign();
     };
 
-});
+}]);

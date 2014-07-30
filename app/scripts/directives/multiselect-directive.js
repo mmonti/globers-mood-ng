@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('multiSelect', function ($q) {
+angular.module('globersMoodApp').directive('multiSelect', ['$q', function ($q) {
 
     function appendSelected(entities) {
         var newEntities = [];
@@ -90,4 +90,4 @@ angular.module('globersMoodApp').directive('multiSelect', function ($q) {
             });
         }
     };
-});
+}]);

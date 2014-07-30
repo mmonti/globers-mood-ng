@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('preferenceService', function($rootScope, $q, $http, _, logger, configuration) {
+angular.module('globersMoodApp').factory('preferenceService', ['$rootScope', '$q', '$http', '_', 'logger', 'configuration', function($rootScope, $q, $http, _, logger, configuration) {
     var services = {
         preference : function(preferenceKey, successCallback, errorCallback) {
             var request = $http({
@@ -104,4 +104,4 @@ angular.module('globersMoodApp').factory('preferenceService', function($rootScop
         }
     };
     return services;
-});
+}]);

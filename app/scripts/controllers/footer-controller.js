@@ -1,4 +1,3 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('footerController', function ($scope) {
-});
+angular.module('globersMoodApp').controller('footerController', ['$scope', function ($scope) {}]);

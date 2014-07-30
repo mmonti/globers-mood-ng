@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('statsService', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('statsService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
     return {
         mostActiveCampaigns : function(successCallback, errorCallback) {
             var request = $http({
@@ -11,4 +11,4 @@ angular.module('globersMoodApp').factory('statsService', function($http, logger,
             request.error(errorCallback || logger.errorServiceCallback);
         }
     };
-});
+}]);

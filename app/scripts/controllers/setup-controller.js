@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('setupController', function ($scope, $http, configuration) {
+angular.module('globersMoodApp').controller('setupController', ['$scope', '$http', 'configuration', function ($scope, $http, configuration) {
 
     $scope.file = null;
     $scope.files = [];
@@ -86,4 +86,4 @@ angular.module('globersMoodApp').controller('setupController', function ($scope,
             console.log("failed!");
         });
     }
-});
+}]);

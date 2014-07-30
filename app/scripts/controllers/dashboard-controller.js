@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', function ($scope, $q, $log, _, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$log', '_', 'preferenceService', 'campaignService', function ($scope, $q, $log, _, preferenceService, campaignService) {
     var pageRequest = {
         page: 0,
         size: 5,
@@ -71,5 +71,4 @@ angular.module('globersMoodApp').controller('dashboardController', function ($sc
         },
         loading: false
     };
-
-});
+}]);

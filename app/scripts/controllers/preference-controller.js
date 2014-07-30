@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('preferenceController', function ($scope, preferenceService, $modal) {
+angular.module('globersMoodApp').controller('preferenceController', ['$scope', 'preferenceService', '$modal', function ($scope, preferenceService, $modal) {
 
     var senderAliasKey = "sender.alias";
     var senderMailKey = "sender.mail";
@@ -53,6 +53,6 @@ angular.module('globersMoodApp').controller('preferenceController', function ($s
             console.info('Modal dismissed at: ' + new Date());
         });
     };
-});
+}]);
 
 

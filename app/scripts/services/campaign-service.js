@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('campaignService', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('campaignService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
     return {
         campaigns : function(pageable, successCallback, errorCallback) {
             var request = $http({
@@ -50,4 +50,4 @@ angular.module('globersMoodApp').factory('campaignService', function($http, logg
         }
 
     };
-});
+}]);
