@@ -1,6 +1,6 @@
 'use strict';
 
-var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', 'ui.mask', 'ui.bootstrap', 'highcharts-ng']).
+var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.compat', 'ui.mask', 'ui.bootstrap', 'highcharts-ng', 'angularFileUpload']).
 
     config(function($stateProvider, $urlRouterProvider){
         // = For any unmatched url, send to /main

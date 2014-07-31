@@ -4,7 +4,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
     var configuration = {
 
         // = Current Environment.
-        environment: "dev",
+        environment: "prod",
 
         // = Environment configuration.
         dev : {
@@ -15,7 +15,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
         },
 
         services : {
-            ping : true
+            ping : false
         },
 
         // = Services Path Configuration
@@ -60,6 +60,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
             "stats.list" : "/v1/stats",
             "stats.generate" : "/v1/stats",
             "stats.entry" : "/v1/stats/{entity}/{entry}",
+            "stats.metadata" : "/v1/stats/metadata",
 
             "setup.store.body" : "/v1/setup",
             "setup.store.file" : "/v1/setup/file-import"

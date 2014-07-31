@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('logger', ['$log', function ($log) {
+angular.module('globersMoodApp').factory('logger', [function () {
     return {
         errorServiceCallback : function(data, status, headers, config) {
-            $log.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
+            console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
         }
     };
 }]);

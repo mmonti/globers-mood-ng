@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$log', '_', 'preferenceService', 'campaignService', function ($scope, $q, $log, _, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '_', 'preferenceService', 'campaignService', function ($scope, $q, _, preferenceService, campaignService) {
     var pageRequest = {
         page: 0,
         size: 5,
@@ -20,20 +20,20 @@ angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$
 
     // = Campaigns
     var campaignSuccessCallback = function(data, status, headers, config) {
-        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.campaigns = data.content;
     };
 
     $scope.onCampaignStart = function(campaignId) {
         campaignService.start(campaignId, function(data, status, headers, config) {
-            $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             fetchCampaigns();
         });
     };
 
     $scope.onCampaignStopClose = function(campaignId) {
         campaignService.close(campaignId, function(data, status, headers, config) {
-            $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             fetchCampaigns();
         });
     };

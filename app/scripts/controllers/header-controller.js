@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('headerController', ['$scope', '$timeout', '$log', 'configuration', 'pingService', function ($scope, $timeout, $log, configuration, pingService) {
+angular.module('globersMoodApp').controller('headerController', ['$scope', '$interval', 'configuration', 'pingService', 'preferenceService', function ($scope, $interval, configuration, pingService, preferenceService) {
 
     $scope.synch = false;
     $scope.showNotification = !$scope.synch;
@@ -9,27 +9,40 @@ angular.module('globersMoodApp').controller('headerController', ['$scope', '$tim
     }
 
     var handleResponse = function(property, response, status, headers, config) {
-        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope[property] = response;
         $scope.synch = true;
     }
 
     var syncServices = function() {
-        $log.debug("calling ping service to sync...")
+        console.debug("calling ping service to sync...")
 
         pingService.pingDelay(function(data, status, headers, config) {
             handleResponse($scope.ping, data, status, headers, config);
         }, function(data, status, headers, config) {
-            $log.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
+            console.error("Error calling Service=["+config.url+"] | Method=["+config.method+"] | Status=["+status+"]");
             $scope.synch = false;
         });
+    };
 
+    // = trigger the first synch.
+    syncServices();
+
+    var synchronizeTime = 0;
+    preferenceService.preference('services.synchronize.time', function(data, status, headers, config) {
+        console.info('preference=[services.synchronize.time]='+data);
+        synchronizeTime = Number(data);
+    });
+
+    preferenceService.preference('services.synchronize', function(data, status, headers, config) {
+        console.info('preference=[services.synchronize]='+data);
         // Check if PING service is active.
-        if (!configuration.isServicesInSynchActive()) {
+        if (!!data === false) {
             return;
         }
-
         // = Check if there is someone on the other side each 10sec.
-        $timeout(syncServices, 10000);
-    }();
+        if (synchronizeTime > 0) {
+            $interval(syncServices, synchronizeTime);
+        }
+    });
 }]);

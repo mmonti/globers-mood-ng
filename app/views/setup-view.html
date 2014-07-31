@@ -10,23 +10,18 @@
 
     <div class="row">
         <div class="col-lg-6">
-
-            <form action="/" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" class="hidden" file-upload />
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default file" tabindex="-1" ng-click="choose('file')"><b>Select File</b></button>
-                        <button type="button" class="btn btn-default file" ng-click="clear()">
-                            <span class="glyphicon glyphicon-remove-circle"></span>
-                        </button>
-                    </div>
-                    <input type="text" class="form-control" value="{{fileName}}" disabled/>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="file" class="btn btn-default file" tabindex="-1" ng-file-select="onFileSelect($files)"><b>Select File</b></button>
+                    <button type="button" class="btn btn-default file" ng-click="clear()">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </button>
                 </div>
-            </form>
-
+                <input type="text" class="form-control" value="{{file.name}}" ng-readonly="true"/>
+            </div>
         </div>
         <div class="col-lg-1">
-            <button type="button" class="btn btn-primary file" ng-click="submit()">POST</button>
+            <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
         </div>
     </div>
 
@@ -41,7 +36,7 @@
 
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="entity in entities">
-                    <span ng-class="{'pull-right': true, 'label': true, 'label-primary': (entity.count > 0), 'label-danger': (entity.count <= 0)}">{{ entity.count }}</span>{{ entity.name }}
+                    <span ng-class="{'pull-right': true, 'label': true, 'label-primary': (entity.properties.count > 0), 'label-danger': (entity.count <= 0)}">{{ entity.properties.count }}</span>{{ entity.key.name }}
                 </li>
             </ul>
 

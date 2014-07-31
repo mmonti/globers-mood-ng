@@ -24,7 +24,7 @@ angular.module('globersMoodApp').factory('preferenceService', ['$rootScope', '$q
                 url : configuration.getServiceEndpoint("preference.list")
             });
             request.success(successCallback);
-            request.error(errorCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         },
         updatePreference : function(preferenceKey, preferenceValue, successCallback, errorCallback) {
             var request = $http({

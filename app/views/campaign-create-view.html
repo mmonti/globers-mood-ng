@@ -143,12 +143,10 @@
                                 <div class="col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon">@</span>
-
                                         <input type="text" class="form-control" id="inputTarget"
                                                placeholder="Enter email(s)"
-                                               ng-model="targetInput"
-                                               reset-addon="{side:'right'}"
-                                               typeahead-on-select="onTargetSelected()" typeahead="target.email for target in targetSource | filter:$viewValue | limitTo:8">
+                                               ng-model="targets.input"
+                                               typeahead-on-select="onTargetSelected()" typeahead="target.email for target in targets.source | filter:$viewValue | limitTo:8">
 
                                         <span class="input-group-btn">
                                             <button class="btn btn-default add-on" type="button" ng-click="onTargetSelected()"><i class="fa fa-chevron-right"></i></button>

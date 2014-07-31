@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', '$log', 'pagination', 'preferenceService', 'campaignService', function ($scope, $log, pagination, preferenceService, campaignService) {
-
+angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', 'pagination', 'preferenceService', 'campaignService', function ($scope, pagination, preferenceService, campaignService) {
     $scope.campaigns = [];
 
     preferenceService.$ns("campaign.all").then(function(settings){
@@ -20,7 +19,7 @@ angular.module('globersMoodApp').controller('campaignAllController', [ '$scope',
 
     // == Update the data with the response.
     var campaignSuccessCallback = function(data, status, headers, config) {
-        $log.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
         $scope.campaigns = $scope.pagination.update(data);
     };
 

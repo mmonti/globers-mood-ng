@@ -1,89 +1,44 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('setupController', ['$scope', '$http', 'configuration', function ($scope, $http, configuration) {
+angular.module('globersMoodApp').controller('setupController', ['$scope', '$http', 'configuration', '$upload', 'statsService', function ($scope, $http, configuration, $upload, statsService) {
 
     $scope.file = null;
-    $scope.files = [];
-    $scope.fileName = null;
-
-    $scope.currentLoad = {
-        projects : 200,
-        users : 3140,
-        customers : 140,
-        campaigns : 6,
-        templates : 2
+    $scope.onFileSelect = function($files) {
+        $scope.file = $files[0];
     };
 
-    // = Open the File Dialog.
-    $scope.choose = function(fileInput) {
-        angular.element('input[type=file]')[0].click();
-    }
+    $scope.submit = function() {
+        $scope.upload = $upload.upload({
+            url: configuration.getServiceEndpoint('setup.store.file'),
+            method: 'POST',
+            // = headers: {'header-key': 'header-value'},
+            // = withCredentials: true,
+            // = data: {myObj: $scope.myModelObj},
+            file: $scope.file // or list of files ($files) for html5 only
+            // = fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+            // = customize file formData name ('Content-Desposition'), server side file variable name.
+            // = fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
+            // = customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+            // = formDataAppender: function(formData, key, val){}
+
+        }).progress(function(evt) {
+            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+        }).success(function(data, status, headers, config) {
+            $scope.clear();
+        });
+        //.error(...)
+        //.then(success, error, progress);
+        // access or attach event listeners to the underlying XMLHttpRequest.
+        //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+    };
 
     // = Clears the selected file.
     $scope.clear = function() {
-        $scope.files = [];
-        $scope.fileName = "";
-    }
+        $scope.file = null;
+    };
 
-    // = listen for the file selected event
-    $scope.$on("fileSelected", function(event, args) {
-        $scope.$apply(function () {
-            // = add the file object to the scope's files collection
-            $scope.file = args.file;
-            $scope.files.push(args.file);
-            $scope.fileName = args.file.name;
-        });
+    $scope.entities = [];
+    statsService.metadata(function(data, status, headers, config) {
+        $scope.entities = data;
     });
-
-    $scope.submit = function submit() {
-        return $http({
-            method: 'POST',
-            url: configuration.getServiceEndpoint('setup.store.file'),
-            data: {
-                file: $scope.file
-            },
-
-            // IMPORTANT!!! You might think this should be set to 'multipart/form-data'
-            // but this is not true because when we are sending up files the request
-            // needs to include a 'boundary' parameter which identifies the boundary
-            // name between parts in this multi-part request and setting the Content-type
-            // manually will not set this boundary parameter. For whatever reason,
-            // setting the Content-type to 'false' will force the request to automatically
-            // populate the headers properly including the boundary parameter.
-
-            headers: {
-                'Content-Type': false
-            },
-
-            // This method will allow us to change how the data is sent up to the server
-            // for which we'll need to encapsulate the model data in 'FormData'
-            transformRequest: function (data) {
-//                var formData = new FormData();
-//                // need to convert our json object to a string version of json otherwise
-//                // the browser will do a 'toString()' on the object which will result
-//                // in the value '[Object object]' on the server.
-//
-//                // ? append any model to the formData.
-//
-//                // = now add all of the assigned files
-//                if (data.files) {
-//                    for (var idx = 0; idx < data.files; idx++) {
-//                        // = add each file to the form data and iteratively name them
-//                        formData.append("file" + idx, data.files[idx]);
-//                    }
-//                    return formData;
-//                }
-//                return formData.append("file" + idx, data.file);
-
-                var formData = new FormData();
-                formData.append("file", data.file);
-                return formData;
-            }
-
-        }).success(function (data, status, headers, config) {
-            $scope.currentLoad = data;
-        }).error(function (data, status, headers, config) {
-            console.log("failed!");
-        });
-    }
 }]);
