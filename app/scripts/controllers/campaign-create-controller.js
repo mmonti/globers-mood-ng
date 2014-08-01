@@ -9,7 +9,6 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
         $scope.opened = true;
     };
 
-
     $scope.clearExpiringDate = function () {
         $scope.campaign.overview.expiration.date = null;
     };

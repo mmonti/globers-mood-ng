@@ -37,13 +37,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ campaign.name }}</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{campaign.feedbackNumber}}" aria-valuemin="0" aria-valuemax="{{campaign.targets.length}}" style="width: 100%">
-                                    <i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i>
-                                </div>
-                            </div>
-                        </td>
+                        <td><progressbar class="progress-striped active" max="campaign.targets.length" value="campaign.feedbackNumber" type="success"><i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i></progressbar></td>
                         <!--<td class="text-center">{{ campaign.feedbackNumber }}</td>-->
                         <td class="text-left"><button type="button" ng-class="{'btn-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status === 'STARTED'), 'btn-success disabled': (campaign.status === 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
                         <td class="text-left">

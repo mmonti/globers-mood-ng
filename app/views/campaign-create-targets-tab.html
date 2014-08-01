@@ -24,7 +24,8 @@
                                    placeholder="Enter email(s)"
                                    ng-model="targets.input"
                                    typeahead-on-select="onTargetSelected()"
-                                   typeahead="target.email for target in targets.source | filter:$viewValue | limitTo:8">
+                                   typeahead="target.email for target in targets.source | filter:$viewValue | limitTo:8"
+                                   reset-addon="{ side: 'right' }">
 
                             <span class="input-group-btn">
                                 <button class="btn btn-default add-on" type="button" ng-click="onTargetSelected()"><i class="fa fa-chevron-right"></i></button>
