@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-lg-2">Name:</label>
+                    <div class="col-lg-6">
+                        <input type="text" id="inputName" class="form-control" placeholder="Name" ng-model="campaign.overview.name" ng-required="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescription" class="control-label col-lg-2">Description:</label>
+                    <div class="col-lg-8"><textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="campaign.overview.description"></textarea></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Expiring:</label>
+                    <div class="col-lg-6">
+                        <div class="btn-group btn-group-sm">
+                            <button name="expiring" type="button" class="btn" ng-class="(campaign.overview.expiration.enabled == false) ? 'btn-info' : 'btn-default'" ng-model="campaign.overview.expiration.enabled" btn-radio="false">OFF</button>
+                            <button name="expiring" type="button" class="btn" ng-class="(campaign.overview.expiration.enabled == true) ? 'btn-info' : 'btn-default'" ng-model="campaign.overview.expiration.enabled" btn-radio="true">ON</button>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset ng-disabled="!campaign.overview.expiration.enabled">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Date:</label>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="text" id="campaignExpirationDateTime" name="campaignExpirationDateTime" class="form-control" datepicker-popup="{{format}}" ng-model="campaign.overview.expiration.date" ng-disabled="!campaign.overview.expiration.enabled"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="clearExpirationDate()"><i class="glyphicon glyphicon-remove"></i></button>
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+        <div class="col-lg-offset-4"/>
+    </div>
+</div>

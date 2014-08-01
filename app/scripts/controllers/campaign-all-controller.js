@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', 'pagination', 'preferenceService', 'campaignService', function ($scope, pagination, preferenceService, campaignService) {
-    $scope.campaigns = [];
+angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', '$interval', 'pagination', 'preferenceService', 'campaignService', function ($scope, $interval, pagination, preferenceService, campaignService) {
 
     preferenceService.$ns("campaign.all").then(function(settings){
         $scope.pagination = pagination.init({ size: settings.campaign.all.items.size });
         fetchCampaigns();
+
+        $interval(fetchCampaigns, settings.campaign.all.refresh.time);
     });
 
     // = Watch for page change

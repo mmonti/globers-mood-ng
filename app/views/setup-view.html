@@ -18,10 +18,10 @@
                     </button>
                 </div>
                 <input type="text" class="form-control" value="{{file.name}}" ng-readonly="true"/>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-1">
-            <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
         </div>
     </div>
 

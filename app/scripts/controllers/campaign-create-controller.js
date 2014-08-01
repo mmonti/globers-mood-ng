@@ -2,6 +2,22 @@
 
 angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
 
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+
+    $scope.clearExpiringDate = function () {
+        $scope.campaign.overview.expiration.date = null;
+    };
+
+    $scope.clearSchedulingDate = function () {
+        $scope.campaign.scheduling.expiration.date = null;
+    };
+
     var getNewCampaign = function() {
         return {
             overview: {

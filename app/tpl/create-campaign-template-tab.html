@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="inputTemplateFilter" class="control-label col-lg-2">Template:</label>
+
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input reset-addon="{ side: 'right' }" type="text" id="inputTemplateFilter" class="form-control" placeholder="filter by name..." ng-model="templateFilterTerm"/>
+                        </div>
+
+                        <div class="separator-20"/>
+
+                        <div class="template-selector">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr ng-repeat="template in availableTemplates | filter:templateFilterTerm">
+                                        <td class="text-center">{{$index + 1}}</td>
+                                        <td>{{template.name}}</td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <span class="label hand" ng-class="(campaign.template.selection != null && isTemplateSelected($index)) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div ng-show="campaign.template.selection == null">
+                <ul class="list-unstyled">
+                    <li>Select a template for the campaign...</li>
+                    <li>You can also filter the available templates typing the template name.</li>
+                </ul>
+            </div>
+            <div ng-show="campaign.template.selection != null">
+                <ul class="list-unstyled selected-template">
+                    <li>
+                        <div>
+                            <span><i class="fa fa-file-text-o fa-2x"></i></span>
+                            <span class="selected-template-header">{{ campaign.template.selection.name }}</span>
+                        </div>
+                    </li>
+                    <li class="selected-template-item"><span style="font-weight: bold;">Date:</span>&nbsp;{{ campaign.template.selection.created | date:'medium' }}</li>
+                    <li class="selected-template-item"><span style="font-weight: bold;">Description:</span>&nbsp;{{ campaign.template.selection.description }}</li>
+                    <li class="selected-template-item"><span class="label label-default hand" ng-click="onTemplateRemoved()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;<span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

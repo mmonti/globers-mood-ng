@@ -2,10 +2,15 @@ $iconSpritePath: "../images/glyphicons-halflings.png";
 $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $icon-font-path: "../styles/fonts/";
 
-@import "../bower_components/bootstrap-sass/lib/bootstrap";
 @import "sticky-fn";
 @import "multi-select";
 @import "font-awesome";
+
+// CSS
+// Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.).
+// But in AngularJS adding empty href attributes to link tags will cause unwanted route changes. This is why we need to remove empty href attributes from directive templates and as a result styling is not applied correctly.
+// The remedy is simple, just add the following styling to your application:
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 html, body {
   font-family: 'Open Sans', sans-serif;

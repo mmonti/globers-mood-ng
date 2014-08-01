@@ -30,8 +30,8 @@
                         <td>{{ campaign.name }}</td>
                         <td class="text-center">{{campaign.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td class="text-center"><span class="label label-default" ng-class="{'label label-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label label-info': (campaign.status === 'STARTED'), 'label label-success disabled': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></td>
-                        <td class="text-center">{{campaign.startDate}}</td>
-                        <td class="text-center">{{campaign.endDate}}</td>
+                        <td class="text-center">{{campaign.startDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                        <td class="text-center">{{campaign.endDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                         <td class="text-center">{{campaign.targets.length}}</td>
                         <td class="text-center">{{campaign.feedbackNumber}}</td>
                     </tr>

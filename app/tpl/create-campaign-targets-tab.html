@@ -1,0 +1,114 @@
+<div class="container" controller="campaignCreateController">
+    <div class="row">
+
+        <div class="col-lg-7">
+            <div role="form" class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-10">
+                        <div class="checkbox">
+                            <label for="checkDomain">
+                                <input type="checkbox" id="checkDomain" ng-model="campaign.targets.limitDomain"><span>Limit to Globant accounts only (@globant.com).</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputTarget" class="control-label col-lg-2">Target(s):</label>
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            <span class="input-group-addon">@</span>
+                            <input type="text" class="form-control" id="inputTarget"
+                                   placeholder="Enter email(s)"
+                                   ng-model="targets.input"
+                                   typeahead-on-select="onTargetSelected()"
+                                   typeahead="target.email for target in targets.source | filter:$viewValue | limitTo:8">
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default add-on" type="button" ng-click="onTargetSelected()"><i class="fa fa-chevron-right"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-1"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+
+            <div class="panel panel-default target-selector">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="form-inline" role="form">
+                            <label class="form-group col-sm-6" style="padding-top: 6px;">
+                                <span>Selected Target(s): ({{campaign.targets.destinations.length}})</span>
+                            </label>
+                            <div class="form-group col-sm-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+                                    <input reset-addon="{side: 'right'}" type="text" class="form-control" placeholder="filter by name..." ng-model="targetFilterTerm"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table target-selector-header">
+                    <thead>
+                    <tr>
+                        <th class="first-column text-center">#</th>
+                        <th><span class="header-title">Target Mail</span></th>
+                        <th>
+                            <!--<fieldset ng-disabled="campaign.ts.destinations.length == 0">-->
+                            <!--<div class="pull-right target-selector-control">-->
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-th-list"></i></button>-->
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil">&nbsp;&nbsp;</i>add context</button>-->
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-times">&nbsp;&nbsp;</i>remove</button>-->
+                            <!--</div>-->
+                            <!--</fieldset>-->
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <div ng-show="(campaign.targets.destinations.length == 0)" class="target-selector-body-empty">
+                    <div class="panel-body">
+                        <span>No target(s) selected. Please add them using Target(s) input or importing a file.</span>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div ng-hide="(campaign.targets.destinations.length == 0)" class="target-selector-body-scroller">
+                        <table class="table table-hover target-selector-body">
+                            <tbody>
+                            <tr ng-repeat="target in campaign.targets.destinations | filter: targetFilterTerm">
+                                <td class="first-column text-center">{{$index + 1}}</td>
+                                <td class="first-column text-center">
+                                    <input type="checkbox" id="checkTarget" ng-model="campaign.targets.selected">
+                                </td>
+                                <td><span>{{target.email}}</span></td>
+                                <td>
+                                    <div class="text-center">
+                                        <span><button type="button" class="btn btn-default btn-sm"><i class="fa fa-list"></i></button></span>
+                                        <span><button type="button" class="btn btn-default btn-sm" ng-click="onDiscardTarget($index)"><i class="fa fa-times-circle-o"></i></button></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--<div class="panel-footer">-->
+                <!--<fieldset ng-disabled="(campaign.targets.destinations.length == 0)">-->
+                <!--<span><button type="button" class="btn btn-default btn-sm">context</button></span>-->
+                <!--<span><button type="button" class="btn btn-danger btn-sm" ng-click="onDiscardAll()">discard all</button></span>-->
+                <!--</fieldset>-->
+                <!--</div>-->
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '_', 'preferenceService', 'campaignService', function ($scope, $q, _, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$interval', '_', 'preferenceService', 'campaignService', function ($scope, $q, $interval, _, preferenceService, campaignService) {
+
     var pageRequest = {
         page: 0,
         size: 5,
@@ -16,6 +17,8 @@ angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$
         angular.extend(pageRequest, { size: settings.dashboard.campaign.items.size });
         // = Fetch the first page of results.
         fetchCampaigns();
+
+        $interval(fetchCampaigns, settings.dashboard.campaign.refresh.time);
     });
 
     // = Campaigns
