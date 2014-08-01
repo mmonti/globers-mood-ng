@@ -1,9 +1,24 @@
 <div class="container">
+
     <div class="row">
         <div class="col-lg-6">
             <div class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="inputTemplateFilter" class="control-label col-lg-2">Template:</label>
+                    <label class="control-label col-lg-2">Template:</label>
+                    <div class="col-lg-10">
+                        <!--<a ng-click="">Add new template ...</a>-->
+                        <button name="addNewTemplate" class="btn btn-default">Add new template ...</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="inputTemplateFilter" class="control-label col-lg-2">Select:</label>
 
                     <div class="col-lg-10">
                         <div class="input-group">
@@ -21,6 +36,7 @@
                                         <td>{{template.name}}</td>
                                         <td>
                                             <div class="pull-right">
+                                                <span class="label label-danger hand" ng-click="onTemplateRemove($index)">REMOVE&nbsp;<i class="fa fa-times"></i></span>
                                                 <span class="label hand" ng-class="(campaign.template.selection != null && isTemplateSelected($index)) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
                                             </div>
                                         </td>
@@ -32,6 +48,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-6">
             <div ng-show="campaign.template.selection == null">
                 <ul class="list-unstyled">
@@ -49,7 +66,10 @@
                     </li>
                     <li class="selected-template-item"><span style="font-weight: bold;">Date:</span>&nbsp;{{ campaign.template.selection.created | date:'medium' }}</li>
                     <li class="selected-template-item"><span style="font-weight: bold;">Description:</span>&nbsp;{{ campaign.template.selection.description }}</li>
-                    <li class="selected-template-item"><span class="label label-default hand" ng-click="onTemplateRemoved()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;<span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span></li>
+                    <li class="selected-template-item">
+                        <!--<span class="label label-default hand" ng-click="onTemplateRemove()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;-->
+                        <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span>
+                    </li>
                 </ul>
             </div>
         </div>

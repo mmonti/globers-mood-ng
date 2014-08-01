@@ -2,7 +2,7 @@
     <div class="container">
         <p class="text-muted credit">
             <img ng-src="{{application.logo}}" style="max-width: 85px"/>
-            <span class="pull-right">{{application.author.name}} - (<a href="mailto://{{application.author.mail}}">{{application.author.mail}}</a>) - version: {{application.version}}</span>.
+            <span class="pull-right">{{application.author.name}} - (<a href="mailto://{{application.author.mail}}">{{application.author.mail}}</a>) - version: {{application.version}} - <span class="label label-info">{{configuration.environment | uppercase}}</span></span>
         </p>
     </div>
 </div>

@@ -84,6 +84,9 @@ angular.module('globersMoodApp').factory('configuration', function () {
 
     // = Public API
     return {
+        getEnvironment : function() {
+            return configuration.environment;
+        },
         isServicesInSynchActive : function() {
             return configuration.services.ping;
         },

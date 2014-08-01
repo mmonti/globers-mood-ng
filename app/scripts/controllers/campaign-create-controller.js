@@ -123,18 +123,51 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
 
     // == Templates.
     $scope.availableTemplates = [];
+    var deselectTemplates = function() {
+        _.each($scope.availableTemplates, function(template) { template.selected = false; });
+    };
+    var getSelectedTemplate = function() {
+        return _.find($scope.availableTemplates, function(template) { return (template.selected); });
+    };
     $scope.onTemplateSelected = function(index) {
-        $scope.onTemplateRemoved();
-        $scope.availableTemplates[index].selected = true;
-        $scope.campaign.template.selection = $scope.availableTemplates[index];
+//        deselectTemplates();
+        $scope.availableTemplates[index].selected = !($scope.isTemplateSelected(index));
+        $scope.campaign.template.selection = $scope.availableTemplates[index].selected ? $scope.availableTemplates[index] : null;
     };
     $scope.isTemplateSelected = function(index) {
         return (_.isUndefined($scope.availableTemplates[index].selected) ? false : $scope.availableTemplates[index].selected);
     };
-    $scope.onTemplateRemoved = function() {
-        _.each($scope.availableTemplates, function(template) { template.selected = false; });
+    $scope.onTemplateRemove = function() {
+        var template = getSelectedTemplate();
+        if (angular.isUndefined(template)) {
+            return;
+        }
+        $scope.availableTemplates = _.reject($scope.availableTemplates, function(item) { return (item.id === template.id) } );
         $scope.campaign.template.selection = null;
     };
+
+    $scope.onTemplateAddNewOpen = function () {
+        var templateAddNewModal = $modal.open({
+            templateUrl: '/tpl/template-add-new-modal.html',
+            controller: function($scope, $modalInstance) {
+                $scope.onTemplateAddNewClose = function () {
+                    templateAddNewModal.dismiss('cancel');
+                };
+                $scope.onAdd = function () {
+
+                }
+            },
+            size: 'lg',
+            windowClass: "template-add-new"
+        });
+        // == Handler
+        templateAddNewModal.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            console.debug("dismiss");
+        });
+    };
+
     $scope.onTemplatePreviewOpen = function () {
         var templatePreviewModal = $modal.open({
             templateUrl: '/tpl/template-preview.html',

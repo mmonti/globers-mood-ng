@@ -1411,7 +1411,7 @@ div.select label.control-label {
 .fa-try:before {
   content: "\f195"; }
 
-.nav, .pagination, .carousel, .panel-title a {
+.nav, .pagination, .carousel, .panel-title, a {
   cursor: pointer; }
 
 html, body {
@@ -1530,7 +1530,7 @@ div.target-selector-body-empty {
   margin: 10px; }
 
 .template-selector {
-  height: 180px;
+  height: 90px;
   overflow-y: scroll; }
 
 .template-selector table tbody tr:first-child td {

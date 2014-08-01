@@ -13,7 +13,7 @@ angular.module('globersMoodApp').controller('setupController', ['$scope', '$http
             method: 'POST',
             // = headers: {'header-key': 'header-value'},
             // = withCredentials: true,
-            // = data: {myObj: $scope.myModelObj},
+            data: { myObj: { name: "1"} },
             file: $scope.file // or list of files ($files) for html5 only
             // = fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
             // = customize file formData name ('Content-Desposition'), server side file variable name.
