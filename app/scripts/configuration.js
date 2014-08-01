@@ -4,7 +4,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
     var configuration = {
 
         // = Current Environment.
-        environment: "dev",
+        environment: "prod",
 
         // = Environment configuration.
         dev : {
