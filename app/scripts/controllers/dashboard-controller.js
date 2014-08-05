@@ -1,23 +1,22 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$interval', '_', 'preferenceService', 'campaignService', function ($scope, $q, $interval, _, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$interval', '$timeout', '_', 'preferenceService', 'campaignService', 'statsService', function ($scope, $q, $interval, $timeout, _, preferenceService, campaignService, statsService) {
 
     var pageRequest = {
         page: 0,
         size: 5,
-        direction: "asc",
+        direction: "desc",
         property: "created"
     };
 
     var fetchCampaigns = function() {
         campaignService.campaigns(pageRequest, campaignSuccessCallback);
-    }
+    };
 
     preferenceService.$ns('dashboard.campaign').then(function(settings){
         angular.extend(pageRequest, { size: settings.dashboard.campaign.items.size });
         // = Fetch the first page of results.
         fetchCampaigns();
-
         $interval(fetchCampaigns, settings.dashboard.campaign.refresh.time);
     });
 
@@ -42,36 +41,70 @@ angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$
     };
 
     // = Charts
-    $scope.options = {
-        type: 'line'
-    }
-
-    var data = function() {
-        return _.map(Date.range(Date.create().addDays(-5), Date.create()).every("day"), function(currentDay){
-            return { y: _.random(0, 20), x: currentDay };
-        });
-    }
-    $scope.refresh = function() {
-        $scope.weeklyChart.series[0] = { data: data() };
-    }
     $scope.weeklyChart = {
         options: {
-            chart: {
-                type: 'line'
+            chart: { type: 'spline' },
+            tooltip: {
+                style: {
+                    padding: 10,
+                    fontWeight: 'bold'
+                }
+            },
+            title: { text: null },
+            legend: { enabled: false },
+            loading: false,
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: {
+                    day: '%e of %b'
+                },
+                title: {
+                    text: 'Day(s)'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Feedback(n)'
+                },
+                min: 0
             }
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        legend: {
-            enabled: false
-        },
-        series: [{
-            data: data()
-        }],
-        title: {
-            text: null
-        },
-        loading: false
+        }
     };
+
+    var getDate = function(date, format) {
+        var currentDate = Date.create(date);
+        return currentDate.format(format);
+    };
+
+    var weeklyFeedbackSuccessCallback = function(data, status, headers, config) {
+        var series = [];
+        _.each(data, function(serie) {
+
+            var current = {
+                name: "Campaign: " + serie.campaignId,
+                pointInterval: 24 * 3600 * 1000,
+                pointStart: Date.UTC(getDate(serie.fromDate, "{yyyy}"), getDate(serie.fromDate, "{MM}") - 1, getDate(serie.fromDate, "{dd}")),
+                data: []
+            };
+
+            var keys = Object.keys(serie.entries);
+            for (var idx in keys) {
+                current.data.push([
+                    Date.UTC(getDate(keys[idx], "{yyyy}"), getDate(keys[idx], "{MM}") - 1, getDate(keys[idx], "{dd}")),
+                    serie.entries[keys[idx]]
+                ]);
+            }
+            series.push(current);
+        });
+        $scope.weeklyChart.series = series;
+    };
+
+    var fetchWeeklyFeedback = function() {
+        statsService.weeklyFeedback(weeklyFeedbackSuccessCallback);
+    }();
+
+    $scope.refresh = function() {
+        statsService.weeklyFeedback(weeklyFeedbackSuccessCallback);
+    };
+
 }]);

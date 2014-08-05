@@ -1,10 +1,17 @@
-$iconSpritePath: "../images/glyphicons-halflings.png";
-$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
-$icon-font-path: "../styles/fonts/";
+//$iconSpritePath: "../images/glyphicons-halflings.png";
+//$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
+$icon-font-path: "../bower_components/components-font-awesome/fonts";
+$fa-font-path: "../bower_components/components-font-awesome/fonts";
 
 @import "sticky-fn";
 @import "multi-select";
-@import "font-awesome";
+@import "spinner";
+@import "reset-addon";
+@import "target";
+@import "template";
+@import "dashboard";
+@import "tabs";
+@import "./../bower_components/components-font-awesome/scss/font-awesome";
 
 // CSS
 // Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.).
@@ -62,133 +69,9 @@ div.navbar.navbar-fixed-top {
   display: block;
 }
 
-// == ng-spinner
-.ng-spinner-waiting {
-  color: #808080 !important;
-}
-.ng-spinner-error {
-  color: darkred !important;
-}
-.ng-spinner-success {
-  color: #808080 !important;
-}
-span.ng-spinner {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-span.ng-spinner i {
-  color: lightgrey;
-}
-
-// == ng-reset
-span.ng-reset {
-  background-color: #ffffff !important;
-}
-span.ng-reset.disabled {
-  background-color: #eeeeee !important;
-}
-span.ng-reset i {
-  color: #d9534f;
-}
-button.ng-reset {
-  background-color: #ffffff !important;
-}
-button.ng-reset.disabled {
-  background-color: #eeeeee !important;
-}
-button.ng-reset i {
-  color: #d9534f;
-}
-
 // = New Campaign
 div.tabbable ul.nav.nav-tabs li {
   cursor: pointer;
-}
-
-// = Dashboard - Graph
-div.dashboard-chart-section div.weekly-chart {
-  padding-top: 8px;
-}
-div.dashboard-chart-section div.weekly-chart span {
-  cursor: pointer;
-}
-div.dashboard-chart-section div.weekly-chart-container {
-  width: 100%;
-  height: 280px;
-}
-div.dashboard-chart-section div.weekly-chart-container .weekly-chart {
-  width: 100%;
-  height: 280px;
-}
-
-// = Target Selector
-div.target-selector {
-  height: 255px;
-}
-div.target-selector table.target-selector-header thead tr th span.header-title  {
-  font-weight: bolder;
-}
-div.target-selector div.panel-body {
-  padding: 0px;
-}
-div.target-selector div.target-selector-control i.fa-pencil {
-  color: green;
-}
-div.target-selector div.target-selector-control i.fa-times {
-  color: #d9534f;
-}
-table.target-selector-body tbody > tr > td {
-  vertical-align: middle ! important;
-}
-div.target-selector-body-scroller {
-  max-height: 156px;
-  overflow-y:auto;
-}
-div.target-selector-body-empty {
-  margin: 10px;
-}
-
-// = Template Selector
-.template-selector {
-  height: 90px;
-  overflow-y: scroll;
-}
-.template-selector table tbody tr:first-child td {
-  border-top: 0px;
-}
-
-ul.selected-template li:first-child {
-  display: inline-block;
-}
-ul.selected-template li:first-child div:first-child span {
-  padding-right: 10px;
-}
-ul.selected-template li:first-child div:first-child span i {
-  color: #d9534f;
-}
-ul.selected-template li:first-child div span.selected-template-header {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-}
-ul.selected-template li.selected-template-item {
-  padding-top: 5px;
-}
-
-// = Template Preview
-div.template-preview div.modal-dialog {
-  width: 65%;
-}
-div.template-preview div.template-preview-body {
-  width: 100%;
-  height: 360px;
-  padding: 15px;
-}
-div.template-preview div.template-preview-body iframe {
-  width: 100%; height: 100%; border: none;
-}
-div.template-preview div.template-preview-footer {
-  margin-top: 0px;
 }
 
 // = Separator
@@ -198,12 +81,6 @@ div.template-preview div.template-preview-footer {
   }
 }
 
-// = Tabs
-.tab-content {
-  min-height: 275px;
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
 
 // = Command
 .command-bar {
@@ -220,6 +97,40 @@ div.pagination-container { }
 div.pagination-container div.pagination-widget ul {
   margin: 0px !important;
 }
+
 div.pagination-container div.pagination-legend {
   margin-top: 10px;
+}
+
+// Centered Columns
+.row-centered {
+  text-align:center;
+}
+
+.col-centered {
+  display:inline-block;
+  float:none;
+
+  // reset the text-align
+  text-align:left;
+
+  // inline-block space fix
+  margin-right:-4px;
+}
+
+
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.callout-danger {
+  border-left-color: #d9534f;
+}
+
+.act-media {
+  border-bottom: 1px solid #eee;
 }

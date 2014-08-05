@@ -23,6 +23,15 @@ angular.module('globersMoodApp').factory('statsService', ['$http', 'logger', 'co
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
+        },
+
+        weeklyFeedback : function(successCallback, errorCallback) {
+            var request = $http({
+                method : 'GET',
+                url : configuration.getServiceEndpoint("stats.weekly")
+            });
+            request.success(successCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         }
     };
 }]);

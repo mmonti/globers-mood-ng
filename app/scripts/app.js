@@ -13,22 +13,27 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
                 templateUrl: "/views/main-view.html",
                 controller: 'mainController'
             })
-            .state('campaign', {
-                url: "/campaign/create",
+            .state('campaigns-create', {
+                url: "/campaigns/create",
                 templateUrl: "/views/campaign-create-view.html",
                 controller: "campaignCreateController"
             })
-            .state('campaign-show-all', {
-                url: "/campaign/all",
+            .state('campaigns-all', {
+                url: "/campaigns",
                 templateUrl: "/views/campaign-all-view.html",
                 controller: "campaignAllController"
             })
-            .state('setup', {
+            .state('campaign-view', {
+                url: "/campaigns/:id",
+                templateUrl: "/views/campaign-view.html",
+                controller: "campaignController"
+            })
+            .state('setup-view', {
                 url: "/settings/setup",
                 templateUrl: "/views/setup-view.html",
                 controller: "setupController"
             })
-            .state('preferences', {
+            .state('preferences-view', {
                 url: "/settings/preferences",
                 templateUrl: "/views/preferences-view.html",
                 controller: "preferenceController"
@@ -60,20 +65,13 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
         $httpProvider.responseInterceptors.push(interceptor);
     }).
 
-    run(function($templateCache, $rootScope) {
-        // = angular-ui bootstrap - template fix (replace the cached template).
-//        $templateCache.put("template/tooltip/tooltip-html-unsafe-popup.html", "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"><div class=\"tooltip-arrow\"></div><div class=\"tooltip-inner\" ng-bind-html=\"content\"></div></div>");
-//        // = type-ahead
-//        $templateCache.put("template/typeahead/typeahead-match.html", "<a tabindex=\"-1\" ng-bind-html=\"match.label | typeaheadHighlight:query\"></a>");
-//        $templateCache.put("template/typeahead/typeahead.html", "<ul class=\"typeahead dropdown-menu\" ng-style=\"{display: isOpen()&&'block' || 'none', top: position.top+'px', left: position.left+'px'}\"><li ng-repeat=\"match in matches\" ng-class=\"{active: isActive($index) }\" ng-mouseenter=\"selectActive($index)\"><a tabindex=\"-1\" ng-click=\"selectMatch($index)\" ng-bind-html=\"match.label | typeaheadHighlight:query\"></a></li></ul>");
-//        // = modal
-//        $templateCache.put("template/modal/backdrop.html", "<div class=\"modal-backdrop fade {{modal.backdropClass}}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1040 + index*10}\"></div>");
-//        $templateCache.put("template/modal/window.html", "<div class=\"modal fade {{ windowClass }}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\"><div class=\"modal-dialog\"><div class=\"modal-content\" ng-transclude></div></div></div>");
-//        $templateCache.put("template/pagination/pagination.html", "<ul class=\"pagination\"><li ng-repeat=\"page in pages\" ng-class=\"{active: page.active, disabled: page.disabled}\"><a ng-click=\"selectPage(page.number)\">{{page.text}}</a></li></ul>");
-    }).
+    run(function($templateCache, $rootScope) {}).
 
-    run(function($rootScope, preferenceService){
+    run(function($rootScope, $location, preferenceService){
         preferenceService.$ns("application").then(function(settings) {
+            if (!settings.application) {
+                return $location.path("/settings/setup");
+            }
             $rootScope.application = settings.application;
         });
     }

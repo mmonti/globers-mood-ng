@@ -61,6 +61,7 @@ angular.module('globersMoodApp').factory('configuration', function () {
             "stats.generate" : "/v1/stats",
             "stats.entry" : "/v1/stats/{entity}/{entry}",
             "stats.metadata" : "/v1/stats/metadata",
+            "stats.weekly" : "/v1/stats/feedback/weekly",
 
             "setup.store.body" : "/v1/setup",
             "setup.store.file" : "/v1/setup/file-import"

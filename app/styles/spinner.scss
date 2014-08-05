@@ -1,0 +1,17 @@
+// == ng-spinner
+.ng-spinner-waiting {
+  color: #808080 !important;
+}
+.ng-spinner-error {
+  color: darkred !important;
+}
+.ng-spinner-success {
+  color: #808080 !important;
+}
+span.ng-spinner {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+span.ng-spinner i {
+  color: lightgrey;
+}

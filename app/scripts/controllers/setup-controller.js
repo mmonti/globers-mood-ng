@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('setupController', ['$scope', '$http', 'configuration', '$upload', 'statsService', function ($scope, $http, configuration, $upload, statsService) {
+angular.module('globersMoodApp').controller('setupController', ['$scope', '$rootScope', '$http', '$location', 'configuration', '$upload', 'statsService', 'preferenceService', function ($scope, $rootScope, $http, $location, configuration, $upload, statsService, preferenceService) {
 
     $scope.file = null;
     $scope.onFileSelect = function($files) {
@@ -23,9 +23,15 @@ angular.module('globersMoodApp').controller('setupController', ['$scope', '$http
 
         }).progress(function(evt) {
             console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+
         }).success(function(data, status, headers, config) {
             $scope.clear();
+            preferenceService.$ns("application").then(function(settings) {
+                $rootScope.application = settings.application;
+                $location.path("/");
+            });
         });
+
         //.error(...)
         //.then(success, error, progress);
         // access or attach event listeners to the underlying XMLHttpRequest.
@@ -41,4 +47,16 @@ angular.module('globersMoodApp').controller('setupController', ['$scope', '$http
     statsService.metadata(function(data, status, headers, config) {
         $scope.entities = data;
     });
+
+    // = Wipe Data
+    $scope.inputCode = null;
+    $scope.generateSecurityCode = function() {
+        $scope.securityCode = Math.random().toString(36).substr(2, 5).toUpperCase()
+    }();
+    $scope.checkCode = function() {
+        return $scope.inputCode === $scope.securityCode;
+    }
+
+
+    $scope.hand = function(s) {console.log("handler!"+s)};
 }]);

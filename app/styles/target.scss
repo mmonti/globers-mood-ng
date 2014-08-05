@@ -1,0 +1,26 @@
+// = Target Selector
+div.target-selector {
+  height: 255px;
+}
+div.target-selector table.target-selector-header thead tr th span.header-title  {
+  font-weight: bolder;
+}
+div.target-selector div.panel-body {
+  padding: 0px;
+}
+div.target-selector div.target-selector-control i.fa-pencil {
+  color: green;
+}
+div.target-selector div.target-selector-control i.fa-times {
+  color: #d9534f;
+}
+table.target-selector-body tbody > tr > td {
+  vertical-align: middle ! important;
+}
+div.target-selector-body-scroller {
+  max-height: 156px;
+  overflow-y:auto;
+}
+div.target-selector-body-empty {
+  margin: 10px;
+}

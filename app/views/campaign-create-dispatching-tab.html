@@ -1,39 +1,38 @@
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8">
+<div class="row">
+    <div class="col-lg-8">
 
-            <div class="form-horizontal" role="form">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-lg-2">Mode:</label>
+                <div class="col-lg-6">
+                    <div class="btn-group btn-group-sm">
+                        <button name="schedulingMode" type="button" class="btn" ng-class="(!campaign.scheduling.enabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.enabled" btn-radio="false">Manual</button>
+                        <button name="schedulingMode" type="button" class="btn" ng-class="(campaign.scheduling.enabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.enabled" btn-radio="true">Automatic</button>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset ng-disabled="!campaign.scheduling.enabled">
+
                 <div class="form-group">
-                    <label class="control-label col-lg-2">Mode:</label>
+                    <label class="control-label col-lg-2">Dispatch Date:</label>
                     <div class="col-lg-6">
-                        <div class="btn-group btn-group-sm">
-                            <button name="schedulingMode" type="button" class="btn" ng-class="(!campaign.scheduling.enabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.enabled" btn-radio="false">Manual</button>
-                            <button name="schedulingMode" type="button" class="btn" ng-class="(campaign.scheduling.enabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.scheduling.enabled" btn-radio="true">Automatic</button>
+                        <div class="input-group">
+                            <input type="text" id="startDateTime" name="startDateTime" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" is-open="opened" ng-model="campaign.scheduling.date" ng-disabled="!campaign.scheduling.enabled"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="clearSchedulingDate()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <timepicker ng-model="campaign.scheduling.time" show-meridian="false"/>
                     </div>
                 </div>
 
-                <fieldset ng-disabled="!campaign.scheduling.enabled">
-
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Dispatch Date:</label>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input type="text" id="startDateTime" name="startDateTime" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" is-open="opened" ng-model="campaign.scheduling.date" ng-disabled="!campaign.scheduling.enabled"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="clearSchedulingDate()"><i class="glyphicon glyphicon-remove"></i></button>
-                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <timepicker ng-model="mytime" show-meridian="false"/>
-                        </div>
-                    </div>
-
-                </fieldset>
-            </div>
-
+            </fieldset>
         </div>
+
     </div>
+    <div class="col-lg-offset-4"></div>
 </div>

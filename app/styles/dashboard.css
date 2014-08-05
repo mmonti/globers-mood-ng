@@ -1,0 +1,13 @@
+div.dashboard-chart-section div.weekly-chart {
+  padding-top: 8px; }
+
+div.dashboard-chart-section div.weekly-chart span {
+  cursor: pointer; }
+
+div.dashboard-chart-section div.weekly-chart-container {
+  width: 100%;
+  height: 280px; }
+
+div.dashboard-chart-section div.weekly-chart-container .weekly-chart {
+  width: 100%;
+  height: 280px; }

@@ -59,6 +59,9 @@ angular.module('globersMoodApp').factory('pagination', function () {
                 page: currentPage,
                 size: currentSize
             };
+        },
+        getSelectedPage : function() {
+            return this.selectedPage;
         }
     };
     return pagination;

@@ -9,7 +9,7 @@
     "angular-ui-router": "latest",
     "angular-ui-utils": "latest",
     "angular-animate": "latest",
-    "angular-bootstrap" : "latest",
+    "angular-bootstrap": "latest",
     "es5-shim": "~2.0.8",
     "json3": "~3.2.4",
     "jquery": "~1.9.1",
@@ -17,7 +17,8 @@
     "underscore": "~1.6.0",
     "highcharts": "~4.0.3",
     "highcharts-ng": "~0.0.6",
-    "ng-file-upload": "~1.6.4"
+    "ng-file-upload": "~1.6.4",
+    "components-font-awesome": "~4.1.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

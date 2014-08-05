@@ -1,46 +1,79 @@
-<div class="container">
-    <h4>Initial Setup</h4>
+<div class="row">
+    <div class="col-lg-12">
 
-    <div class="separator-10"/>
-
-    <p>Initial setup lets you populate the database with initial data. Backend services accepts a JSON file with a predefined structure.</br>
-        In order to POST an existent file, select the file an then click on the SUBMIT button.</p>
-
-    <div class="separator-10"/>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="file" class="btn btn-default file" tabindex="-1" ng-file-select="onFileSelect($files)"><b>Select File</b></button>
-                    <button type="button" class="btn btn-default file" ng-click="clear()">
-                        <span class="glyphicon glyphicon-remove-circle"></span>
-                    </button>
+        <div ng-hide="application">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <h4>Initial Setup</h4>
+                    <div class="separator-10"></div>
+                    <p>Initial setup lets you populate the database with initial data. Backend services accepts a JSON file with a predefined structure.</br>In order to POST an existent file, select the file an then click on the SUBMIT button.</p>
                 </div>
-                <input type="text" class="form-control" value="{{file.name}}" ng-readonly="true"/>
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
+                <div class="col-lg-3"></div>
+            </div>
+
+            <div class="separator-10"></div>
+
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="file" class="btn btn-default file" tabindex="-1" ng-file-select="onFileSelect($files)"><b>Select File</b></button>
+                            <button type="button" class="btn btn-default file" ng-click="clear()">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control" value="{{file.name}}" ng-readonly="true"/>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+
+        <div ng-show="application">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <h4><i class="fa fa-database"></i>&nbsp;Current app-engine datastore load</h4>
+                    <p>Entities loaded in the datastore.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="entity in entities">
+                            <span>{{ entity.key.name }}</span>
+                            <span class="pull-right label label-danger" style="margin-left: 5px;">CLEAR</span>
+                            <span class="pull-right label" ng-class="{'label-info': (entity.properties.count > 0), 'label-danger': (entity.properties.count <= 0)}">{{ entity.properties.count }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <h4><i class="fa fa-trash-o"></i>&nbsp;Wipe out...</h4>
+                    <p>In order to clear the existent information in the datastore, enter the provided code and click on proceed.</p>
+                    <p><span class="label label-info"><strong>NOTE:</strong></span>&nbsp;this action will remove all your data from the datastore.</p>
+
+                    <div class="separator-20"></div>
+
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <span><strong>CODE:</strong></span><span class="col-md-offset-1">{{securityCode}}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group col-md-offset-1">
+                                <input class="form-control" type="text" reset-addon="{side: 'right'}" ng-model="inputCode" placeholder="Security Code">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-click="open()" ng-disabled="!checkCode()">PROCEED
+                                        <dialog mode="danger" size="lg" template="/tpl/dialog-modal.html" handler="hand"></dialog>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
+
     </div>
-
-    <div class="separator-20"/>
-
-    <h4>Current load</h4>
-
-    <p>Entities loaded in the datastore.</p>
-
-    <div class="row">
-        <div class="col-lg-6">
-
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="entity in entities">
-                    <span ng-class="{'pull-right': true, 'label': true, 'label-primary': (entity.properties.count > 0), 'label-danger': (entity.count <= 0)}">{{ entity.properties.count }}</span>{{ entity.key.name }}
-                </li>
-            </ul>
-
-        </div>
-    </div>
-
 </div>

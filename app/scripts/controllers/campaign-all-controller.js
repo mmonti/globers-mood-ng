@@ -4,9 +4,7 @@ angular.module('globersMoodApp').controller('campaignAllController', [ '$scope',
 
     preferenceService.$ns("campaign.all").then(function(settings){
         $scope.pagination = pagination.init({ size: settings.campaign.all.items.size });
-
         fetchCampaigns();
-
         $interval(fetchCampaigns, settings.campaign.all.refresh.time);
     });
 
@@ -22,12 +20,12 @@ angular.module('globersMoodApp').controller('campaignAllController', [ '$scope',
         campaignService.campaigns(pageRequest, campaignSuccessCallback);
     }
 
-    campaignService.campaigns(null, function(data, status, headers, config) {
-        $scope.campaigns = data.content;
-    });
+//    campaignService.campaigns(null, function(data, status, headers, config) {
+//        $scope.campaigns = data.content;
+//    });
 
     // = Watch for page change
-    $scope.$watch("pagination.selectedPage", function(selectedPage, oldPage) {
+    $scope.$watch("pagination.page.number", function(selectedPage, oldPage) {
         if (angular.isUndefined($scope.pagination)) {
             return;
         }

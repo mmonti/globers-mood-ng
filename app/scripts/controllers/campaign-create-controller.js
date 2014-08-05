@@ -10,7 +10,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
     };
 
     $scope.clearExpiringDate = function () {
-        $scope.campaign.overview.expiration.date = null;
+        $scope.campaign.basic.expiration.date = null;
     };
 
     $scope.clearSchedulingDate = function () {
@@ -18,8 +18,8 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
     };
 
     var getNewCampaign = function() {
-        return {
-            overview: {
+        var reference = {
+            basic: {
                 name: null,
                 description: null,
                 expiration: {
@@ -36,9 +36,23 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
             },
             scheduling: {
                 enabled: false,
-                date: null
+                date: null,
+                time: null
+            },
+            getModel : function() {
+                return {
+                    name: reference.basic.name,
+                    description: reference.basic.description,
+                    startDate: (reference.scheduling.enabled) ? Date.create(reference.scheduling.date).iso() : null,
+                    endDate: (reference.basic.expiration.enabled) ? Date.create(reference.basic.expiration.date).iso() : null,
+                    template: {
+                        id: reference.template.selection.id
+                    },
+                    targets: reference.targets.destinations
+                }
             }
         };
+        return reference;
     };
 
     // == Represents the Campaign to create.
@@ -46,8 +60,8 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
 
     // == Validate Campaign Model
     $scope.isModelReady = function() {
-        if (_.isNull($scope.campaign.overview.name)) {
-            console.debug("overview - name is null.");
+        if (_.isNull($scope.campaign.basic.name)) {
+            console.debug("basic - name is null.");
             return false;
         }
         if (_.isEmpty($scope.campaign.targets.destinations)){
@@ -59,7 +73,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
             return false;
         }
         if ($scope.campaign.scheduling.enabled
-            && (_.isNull($scope.campaign.scheduling.startDate))) {
+            && (_.isNull($scope.campaign.scheduling.date))) {
             console.debug("scheduling - scheduling enabled and date not set.");
             return false;
         }
@@ -170,7 +184,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
 
     $scope.onTemplatePreviewOpen = function () {
         var templatePreviewModal = $modal.open({
-            templateUrl: '/tpl/template-preview.html',
+            templateUrl: '/tpl/template-preview-modal.html',
             controller: function($scope, $modalInstance, template) {
                 $scope.template = template;
                 $scope.onTemplatePreviewClose = function () {
@@ -209,7 +223,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
 
     // == Stores a new campaign
     $scope.submitCampaign = function() {
-        campaignService.store($scope.campaign, function(data, status, headers, config) {
+        campaignService.store($scope.campaign.getModel(), function(data, status, headers, config) {
             console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             $location.path("/");
         });
