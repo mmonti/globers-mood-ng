@@ -9,7 +9,7 @@
         <div class="separator-10"></div>
 
         <div class="row">
-            <div class="col-lg-7">
+            <div ng-class="{'col-lg-12' : weeklyChart.series.length === 0, 'col-lg-7': weeklyChart.series.length > 0}">
 
                 <h4>Latest Campaigns</h4>
 
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-5 dashboard-chart-section">
+            <div class="col-lg-5 dashboard-chart-section" ng-hide="weeklyChart.series.length === 0">
                 <div class="form-inline">
                     <div class="form-group">
                         <h4>Weekly Feedback</h4>
