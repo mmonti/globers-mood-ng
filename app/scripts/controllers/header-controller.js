@@ -36,12 +36,10 @@ angular.module('globersMoodApp').controller('headerController', ['$scope', '$int
         synchronizeTime = Number(data);
     });
 
-    $scope.autoRefresh = false;
     preferenceService.preference('services.synchronize', function(data, status, headers, config) {
         console.info('preference=[services.synchronize]='+data);
-        $scope.autoRefresh = (data === "true");
         // Check if PING service is active.
-        if (!!$scope.autoRefresh === false) {
+        if (data === "false") {
             return;
         }
         // = Check if there is someone on the other side each 10sec.

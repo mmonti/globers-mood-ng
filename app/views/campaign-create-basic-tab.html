@@ -13,7 +13,7 @@
                 <div class="col-lg-8"><textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="campaign.basic.description"></textarea></div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-hide="true">
                 <label class="control-label col-lg-2">Expiring:</label>
                 <div class="col-lg-6">
                     <div class="btn-group btn-group-sm">
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <fieldset ng-disabled="!campaign.basic.expiration.enabled">
+            <fieldset ng-disabled="!campaign.basic.expiration.enabled" ng-hide="true">
                 <div class="form-group">
                     <label class="control-label col-lg-2">Date:</label>
                     <div class="col-lg-6">

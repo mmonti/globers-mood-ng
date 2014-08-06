@@ -22,7 +22,7 @@ angular.module('globersMoodApp').factory('pagination',
             return this;
         },
         getTotalPages : function() {
-            return this.page.totalPages;
+            return (this.page.totalPages === 0) ? 1 : this.page.totalPages;
         },
         getPageNumber : function() {
             return this.page.number;

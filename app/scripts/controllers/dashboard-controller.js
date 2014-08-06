@@ -17,7 +17,10 @@ angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$
         angular.extend(pageRequest, { size: settings.dashboard.campaign.items.size });
         // = Fetch the first page of results.
         fetchCampaigns();
-        $interval(fetchCampaigns, settings.dashboard.campaign.refresh.time);
+
+        if (settings.dashboard.campaign.refresh.enabled === "true") {
+            $interval(fetchCampaigns, settings.dashboard.campaign.refresh.time);
+        }
     });
 
     // = Campaigns

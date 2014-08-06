@@ -11,7 +11,11 @@
         <div class="row">
             <div ng-class="{'col-lg-12' : weeklyChart.series.length === 0, 'col-lg-7': weeklyChart.series.length > 0}">
 
-                <h4>Latest Campaigns</h4>
+
+                <h4>Latest Campaigns
+                    <span class="pull-right text-normal">auto-refresh:&nbsp;<span class="label" ng-class="{'label-success': (autoRefresh), 'label-danger': (!autoRefresh)}"><strong>{{ (autoRefresh) ? "ON" : "OFF" }}</strong></span></span>
+                </h4>
+
 
                 <table class="table dashboard">
                     <thead>

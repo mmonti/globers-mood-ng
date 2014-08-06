@@ -63,7 +63,7 @@
             </div>
             <div class="row pagination-container">
                 <div class="pull-left pagination-legend">
-                    <span>Showing page {{ pagination.page.number }} of {{ pagination.page.totalPages }} page(s) - {{ pagination.page.size }} campaigns per page.</span>
+                    <span>Showing page {{ pagination.page.number }} of {{ pagination.getTotalPages() }} page(s) - {{ pagination.page.size }} campaigns per page.</span>
                 </div>
                 <div class="pull-right pagination-widget">
                     <pagination

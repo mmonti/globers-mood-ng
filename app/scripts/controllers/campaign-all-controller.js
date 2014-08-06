@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignAllController',
-    [ '$scope', '$interval', 'pagination', 'preferenceService', 'campaignService',
-        function ($scope, $interval, pagination, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', '$interval', 'pagination', 'preferenceService', 'campaignService', function ($scope, $interval, pagination, preferenceService, campaignService) {
 
     preferenceService.$ns("campaign.all").then(function(settings){
         $scope.pagination = pagination.init({ size: settings.campaign.all.items.size });
         fetchCampaigns();
-        $interval(fetchCampaigns, settings.campaign.all.refresh.time);
+        if (settings.campaign.all.refresh.enabled === "true") {
+            $interval(fetchCampaigns, settings.campaign.all.refresh.time);
+        }
     });
 
     // == Update the data with the response.
@@ -43,7 +43,7 @@ angular.module('globersMoodApp').controller('campaignAllController',
 
     // = Watch for page change
     $scope.$watch("pagination.page.number", function(selectedPage, oldPage) {
-        if (angular.isUndefined($scope.pagination)) {
+        if (angular.isUndefined($scope.pagination) || angular.isUndefined(oldPage)) {
             return;
         }
         var pageRequest = $scope.pagination.getPageRequest(selectedPage);

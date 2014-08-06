@@ -2,6 +2,8 @@
 
 angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
 
+    $scope.tabs = [{active:true},{active:false},{active:false},{active:false}];
+
     $scope.onAddTemplateProceed = function(scope, modal) {
         modal.close();
     }
@@ -157,8 +159,10 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
     };
     $scope.onTemplateRemove = function(index, modal) {
         var template = getSelectedTemplate();
-        if (angular.isUndefined(template)) {
-            return;
+        if (!template) {
+            template = {
+                id: $scope.availableTemplates[index].id
+            }
         }
         $scope.availableTemplates = _.reject($scope.availableTemplates, function(item) { return (item.id === template.id) } );
         $scope.campaign.template.selection = null;
@@ -238,6 +242,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
     $scope.reset = function() {
         delete $scope.campaign;
         $scope.campaign = getNewCampaign();
+        $scope.tabs[0].active = true;
     };
 
 }]);
