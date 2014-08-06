@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('customerService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('customerService',
+    ['$http', 'logger', 'configuration',
+        function($http, logger, configuration) {
+
     return {
         customers : function(successCallback, errorCallback) {
             var request = $http({

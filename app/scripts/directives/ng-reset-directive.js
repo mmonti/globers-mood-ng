@@ -1,8 +1,12 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('resetAddon', ['$interpolate', function ($interpolate) {
+angular.module('globersMoodApp').directive('resetAddon',
+    ['$interpolate',
+        function($interpolate) {
+
     var addOnSpanTemplate = "<span class=\"input-group-addon hand ng-reset {{classes}}\"><i class=\"{{icon}}\"></i></span>";
     var addOnButtonTemplate = "<span class=\"input-group-btn\"><button class=\"btn btn-default add-on ng-reset {{classes}}\" type=\"button\"><i class=\"{{icon}}\"></i></button></span>";
+
     return {
         restrict: 'A',
         link: function postLink(scope, element, attrs) {

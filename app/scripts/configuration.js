@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('configuration', function () {
+angular.module('globersMoodApp').factory('configuration',
+    [
+        function () {
+
     var configuration = {
 
         // = Current Environment.
@@ -105,4 +108,4 @@ angular.module('globersMoodApp').factory('configuration', function () {
             }
         }
     };
-});
+}]);

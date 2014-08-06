@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('ngSpinner', [function () {
+angular.module('globersMoodApp').directive('ngSpinner', [ function() {
+
     return {
         template: '<span class=\"ng-spinner\"><i class=\"fa fa-refresh fa-spin\"></i><span ng-transclude>&nbsp;&nbsp;loading...</span></span>',
         restrict: 'E',
@@ -62,12 +63,14 @@ angular.module('globersMoodApp').directive('ngSpinner', [function () {
                     displayCallback(context, event);
                 }, 1000);
             });
+
             scope.$on("loading-error", function(event, args) {
                 console.error("loading: error");
                 setTimeout(function() {
                     displayCallback(context, event);
                 }, 1000);
             });
+
             scope.$on("loading-waiting", function(event, args) {
                 console.info("loading: waiting");
                 displayCallback(context, event);

@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('pingService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('pingService',
+    ['$http', 'logger', 'configuration',
+        function($http, logger, configuration) {
+
     return {
         ping : function(successCallback, errorCallback) {
             var request = $http({

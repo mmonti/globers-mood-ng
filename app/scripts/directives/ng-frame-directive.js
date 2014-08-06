@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('ngFrame', function () {
+angular.module('globersMoodApp').directive('ngFrame',
+    [
+        function() {
+
     return {
         restrict: 'A',
         scope: true,
@@ -10,4 +13,4 @@ angular.module('globersMoodApp').directive('ngFrame', function () {
             angular.element(element)[0].src = "data:text/html;charset=utf-8," + escape(safeDocument);
         }
     };
-});
+}]);

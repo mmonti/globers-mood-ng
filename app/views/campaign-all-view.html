@@ -18,12 +18,12 @@
                             <th class="text-center">#</th>
                             <th>CAMPAIGN NAME</th>
                             <th class="text-center">CREATED</th>
-                            <th class="text-center">STATUS</th>
+                            <th class="text-left">STATUS</th>
                             <th class="text-center">STARTED</th>
                             <th class="text-center">ENDED</th>
                             <th class="text-center">#TARGETS</th>
                             <th class="text-center">#FEEDBACKS</th>
-                            <th class="text-center">ACTION</th>
+                            <th class="text-left">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,13 +31,24 @@
                             <td class="text-center">{{$index + 1}}</td>
                             <td><a ng-href="#/campaigns/{{campaign.id}}">{{ campaign.name }}</a></td>
                             <td class="text-center">{{campaign.created | date:'yyyy-MM-dd'}}</td>
-                            <td class="text-center"><span class="label label-default" ng-class="{'label label-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label label-info': (campaign.status === 'STARTED'), 'label label-success disabled': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></td>
+                            <td class="text-left"><span class="label label-default" ng-class="{'label-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label-info': (campaign.status === 'STARTED'), 'label-success': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></td>
                             <td class="text-center">{{campaign.startDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                             <td class="text-center">{{campaign.endDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                             <td class="text-center">{{campaign.targets.length}}</td>
                             <td class="text-center">{{campaign.feedbackNumber}}</td>
-                            <td class="text-center">
-                                <a ng-show="campaign.status === 'CLOSED'"><i class="fa fa-times-circle"></i></a>
+                            <td class="text-left">
+                                <div ng-hide="campaign.startDate!=null">
+                                    <button type="button" class="btn btn-xs btn-success" ng-show="{{(campaign.status === 'CREATED')}}" ng-click="onCampaignStart(campaign.id)">
+                                        <span>START</span>
+                                    </button>
+                                </div>
+                                <button type="button" class="btn btn-xs btn-info" ng-show="{{(campaign.status === 'WAITING_FOR_FEEDBACK')}}" ng-click="onCampaignStopClose(campaign.id)">
+                                    <span>STOP & CLOSE</span>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-danger" ng-show="{{(campaign.status === 'CLOSED')}}">
+                                    <dialog size="sm" handler="onCampaignRemove"></dialog>
+                                    <span>REMOVE</span>
+                                </button>
                             </td>
                         </tr>
                     </tbody>

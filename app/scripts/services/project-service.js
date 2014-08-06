@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('projectService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('projectService',
+    ['$http', 'logger', 'configuration',
+        function($http, logger, configuration) {
+
     return {
         projects : function(successCallback, errorCallback) {
             var request = $http({

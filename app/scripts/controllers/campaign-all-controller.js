@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignAllController', [ '$scope', '$interval', 'pagination', 'preferenceService', 'campaignService', function ($scope, $interval, pagination, preferenceService, campaignService) {
+angular.module('globersMoodApp').controller('campaignAllController',
+    [ '$scope', '$interval', 'pagination', 'preferenceService', 'campaignService',
+        function ($scope, $interval, pagination, preferenceService, campaignService) {
 
     preferenceService.$ns("campaign.all").then(function(settings){
         $scope.pagination = pagination.init({ size: settings.campaign.all.items.size });
@@ -14,15 +16,30 @@ angular.module('globersMoodApp').controller('campaignAllController', [ '$scope',
         $scope.campaigns = $scope.pagination.update(data);
     };
 
-    // == Fetch data set.
+    // == Fetch Campaigns.
     var fetchCampaigns = function() {
         var pageRequest = $scope.pagination.getPageRequest();
         campaignService.campaigns(pageRequest, campaignSuccessCallback);
     }
 
-//    campaignService.campaigns(null, function(data, status, headers, config) {
-//        $scope.campaigns = data.content;
-//    });
+    $scope.onCampaignStart = function(campaignId) {
+        campaignService.start(campaignId, function(data, status, headers, config) {
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            fetchCampaigns();
+        });
+    };
+
+    $scope.onCampaignStopClose = function(campaignId) {
+        campaignService.close(campaignId, function(data, status, headers, config) {
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            fetchCampaigns();
+        });
+    };
+
+    $scope.onCampaignRemove = function(modal, campaignId) {
+        console.debug("Removing campaign=["+campaignId+"]");
+        modal.close();
+    };
 
     // = Watch for page change
     $scope.$watch("pagination.page.number", function(selectedPage, oldPage) {

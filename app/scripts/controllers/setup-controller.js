@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('setupController', ['$scope', '$rootScope', '$http', '$location', 'configuration', '$upload', 'statsService', 'preferenceService', function ($scope, $rootScope, $http, $location, configuration, $upload, statsService, preferenceService) {
+angular.module('globersMoodApp').controller('setupController', ['$scope', '$http', '$location', 'configuration', '$upload', 'statsService', 'preferenceService', function ($scope, $http, $location, configuration, $upload, statsService, preferenceService) {
+
+    $scope.preferences = preferenceService.getApplicationPreferences();
 
     $scope.file = null;
     $scope.onFileSelect = function($files) {
@@ -27,7 +29,7 @@ angular.module('globersMoodApp').controller('setupController', ['$scope', '$root
         }).success(function(data, status, headers, config) {
             $scope.clear();
             preferenceService.$ns("application").then(function(settings) {
-                $rootScope.application = settings.application;
+                preferenceService.initializeApplicationPreferences(settings.application);
                 $location.path("/");
             });
         });
@@ -54,9 +56,14 @@ angular.module('globersMoodApp').controller('setupController', ['$scope', '$root
         $scope.securityCode = Math.random().toString(36).substr(2, 5).toUpperCase()
     }();
     $scope.checkCode = function() {
-        return $scope.inputCode === $scope.securityCode;
+        if (_.isNull($scope.inputCode)) {
+            return false;
+        }
+        return $scope.inputCode.toUpperCase() === $scope.securityCode;
     }
 
-
-    $scope.hand = function(s) {console.log("handler!"+s)};
+    $scope.handleProceed = function($scope, value) {
+        console.log("handler!")
+        $scope.close();
+    };
 }]);

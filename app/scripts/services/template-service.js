@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('templateService', ['$http', 'logger', 'configuration', function($http, logger, configuration) {
+angular.module('globersMoodApp').factory('templateService',
+    ['$http', 'logger', 'configuration',
+        function($http, logger, configuration) {
+
     return {
         templates : function(successCallback, errorCallback) {
             var request = $http({

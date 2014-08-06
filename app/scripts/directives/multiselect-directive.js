@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('globersMoodApp').directive('multiSelect', ['$q', function ($q) {
+angular.module('globersMoodApp').directive('multiSelect',
+    ['$q',
+        function ($q) {
 
     function appendSelected(entities) {
         var newEntities = [];

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$interval', '$timeout', '_', 'preferenceService', 'campaignService', 'statsService', function ($scope, $q, $interval, $timeout, _, preferenceService, campaignService, statsService) {
+angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$q', '$interval', '$timeout', '_', 'preferenceService', 'campaignService', 'statsService', function($scope, $q, $interval, $timeout, _, preferenceService, campaignService, statsService) {
 
     var pageRequest = {
         page: 0,

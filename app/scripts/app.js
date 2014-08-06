@@ -72,6 +72,7 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
             if (!settings.application) {
                 return $location.path("/settings/setup");
             }
+            preferenceService.initializeApplicationPreferences(settings.application);
             $rootScope.application = settings.application;
         });
     }

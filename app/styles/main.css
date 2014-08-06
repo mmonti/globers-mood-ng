@@ -181,6 +181,15 @@ div.template-preview div.template-preview-body iframe {
 div.template-preview div.template-preview-footer {
   margin-top: 0px; }
 
+dl.dl-horizontal.right dt {
+  width: auto !important; }
+
+dl.dl-horizontal.right dd {
+  margin-left: 0px !important; }
+
+dl.dl-horizontal.right dd span {
+  margin-left: 10px; }
+
 div.dashboard-chart-section div.weekly-chart {
   padding-top: 8px; }
 

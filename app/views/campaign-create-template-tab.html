@@ -5,7 +5,9 @@
                 <label class="control-label col-lg-2">Template:</label>
 
                 <div class="col-lg-10">
-                    <button name="addNewTemplate" class="btn btn-default">Add new template ...</button>
+                    <button name="addNewTemplate" class="btn btn-default">Add new template ...
+                        <dialog size="sm" header="Add new Template" body="Not Implemented yet!"></dialog>
+                    </button>
                 </div>
             </div>
         </div>
@@ -32,11 +34,11 @@
                                 <td>{{template.name}}</td>
                                 <td>
                                     <div class="pull-right">
-                                        <span class="label label-danger hand" ng-click="onTemplateRemove($index)">REMOVE&nbsp;<i
-                                                class="fa fa-times"></i></span>
-                                        <span class="label hand"
-                                              ng-class="(campaign.template.selection != null && isTemplateSelected($index)) ? 'label-info' : 'label-default'"
-                                              ng-click="onTemplateSelected($index)">SELECT</span>
+                                        <span class="label label-danger hand" style="margin-right: 3px;">
+                                            <dialog size="sm" header="Remove Template" handler="onTemplateRemove" ng-model="$index"></dialog>
+                                            REMOVE&nbsp;<i class="fa fa-times"></i>
+                                        </span>
+                                        <span class="label hand" ng-class="(campaign.template.selection != null && isTemplateSelected($index)) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
                                     </div>
                                 </td>
                             </tr>
@@ -64,18 +66,16 @@
                         <span class="selected-template-header">{{ campaign.template.selection.name }}</span>
                     </div>
                 </li>
-                <li class="selected-template-item"><span style="font-weight: bold;">Date:</span>&nbsp;{{
-                    campaign.template.selection.created | date:'medium' }}
-                </li>
-                <li class="selected-template-item"><span style="font-weight: bold;">Description:</span>&nbsp;{{
-                    campaign.template.selection.description }}
-                </li>
-                <li class="selected-template-item">
-                    <!--<span class="label label-default hand" ng-click="onTemplateRemove()">REMOVE&nbsp;<i class="fa fa-times"></i></span>&nbsp;-->
-                    <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i
-                            class="fa fa-file-text-o"></i></span>
-                </li>
             </ul>
+            <dl class="dl-horizontal right">
+                <dt>DATE:</dt>
+                <dd><span>{{ campaign.template.selection.created | date:'medium' }}</span></dd>
+                <dt>DESCRIPTION:</dt>
+                <dd><span>{{ campaign.template.selection.description }}</span></dd>
+                <dt>SIZE:</dt>
+                <dd><span>{{ 123 }}KB</span></dd>
+            </dl>
+            <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span>
         </div>
     </div>
 </div>

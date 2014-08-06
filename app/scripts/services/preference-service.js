@@ -1,7 +1,24 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('preferenceService', ['$rootScope', '$q', '$http', '_', 'logger', 'configuration', function($rootScope, $q, $http, _, logger, configuration) {
+angular.module('globersMoodApp').factory('preferenceService', ['$q', '$http', '_', 'logger', 'configuration', function($q, $http, _, logger, configuration) {
+
+    var applicationPreferences = null;
+    var setApplicationPreferences = function(preferences) {
+        if (!_.isNull(applicationPreferences)) {
+            console.log("applicationSettings is already initialized");
+            return;
+        }
+        console.log("initializing application settings...");
+        applicationPreferences = preferences;
+    };
+
     var services = {
+        initializeApplicationPreferences : function(preferences) {
+            setApplicationPreferences(preferences);
+        },
+        getApplicationPreferences : function() {
+            return applicationPreferences;
+        },
         preference : function(preferenceKey, successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
@@ -35,21 +52,21 @@ angular.module('globersMoodApp').factory('preferenceService', ['$rootScope', '$q
             request.error(errorCallback || logger.errorServiceCallback);
         },
         get : function(key) {
-            var preference = _.where($rootScope.preferences, { preferenceKey: key });
+            var preference = _.where(applicationPreferences, { preferenceKey: key });
             if (_.isUndefined(preference) && !_.isEmpty(preference)) {
                 return preference[0];
             }
             return null;
         },
         getInNamespace : function(key, namespace) {
-            var preference = _.where($rootScope.preferences, { preferenceKey: key, namespace: namespace });
+            var preference = _.where(applicationPreferences, { preferenceKey: key, namespace: namespace });
             if (_.isUndefined(preference) && !_.isEmpty(preference)) {
                 return preference[0];
             }
             return null;
         },
         getAllFromNamespace : function(namespace) {
-            var preference = _.where($rootScope.preferences, { namespace: namespace });
+            var preference = _.where(applicationPreferences, { namespace: namespace });
             if (_.isUndefined(preference) && !_.isEmpty(preference)) {
                 return preference;
             }

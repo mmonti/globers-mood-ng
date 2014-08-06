@@ -1,4 +1,4 @@
-<div class="row" ng-controller="dashboardController">
+<div class="row" ng-controller="dashboardController" ng-hide="!application">
 
     <div class="col-lg-12">
 
@@ -37,14 +37,14 @@
                             <td>{{ $index + 1 }}</td>
                             <td><a ng-href="#/campaigns/{{campaign.id}}">{{ campaign.name }}</a></td>
                             <td><progressbar class="progress-striped active" max="campaign.targets.length" value="campaign.feedbackNumber" type="success"><i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i></progressbar></td>
-                            <td class="text-left"><button type="button" ng-class="{'btn-danger disabled': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status === 'STARTED'), 'btn-success disabled': (campaign.status === 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
+                            <td class="text-left"><button type="button" class="btn btn-xs" ng-class="{'btn-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'btn-info': (campaign.status === 'STARTED'), 'btn-success': (campaign.status === 'CLOSED')}" class="btn btn-xs">{{ campaign.status }}</button></td>
                             <td class="text-left">
                                 <div ng-hide="campaign.startDate!=null">
                                     <button type="button" class="btn btn-xs btn-success" ng-show="{{(campaign.status === 'CREATED')}}" ng-click="onCampaignStart(campaign.id)">
                                         <span>START</span>
                                     </button>
                                 </div>
-                                <button type="button" class="btn btn-xs btn-danger" ng-show="{{(campaign.status === 'WAITING_FOR_FEEDBACK')}}" ng-click="onCampaignStopClose(campaign.id)">
+                                <button type="button" class="btn btn-xs btn-info" ng-show="{{(campaign.status === 'WAITING_FOR_FEEDBACK')}}" ng-click="onCampaignStopClose(campaign.id)">
                                     <span>STOP & CLOSE</span>
                                 </button>
                             </td>

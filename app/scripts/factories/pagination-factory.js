@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('globersMoodApp').factory('pagination', function () {
+angular.module('globersMoodApp').factory('pagination',
+    [
+        function () {
 
     var pagination = {
         selectedPage : 0,
@@ -65,4 +67,4 @@ angular.module('globersMoodApp').factory('pagination', function () {
         }
     };
     return pagination;
-});
+}]);

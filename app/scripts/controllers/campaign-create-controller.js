@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignCreateController', function ($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
+angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
+
+    $scope.onAddTemplateProceed = function(scope, modal) {
+        modal.close();
+    }
 
     $scope.open = function($event) {
         $event.preventDefault();
@@ -151,13 +155,14 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
     $scope.isTemplateSelected = function(index) {
         return (_.isUndefined($scope.availableTemplates[index].selected) ? false : $scope.availableTemplates[index].selected);
     };
-    $scope.onTemplateRemove = function() {
+    $scope.onTemplateRemove = function(index, modal) {
         var template = getSelectedTemplate();
         if (angular.isUndefined(template)) {
             return;
         }
         $scope.availableTemplates = _.reject($scope.availableTemplates, function(item) { return (item.id === template.id) } );
         $scope.campaign.template.selection = null;
+        modal.close();
     };
 
     $scope.onTemplateAddNewOpen = function () {
@@ -185,12 +190,12 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
     $scope.onTemplatePreviewOpen = function () {
         var templatePreviewModal = $modal.open({
             templateUrl: '/tpl/template-preview-modal.html',
-            controller: function($scope, $modalInstance, template) {
+            controller: ['$scope', '$modalInstance', 'template', function($scope, $modalInstance, template) {
                 $scope.template = template;
                 $scope.onTemplatePreviewClose = function () {
                     templatePreviewModal.dismiss('cancel');
                 };
-            },
+            }],
             size: 'lg',
             resolve: {
                 template: function () {
@@ -235,4 +240,4 @@ angular.module('globersMoodApp').controller('campaignCreateController', function
         $scope.campaign = getNewCampaign();
     };
 
-});
+}]);
