@@ -2,35 +2,22 @@
 
 angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
 
-    $scope.tabs = [{active:true},{active:false},{active:false},{active:false}];
+    $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false}];
 
     $scope.onAddTemplateProceed = function(scope, modal) {
         modal.close();
     }
-
-    $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
-    };
-
-    $scope.clearExpiringDate = function () {
-        $scope.campaign.basic.expiration.date = null;
-    };
-
-    $scope.clearSchedulingDate = function () {
-        $scope.campaign.scheduling.expiration.date = null;
-    };
 
     var getNewCampaign = function() {
         var reference = {
             basic: {
                 name: null,
                 description: null,
-                expiration: {
-                    enabled: false,
-                    date: null
+                frequencyIsOpen : false,
+                frequencies: ["Once", "Daily", "Weekly", "Monthly", "Yearly"],
+                frequency: "ONCE",
+                isRecursive: function() {
+                    return reference.basic.frequency != reference.basic.frequencies[0].toUpperCase();
                 }
             },
             targets: {
@@ -42,19 +29,44 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
             },
             scheduling: {
                 enabled: false,
+                dateIsOpen : false,
+                minDate: new Date(),
                 date: null,
-                time: null
+                timeIsOpen : false,
+                time: null,
+                expiration: {
+                    enabled: false,
+                    date: null,
+                    dateIsOpen: false,
+                    time: null,
+                    timeIsOpen: false,
+                    getExpiration : function() {
+                        var dateTime = reference.scheduling.expiration.date;
+                        dateTime.setHours(reference.scheduling.expiration.time.getHours());
+                        dateTime.setMinutes(reference.scheduling.expiration.time.getMinutes());
+                        dateTime.setSeconds(0);
+                        return dateTime;
+                    }
+                },
+                getScheduling : function() {
+                    var dateTime = reference.scheduling.date;
+                    dateTime.setHours(reference.scheduling.time.getHours());
+                    dateTime.setMinutes(reference.scheduling.time.getMinutes());
+                    dateTime.setSeconds(0);
+                    return dateTime;
+                }
             },
             getModel : function() {
                 return {
                     name: reference.basic.name,
                     description: reference.basic.description,
-                    startDate: (reference.scheduling.enabled) ? Date.create(reference.scheduling.date).iso() : null,
-                    endDate: (reference.basic.expiration.enabled) ? Date.create(reference.basic.expiration.date).iso() : null,
+                    frequency: reference.basic.frequency,
                     template: {
                         id: reference.template.selection.id
                     },
-                    targets: reference.targets.destinations
+                    targets: reference.targets.destinations,
+                    scheduleDate: (reference.scheduling.enabled) ? reference.scheduling.getScheduling() : null,
+                    expirationDate: (reference.scheduling.expiration.enabled) ? reference.scheduling.expiration.getExpiration() : null
                 }
             }
         };
@@ -63,28 +75,6 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
 
     // == Represents the Campaign to create.
     $scope.campaign = getNewCampaign();
-
-    // == Validate Campaign Model
-    $scope.isModelReady = function() {
-        if (_.isNull($scope.campaign.basic.name)) {
-            console.debug("basic - name is null.");
-            return false;
-        }
-        if (_.isEmpty($scope.campaign.targets.destinations)){
-            console.debug("targets - destinations is empty.");
-            return false;
-        }
-        if (_.isNull($scope.campaign.template.selection)) {
-            console.debug("template - selection is null.");
-            return false;
-        }
-        if ($scope.campaign.scheduling.enabled
-            && (_.isNull($scope.campaign.scheduling.date))) {
-            console.debug("scheduling - scheduling enabled and date not set.");
-            return false;
-        }
-        return true;
-    }
 
     // == Targets.
     $scope.targets = { input: "", source : [] };
@@ -143,94 +133,135 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
 
     // == Templates.
     $scope.availableTemplates = [];
-    var deselectTemplates = function() {
-        _.each($scope.availableTemplates, function(template) { template.selected = false; });
-    };
-    var getSelectedTemplate = function() {
-        return _.find($scope.availableTemplates, function(template) { return (template.selected); });
-    };
+
     $scope.onTemplateSelected = function(index) {
-//        deselectTemplates();
-        $scope.availableTemplates[index].selected = !($scope.isTemplateSelected(index));
-        $scope.campaign.template.selection = $scope.availableTemplates[index].selected ? $scope.availableTemplates[index] : null;
+        $scope.campaign.template.selection = $scope.availableTemplates[index];
     };
-    $scope.isTemplateSelected = function(index) {
-        return (_.isUndefined($scope.availableTemplates[index].selected) ? false : $scope.availableTemplates[index].selected);
-    };
-    $scope.onTemplateRemove = function(index, modal) {
-        var template = getSelectedTemplate();
-        if (!template) {
-            template = {
-                id: $scope.availableTemplates[index].id
-            }
-        }
-        $scope.availableTemplates = _.reject($scope.availableTemplates, function(item) { return (item.id === template.id) } );
+
+    $scope.onTemplateDeselected = function() {
         $scope.campaign.template.selection = null;
-        modal.close();
     };
 
-    $scope.onTemplateAddNewOpen = function () {
-        var templateAddNewModal = $modal.open({
-            templateUrl: '/tpl/template-add-new-modal.html',
-            controller: function($scope, $modalInstance) {
-                $scope.onTemplateAddNewClose = function () {
-                    templateAddNewModal.dismiss('cancel');
-                };
-                $scope.onAdd = function () {
+    // == Dispatching
+    $scope.$watch('campaign.scheduling.enabled', function(value){
+        if (value) {
+            var dateTime = new Date();
+            dateTime.setMinutes(dateTime.getMinutes() + 15);
 
-                }
-            },
-            size: 'lg',
-            windowClass: "template-add-new"
-        });
-        // == Handler
-        templateAddNewModal.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            console.debug("dismiss");
-        });
+            $scope.campaign.scheduling.date = dateTime;
+            $scope.campaign.scheduling.time = dateTime;
+        } else {
+            $scope.onScheduleDateClear();
+            $scope.onScheduleTimeClear();
+        }
+    });
+
+    $scope.$watch('campaign.scheduling.expiration.enabled', function(value){
+        if (value) {
+            var dateTime = new Date();
+            dateTime.setDate(dateTime.getDate() + 1);
+
+            $scope.campaign.scheduling.expiration.date = dateTime;
+            $scope.campaign.scheduling.expiration.time = dateTime;
+        } else {
+            $scope.onExpirationDateClear();
+            $scope.onExpirationTimeClear();
+        }
+    });
+
+    $scope.toggleScheduleDatePicker = function() {
+        $scope.campaign.scheduling.dateIsOpen = !$scope.campaign.scheduling.dateIsOpen;
     };
 
-    $scope.onTemplatePreviewOpen = function () {
-        var templatePreviewModal = $modal.open({
-            templateUrl: '/tpl/template-preview-modal.html',
-            controller: ['$scope', '$modalInstance', 'template', function($scope, $modalInstance, template) {
-                $scope.template = template;
-                $scope.onTemplatePreviewClose = function () {
-                    templatePreviewModal.dismiss('cancel');
-                };
-            }],
-            size: 'lg',
-            resolve: {
-                template: function () {
-                    return $scope.campaign.template.selection;
-                }
-            },
-            windowClass: "template-preview"
-        });
-        // == Handler
-        templatePreviewModal.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            console.debug("dismiss");
-        });
+    $scope.onScheduleDateClear = function () {
+        $scope.campaign.scheduling.date = null;
     };
+
+    $scope.toggleScheduleTimePicker = function() {
+        $scope.campaign.scheduling.timeIsOpen = !$scope.campaign.scheduling.timeIsOpen;
+    };
+
+    $scope.onScheduleTimeClear = function () {
+        $scope.campaign.scheduling.time = null;
+    };
+
+    $scope.toggleExpirationDatePicker = function() {
+        $scope.campaign.scheduling.expiration.dateIsOpen = !$scope.campaign.scheduling.expiration.dateIsOpen;
+    };
+
+    $scope.onExpirationDateClear = function () {
+        $scope.campaign.scheduling.expiration.date = null;
+    };
+
+    $scope.toggleExpirationTimePicker = function() {
+        $scope.campaign.scheduling.expiration.timeIsOpen = !$scope.campaign.scheduling.expiration.timeIsOpen;
+    };
+
+    $scope.onExpirationTimeClear = function () {
+        $scope.campaign.scheduling.expiration.time = null;
+    };
+
+    $scope.selectFrequency = function(selectedOption) {
+        $scope.campaign.basic.frequency = selectedOption.toUpperCase();
+        $scope.campaign.basic.frequencyIsOpen = false;
+    };
+
+    $scope.toggleFrequency = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.campaign.basic.frequencyIsOpen = !$scope.campaign.basic.frequencyIsOpen;
+    };
+
+    $scope.getExpirationDate = function() {
+        var dateTime = new Date();
+    }
 
     // == Users
-    console.info("fetching users...")
-    userService.users(function(data, status, headers, config) {
-        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.targets.source = data.content;
-    });
+    var fetchUsers = function() {
+        console.info("fetching users...")
+        userService.users(function(data, status, headers, config) {
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $scope.targets.source = data.content;
+        });
+    };
 
     // == Templates
-    console.info("fetching templates...")
-    templateService.templates(function(data, status, headers, config) {
-        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
-        $scope.availableTemplates = data.content;
-    });
+    var fetchTemplates = function() {
+        console.info("fetching templates...")
+        templateService.templates(function(data, status, headers, config) {
+            console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+            $scope.availableTemplates = data.content;
+        });
+    };
 
     // == Stores a new campaign
+    // Validate Campaign Model
+    $scope.isModelReady = function() {
+        if (_.isNull($scope.campaign.basic.name)) {
+            console.debug("basic - name is null.");
+            return false;
+        }
+        if (_.isEmpty($scope.campaign.targets.destinations)){
+            console.debug("targets - destinations is empty.");
+            return false;
+        }
+        if (_.isNull($scope.campaign.template.selection)) {
+            console.debug("template - selection is null.");
+            return false;
+        }
+        if ($scope.campaign.scheduling.enabled
+            && (_.isNull($scope.campaign.scheduling.date) || _.isNull($scope.campaign.scheduling.time))) {
+            console.debug("scheduling - scheduling enabled and date & time is not set.");
+            return false;
+        }
+        if ($scope.campaign.scheduling.expiration.enabled
+            && (_.isNull($scope.campaign.scheduling.expiration.date) || _.isNull($scope.campaign.scheduling.expiration.time))) {
+            console.debug("scheduling - expiration enabled and date & time is not set.");
+            return false;
+        }
+        return true;
+    };
+
     $scope.submitCampaign = function() {
         campaignService.store($scope.campaign.getModel(), function(data, status, headers, config) {
             console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
@@ -245,4 +276,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         $scope.tabs[0].active = true;
     };
 
+
+    fetchUsers();
+    fetchTemplates();
 }]);

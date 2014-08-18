@@ -16,11 +16,13 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
+                            <th class="text-left col-frequency">FREQ.</th>
                             <th>CAMPAIGN NAME</th>
-                            <th class="text-center">CREATED</th>
+                            <!--<th class="text-center">CREATED</th>-->
                             <th class="text-left">STATUS</th>
-                            <th class="text-center">STARTED</th>
-                            <th class="text-center">ENDED</th>
+                            <th class="text-center">SCHEDULED</th>
+                            <!--<th class="text-center">STARTED</th>-->
+                            <!--<th class="text-center">ENDED</th>-->
                             <th class="text-center">#TARGETS</th>
                             <th class="text-center">#FEEDBACKS</th>
                             <th class="text-left">ACTION</th>
@@ -29,11 +31,27 @@
                     <tbody>
                         <tr ng-repeat="campaign in campaigns">
                             <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-left">
+                                <span class="label label-primary" ng-show="!campaign.recursive">1</span>
+
+                                <span ng-show="campaign.recursive">
+                                    <span class="label label-primary" ng-show="{{(!campaign.master && campaign.status === 'CREATED')}}" ng-disabled="true">S</span>
+                                    <span class="label label-info" ng-show="campaign.master" title="{{campaign.id}}">R</span>
+                                </span>
+
+                                <span class="fa-frequency" ng-show="campaign.scheduled" >
+                                    <i class="fa fa-history text-primary" title="{{'SCHEDULED' + ((!campaign.master) ? ' - PID=[' + campaign.parentId + ']' : '')}}"></i>
+                                </span>
+                            </td>
                             <td><a ng-href="#/campaigns/{{campaign.id}}">{{ campaign.name }}</a></td>
-                            <td class="text-center">{{campaign.created | date:'yyyy-MM-dd'}}</td>
-                            <td class="text-left"><span class="label label-default" ng-class="{'label-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label-info': (campaign.status === 'STARTED'), 'label-success': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></td>
-                            <td class="text-center">{{campaign.startDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-                            <td class="text-center">{{campaign.endDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                            <!--<td class="text-center">{{campaign.created | date:'yyyy-MM-dd'}}</td>-->
+                            <td class="text-left">
+                                <span class="label label-default" ng-class="{'label-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label-info': (campaign.status === 'STARTED'), 'label-success': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span>
+                                <span class="label label-primary" ng-show="(campaign.status === 'CREATED' && !campaign.master)" ng-disabled="true">SCHEDULED</span>
+                            </td>
+                            <td class="text-center">{{campaign.scheduleDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                            <!--<td class="text-center">{{campaign.startDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>-->
+                            <!--<td class="text-center">{{campaign.endDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>-->
                             <td class="text-center">{{campaign.targets.length}}</td>
                             <td class="text-center">{{campaign.feedbackNumber}}</td>
                             <td class="text-left">
@@ -54,8 +72,8 @@
                     </tbody>
                     <tbody ng-show="!campaigns.length">
                         <tr>
-                            <td colspan="8" class="text-center">
-                                <span>There's no campaigns to show. To start creating campaigns click <a href="#/campaign/create">here</a></span>
+                            <td colspan="11" class="text-center">
+                                <span>There's no campaigns to show. To start creating campaigns click <a href="#/campaigns/create">here</a></span>
                             </td>
                         </tr>
                     </tbody>

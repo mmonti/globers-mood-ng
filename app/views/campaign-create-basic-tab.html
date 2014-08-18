@@ -13,31 +13,31 @@
                 <div class="col-lg-8"><textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="campaign.basic.description"></textarea></div>
             </div>
 
-            <div class="form-group" ng-hide="true">
-                <label class="control-label col-lg-2">Expiring:</label>
-                <div class="col-lg-6">
-                    <div class="btn-group btn-group-sm">
-                        <button name="expiring" type="button" class="btn" ng-class="(campaign.basic.expiration.enabled == false) ? 'btn-info' : 'btn-default'" ng-model="campaign.basic.expiration.enabled" btn-radio="false">OFF</button>
-                        <button name="expiring" type="button" class="btn" ng-class="(campaign.basic.expiration.enabled == true) ? 'btn-info' : 'btn-default'" ng-model="campaign.basic.expiration.enabled" btn-radio="true">ON</button>
+            <div class="form-group">
+                <label class="control-label col-lg-2">Frequency:</label>
+                <div class="col-lg-10">
+
+                    <div class="btn-group" dropdown is-open="campaign.basic.frequencyIsOpen">
+                        <button type="button" class="btn btn-danger">{{campaign.basic.frequency}}</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle">
+                            <span class="caret"></span>
+                            <span class="sr-only">&nbsp;</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="dispatch in campaign.basic.frequencies"><a ng-click="selectFrequency(dispatch)">{{dispatch}}</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <fieldset ng-disabled="!campaign.basic.expiration.enabled" ng-hide="true">
-                <div class="form-group">
-                    <label class="control-label col-lg-2">Date:</label>
-                    <div class="col-lg-6">
-                        <div class="input-group">
-                            <input type="text" id="campaignExpirationDateTime" name="campaignExpirationDateTime" class="form-control" datepicker-popup="{{format}}" ng-model="campaign.basic.expiration.date" ng-disabled="!campaign.basic.expiration.enabled"/>
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="clearExpirationDate()"><i class="glyphicon glyphicon-remove"></i></button>
-                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <label class="control-label col-lg-2"></label>
+                <div class="col-lg-10">
+                    <p>This campaign will be sent <span class="label label-info">{{campaign.basic.frequency}}</span></p>
                 </div>
-            </fieldset>
+            </div>
         </div>
     </div>
     <div class="col-lg-offset-4"/>
 </div>
+

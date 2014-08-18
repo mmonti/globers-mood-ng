@@ -1,5 +1,6 @@
 //$iconSpritePath: "../images/glyphicons-halflings.png";
 //$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
+
 $icon-font-path: "../bower_components/components-font-awesome/fonts";
 $fa-font-path: "../bower_components/components-font-awesome/fonts";
 
@@ -12,6 +13,9 @@ $fa-font-path: "../bower_components/components-font-awesome/fonts";
 @import "dashboard";
 @import "tabs";
 @import "./../bower_components/components-font-awesome/scss/font-awesome";
+@import "datepicker";
+@import "timepicker";
+@import "popover";
 
 // CSS
 // Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.).
@@ -137,4 +141,17 @@ div.pagination-container div.pagination-legend {
 
 .text-normal {
   font-size: 14px !important;
+}
+
+// = Grids
+.col-frequency {
+  width: 60px;
+}
+
+// = Dispatch
+div.col-scheduleDateGroup {
+  width: 27% !important
+}
+div.col-scheduleTimeGroup {
+  width: 22% !important
 }

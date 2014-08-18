@@ -14,7 +14,7 @@ angular.module('globersMoodApp').factory('configuration',
             base: "http://127.0.0.1:8080/rest/api"
         },
         prod : {
-            base: "http://globers-mood-rest.appspot.com/rest/api"
+            base: "http://globers-mood-rest-prod.appspot.com/rest/api"
         },
 
         services : {

@@ -1,6 +1,6 @@
 'use strict';
 
-var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'highcharts-ng', 'angularFileUpload']).
+var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'timer', 'highcharts-ng', 'angularFileUpload']).
 
     config(function($stateProvider, $urlRouterProvider){
         // = For any unmatched url, send to /main
@@ -65,7 +65,8 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
         $httpProvider.responseInterceptors.push(interceptor);
     }).
 
-    run(function($templateCache, $rootScope) {}).
+    run(function($templateCache) {
+    }).
 
     run(function($rootScope, $location, preferenceService){
         preferenceService.$ns("application").then(function(settings) {
