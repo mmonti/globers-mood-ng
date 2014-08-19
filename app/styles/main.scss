@@ -4,6 +4,8 @@
 $icon-font-path: "../bower_components/components-font-awesome/fonts";
 $fa-font-path: "../bower_components/components-font-awesome/fonts";
 
+@import "datepicker";
+@import "timepicker";
 @import "sticky-fn";
 @import "multi-select";
 @import "spinner";
@@ -12,10 +14,8 @@ $fa-font-path: "../bower_components/components-font-awesome/fonts";
 @import "template";
 @import "dashboard";
 @import "tabs";
-@import "./../bower_components/components-font-awesome/scss/font-awesome";
-@import "datepicker";
-@import "timepicker";
 @import "popover";
+@import "./../bower_components/components-font-awesome/scss/font-awesome";
 
 // CSS
 // Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.).
@@ -146,12 +146,4 @@ div.pagination-container div.pagination-legend {
 // = Grids
 .col-frequency {
   width: 60px;
-}
-
-// = Dispatch
-div.col-scheduleDateGroup {
-  width: 27% !important
-}
-div.col-scheduleTimeGroup {
-  width: 22% !important
 }

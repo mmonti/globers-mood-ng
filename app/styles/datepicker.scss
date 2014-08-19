@@ -1,23 +1,22 @@
-div.custom-datepicker table tr td {
+.col-scheduleDateGroup {
+  width: 27% !important;
+}
+.custom-datepicker table tr td {
   border-radius: 0 !important;
 }
-
-div.custom-datepicker table tr td button {
+.custom-datepicker table tr td button {
   border-radius: 0 !important;
 }
-
-div.custom-datepicker table tr td button.btn-default {
+.custom-datepicker table tr td button.btn-default {
   color: #000000;
   background-color: white !important;
   border-color: white !important;
 }
-
-div.custom-datepicker table tr td button.active {
+.custom-datepicker table tr td button.active {
   background-color: grey !important;
   color: white !important;
   border-radius: 6px !important;
 }
-
-div.custom-datepicker table tr td button.active span.text-info {
+.custom-datepicker table tr td button.active span.text-info {
   color: white !important;
 }

@@ -1,11 +1,12 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h4 class="modal-title">{{data.header}}</h4>
+    <button type="button" class="close" data-dismiss="modal" ng-click="close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{dialog.header}}</h4>
 </div>
 <div class="modal-body">
-    <p>{{data.body}}</p>
+    <p>{{dialog.body}}</p>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">CLOSE</button>
-    <button type="button" class="btn btn-primary" ng-click="handle()">PROCEED</button>
+    <button ng-show="dialog.type === 'proceed'" type="button" class="btn btn-primary" ng-click="proceed()">PROCEED</button>
 </div>

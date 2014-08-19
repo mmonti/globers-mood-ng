@@ -29,12 +29,12 @@
                             <table class="table table-striped">
                                 <tbody>
                                 <tr ng-repeat="template in availableTemplates | filter:templateFilterTerm">
-                                    <td class="text-center">{{$index + 1}}</td>
-                                    <td>{{template.name}}</td>
+                                    <td class="text-center" ng-bind="$index + 1"></td>
+                                    <td ng-bind="template.name"></td>
                                     <td>
                                         <div class="pull-right">
                                             <span class="label label-danger hand" style="margin-right: 3px;">
-                                                <dialog size="sm" header="Remove Template" handler="onTemplateRemove" ng-model="$index"></dialog>
+                                                <dialog header="'Remove Template'" body="'Are you sure you want to remove this template?'" ng-model="onTemplateRemove" params="[$index, template]" type="proceed"></dialog>
                                                 REMOVE&nbsp;<i class="fa fa-times"></i>
                                             </span>
                                             <span ng-show="campaign.template.selection.name === template.name" class="label hand" ng-class="(campaign.template.selection != null && campaign.template.selection.name === template.name) ? 'label-info' : 'label-default'" ng-click="onTemplateDeselected()">DESELECT</span>
@@ -68,19 +68,22 @@
                     <li>
                         <div>
                             <span><i class="fa fa-file-text-o fa-2x"></i></span>
-                            <span class="selected-template-header">{{ campaign.template.selection.name }}</span>
+                            <span class="selected-template-header" ng-bind="campaign.template.selection.name"></span>
                         </div>
                     </li>
                 </ul>
                 <dl class="dl-horizontal right">
                     <dt>DATE:</dt>
-                    <dd><span>{{ campaign.template.selection.created | date:'medium' }}</span></dd>
+                    <dd><span ng-bind="campaign.template.selection.created | date:'medium'"></span></dd>
                     <dt>DESCRIPTION:</dt>
-                    <dd><span>{{ campaign.template.selection.description }}</span></dd>
+                    <dd><span ng-bind="campaign.template.selection.description"></span></dd>
                     <dt>SIZE:</dt>
-                    <dd><span>{{ 123 }}KB</span></dd>
+                    <dd><span ng-bind="123+'KB'"></span></dd>
                 </dl>
-                <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">PREVIEW&nbsp;<i class="fa fa-file-text-o"></i></span>
+                <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">
+                    <dialog class="template-preview" size="lg" header="'Template Preview'" ng-model="campaign.template.selection" template="/tpl/template-preview-modal.html"></dialog>
+                    PREVIEW&nbsp;<i class="fa fa-file-text-o"></i>
+                </span>
             </div>
 
         </div>

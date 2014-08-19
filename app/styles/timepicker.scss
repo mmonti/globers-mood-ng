@@ -1,6 +1,9 @@
-table.schedulingTime {
+.col-scheduleTimeGroup {
+  width: 22% !important;
+}
+.schedulingTime {
   width: 160px;
 }
-table.schedulingTime tr td table.custom-timepicker tr td.meridian-col {
+.schedulingTime tr td table.custom-timepicker tr td.meridian-col {
   padding-left: 10px !important;
 }

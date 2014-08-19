@@ -4,10 +4,6 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
 
     $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false}];
 
-    $scope.onAddTemplateProceed = function(scope, modal) {
-        modal.close();
-    }
-
     var getNewCampaign = function() {
         var reference = {
             basic: {
@@ -17,7 +13,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                 frequencies: ["Once", "Daily", "Weekly", "Monthly", "Yearly"],
                 frequency: "ONCE",
                 isRecursive: function() {
-                    return reference.basic.frequency != reference.basic.frequencies[0].toUpperCase();
+                    return reference.basic.frequency != "ONCE";
                 }
             },
             targets: {
@@ -142,6 +138,12 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         $scope.campaign.template.selection = null;
     };
 
+    $scope.onTemplateRemove = {
+        proceed: function(dialog, index, template) {
+            dialog.close();
+        }
+    };
+
     // == Dispatching
     $scope.$watch('campaign.scheduling.enabled', function(value){
         if (value) {
@@ -151,8 +153,8 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
             $scope.campaign.scheduling.date = dateTime;
             $scope.campaign.scheduling.time = dateTime;
         } else {
-            $scope.onScheduleDateClear();
-            $scope.onScheduleTimeClear();
+            $scope.onClear($scope.campaign.scheduling, 'date');
+            $scope.onClear($scope.campaign.scheduling, 'time');
         }
     });
 
@@ -164,41 +166,17 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
             $scope.campaign.scheduling.expiration.date = dateTime;
             $scope.campaign.scheduling.expiration.time = dateTime;
         } else {
-            $scope.onExpirationDateClear();
-            $scope.onExpirationTimeClear();
+            $scope.onClear($scope.campaign.scheduling.expiration, 'date');
+            $scope.onClear($scope.campaign.scheduling.expiration, 'time');
         }
     });
 
-    $scope.toggleScheduleDatePicker = function() {
-        $scope.campaign.scheduling.dateIsOpen = !$scope.campaign.scheduling.dateIsOpen;
+    $scope.togglePicker = function(object, property) {
+        object[property] = !object[property];
     };
 
-    $scope.onScheduleDateClear = function () {
-        $scope.campaign.scheduling.date = null;
-    };
-
-    $scope.toggleScheduleTimePicker = function() {
-        $scope.campaign.scheduling.timeIsOpen = !$scope.campaign.scheduling.timeIsOpen;
-    };
-
-    $scope.onScheduleTimeClear = function () {
-        $scope.campaign.scheduling.time = null;
-    };
-
-    $scope.toggleExpirationDatePicker = function() {
-        $scope.campaign.scheduling.expiration.dateIsOpen = !$scope.campaign.scheduling.expiration.dateIsOpen;
-    };
-
-    $scope.onExpirationDateClear = function () {
-        $scope.campaign.scheduling.expiration.date = null;
-    };
-
-    $scope.toggleExpirationTimePicker = function() {
-        $scope.campaign.scheduling.expiration.timeIsOpen = !$scope.campaign.scheduling.expiration.timeIsOpen;
-    };
-
-    $scope.onExpirationTimeClear = function () {
-        $scope.campaign.scheduling.expiration.time = null;
+    $scope.onClear = function (object, property) {
+        object[property] = null;
     };
 
     $scope.selectFrequency = function(selectedOption) {
@@ -211,10 +189,6 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         $event.stopPropagation();
         $scope.campaign.basic.frequencyIsOpen = !$scope.campaign.basic.frequencyIsOpen;
     };
-
-    $scope.getExpirationDate = function() {
-        var dateTime = new Date();
-    }
 
     // == Users
     var fetchUsers = function() {

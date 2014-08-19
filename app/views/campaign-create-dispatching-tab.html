@@ -19,7 +19,7 @@
                         <div class="input-group">
                             <input type="text" id="scheduleDate" name="scheduleDate" class="form-control" value="{{campaign.scheduling.date | date: 'MM/dd/yyyy'}}">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="onScheduleDateClear()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="onClear(campaign.scheduling, 'date');"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-default" popover-placement="bottom" popover-template="/tpl/schedulingDate.html" is-open="{{campaign.scheduling.dateIsOpen}}"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </div>
@@ -28,7 +28,7 @@
                         <div class="input-group">
                             <input type="text" id="scheduleTime" name="scheduleTime" class="form-control" value="{{campaign.scheduling.time | date: 'HH:mm'}}"/>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="onScheduleTimeClear()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="onClear(campaign.scheduling, 'time');"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-default" popover-placement="right" popover-template="/tpl/schedulingTime.html" is-open="{{campaign.scheduling.timeIsOpen}}"><i class="glyphicon glyphicon-time"></i></button>
                             </span>
                         </div>
@@ -58,14 +58,14 @@
                 </div>
             </fieldset>
 
-            <fieldset ng-disabled="!campaign.basic.expiration.enabled && campaign.basic.isRecursive()">
+            <fieldset ng-disabled="!campaign.scheduling.expiration.enabled">
                 <div class="form-group">
                     <label class="control-label col-lg-2">Date:</label>
                     <div class="col-lg-3 col-scheduleDateGroup">
                         <div class="input-group">
-                            <input type="text" id="expireDate" name="expireDate" class="form-control" value="{{campaign.scheduling.expiration.date | date: 'MM/dd/yyyy'}}">
+                            <input type="text" id="expirationDate" name="expirationDate" class="form-control" value="{{campaign.scheduling.expiration.date | date: 'MM/dd/yyyy'}}">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="onExpirationDateClear()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="onClear(campaign.scheduling.expiration, 'date');"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-default" popover-placement="bottom" popover-template="/tpl/expirationDate.html" is-open="{{campaign.scheduling.expiration.dateIsOpen}}"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </div>
@@ -74,7 +74,7 @@
                         <div class="input-group">
                             <input type="text" id="expirationTime" name="expirationTime" class="form-control" value="{{campaign.scheduling.expiration.time | date: 'HH:mm'}}"/>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="onExpirationTimeClear()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="onClear(campaign.scheduling.expiration, 'time');"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-default" popover-placement="right" popover-template="/tpl/expirationTime.html" is-open="{{campaign.scheduling.expiration.timeIsOpen}}"><i class="glyphicon glyphicon-time"></i></button>
                             </span>
                         </div>
@@ -89,24 +89,27 @@
 </div>
 
 <script id="/tpl/schedulingDate.html" type="text/ng-template">
-    <datepicker class="custom-datepicker" ng-model="campaign.scheduling.date" min-date="campaign.scheduling.minDate" show-weeks="false" ng-change="toggleScheduleDatePicker($event);"></datepicker>
+    <datepicker class="custom-datepicker" ng-model="campaign.scheduling.date" min-date="campaign.scheduling.minDate" show-weeks="false" ng-change="togglePicker(campaign.scheduling, 'dateIsOpen');"></datepicker>
 </script>
+
 <script id="/tpl/schedulingTime.html" type="text/ng-template">
     <table class="schedulingTime">
         <tr>
-            <td><timepicker show-meridian="false" minute-step="15" ng-model="campaign.scheduling.time"></timepicker></td>
-            <td><button type="button" class="btn btn-default" ng-click="toggleScheduleTimePicker($event);">SET</button></td>
+            <td><timepicker show-meridian="false" minute-step="5" ng-model="campaign.scheduling.time"></timepicker></td>
+            <td><button type="button" class="btn btn-default" ng-click="togglePicker(campaign.scheduling, 'timeIsOpen');">SET</button></td>
         </tr>
     </table>
 </script>
+
 <script id="/tpl/expirationDate.html" type="text/ng-template">
-    <datepicker class="custom-datepicker" ng-model="campaign.scheduling.expiration.date" min-date="campaign.scheduling.expiration.date" show-weeks="false" ng-change="toggleExpirationDatePicker($event);"></datepicker>
+    <datepicker class="custom-datepicker" ng-model="campaign.scheduling.expiration.date" min-date="campaign.scheduling.expiration.date" show-weeks="false" ng-change="togglePicker(campaign.scheduling.expiration, 'dateIsOpen');"></datepicker>
 </script>
+
 <script id="/tpl/expirationTime.html" type="text/ng-template">
     <table class="schedulingTime">
         <tr>
-            <td><timepicker show-meridian="false" minute-step="15" ng-model="campaign.scheduling.expiration.time"></timepicker></td>
-            <td><button type="button" class="btn btn-default" ng-click="toggleExpirationTimePicker($event);">SET</button></td>
+            <td><timepicker show-meridian="false" minute-step="5" ng-model="campaign.scheduling.expiration.time"></timepicker></td>
+            <td><button type="button" class="btn btn-default" ng-click="togglePicker(campaign.scheduling.expiration, 'timeIsOpen');">SET</button></td>
         </tr>
     </table>
 </script>
