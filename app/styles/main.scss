@@ -125,7 +125,7 @@ div.pagination-container div.pagination-legend {
 
 .callout {
   padding: 20px;
-  margin: 20px 0;
+  margin: 10px 0;
   border: 1px solid #eee;
   border-left-width: 5px;
   border-radius: 3px;
@@ -141,6 +141,23 @@ div.pagination-container div.pagination-legend {
 
 .text-normal {
   font-size: 14px !important;
+}
+
+.va-middle {
+  vertical-align: middle;
+}
+
+.va-baseline {
+  vertical-align: baseline;
+}
+
+div.form-horizontal.form-group-sm div.form-group {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+div.form-group-sm div.form-group {
+  margin-bottom: 7px !important;
 }
 
 // = Grids

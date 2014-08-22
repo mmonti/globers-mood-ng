@@ -33,6 +33,11 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
                 templateUrl: "/views/setup-view.html",
                 controller: "setupController"
             })
+            .state('initial-setup-view', {
+                url: "/settings/initial-setup",
+                templateUrl: "/views/initial-setup-view.html",
+                controller: "initialSetupController"
+            })
             .state('preferences-view', {
                 url: "/settings/preferences",
                 templateUrl: "/views/preferences-view.html",
@@ -71,7 +76,7 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
     run(function($rootScope, $location, preferenceService){
         preferenceService.$ns("application").then(function(settings) {
             if (!settings.application) {
-                return $location.path("/settings/setup");
+                return $location.path("/settings/initial-setup");
             }
             preferenceService.initializeApplicationPreferences(settings.application);
             $rootScope.application = settings.application;

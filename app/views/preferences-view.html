@@ -14,7 +14,7 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input reset-addon="{ side: 'right' }" type="text" id="inputPreferenceFilter" class="form-control" placeholder="filter by ..." ng-model="preferenceFilterTerm"/>
+                    <input reset-addon="{ side: 'right' }" type="text" id="inputPreferenceFilter" class="form-control" placeholder="filter by namespace..." ng-model="preferenceFilterTerm"/>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="preference in preferences | filter: preferenceFilterTerm">
+                        <tr ng-repeat="preference in preferences | filter: {namespace: preferenceFilterTerm}">
                             <td>{{preference.preferenceKey}}</td>
                             <td>{{preference.preferenceValue}}<span ng-show="!preference.readOnly" ng-click="open(preference.preferenceKey, preference.preferenceValue);">&nbsp;<i class="fa fa-pencil-square-o red"></i>&nbsp;edit</span></td>
                             <td><span class="label label-primary">{{preference.namespace}}</span></td>

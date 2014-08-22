@@ -50,3 +50,19 @@ dl.dl-horizontal.right dd {
 dl.dl-horizontal.right dd span {
   margin-left: 10px;
 }
+
+span.template-action {
+  margin-right: 5px;
+}
+
+div.template-analyze-tab-content {
+  height: 275px; overflow-y: auto
+}
+
+div.template-analyze-tabset-content div.tab-content {
+  margin-top: 18px !important;
+}
+
+div.template-analyze-tabset-content ul.nav.nav-tabs {
+  height: 290px !important;
+}

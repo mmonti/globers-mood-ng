@@ -21,7 +21,8 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                 destinations: []
             },
             template: {
-                selection: null
+                selection: null,
+                fileIsOpen: true
             },
             scheduling: {
                 enabled: false,
@@ -140,7 +141,19 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
 
     $scope.onTemplateRemove = {
         proceed: function(dialog, index, template) {
-            dialog.close();
+            templateService.delete(template.id, function(data, status, headers, config) {
+                console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+                var selection = $scope.campaign.template.selection;
+                if (selection) {
+                    if (template.id === selection.id) {
+                        $scope.onTemplateDeselected();
+                    }
+                }
+                $scope.availableTemplates = _.reject($scope.availableTemplates, function(current){
+                    return template.id === current.id;
+                });
+                dialog.close();
+            })
         }
     };
 

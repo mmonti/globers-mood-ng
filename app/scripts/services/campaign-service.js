@@ -8,7 +8,7 @@ angular.module('globersMoodApp').factory('campaignService',
         campaign : function(campaignId, successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
-                url : configuration.getServiceEndpoint("campaign.get", { id: campaignId })
+                url : configuration.getServiceEndpoint("campaign.get", { campaignId: campaignId })
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback); // errorCallback || injectedErrorHandler
@@ -34,7 +34,7 @@ angular.module('globersMoodApp').factory('campaignService',
         start : function(campaignId, successCallback, errorCallback) {
             var request = $http({
                 method : 'POST',
-                url : configuration.getServiceEndpoint("campaign.start", { id: campaignId })
+                url : configuration.getServiceEndpoint("campaign.start", { campaignId: campaignId })
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
@@ -42,7 +42,7 @@ angular.module('globersMoodApp').factory('campaignService',
         close : function(campaignId, successCallback, errorCallback) {
             var request = $http({
                 method : 'POST',
-                url : configuration.getServiceEndpoint("campaign.close", { id: campaignId })
+                url : configuration.getServiceEndpoint("campaign.close", { campaignId: campaignId })
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);

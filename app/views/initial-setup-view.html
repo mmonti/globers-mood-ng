@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <h4>Initial Setup</h4>
+                <div class="separator-10"></div>
+                <p>Initial setup lets you populate the database with initial data. Backend services accepts a JSON file with a predefined structure.</br>In order to POST an existent file, select the file an then click on the SUBMIT button.</p>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+        <div class="separator-10"></div>
+
+        <div class="row">
+            <fieldset ng-disabled="uploadDone">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="file" class="btn btn-default file" tabindex="-1" ng-file-select="onFileSelect($files)"><b>Select File</b></button>
+                            <button type="button" class="btn btn-default file" ng-click="clear()">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control" value="{{file.name}}" ng-readonly="true"/>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary file" ng-click="submit()" ng-disabled="!file">POST</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </fieldset>
+        </div>
+
+    </div>
+</div>
+
+<div class="row text-center" style="padding-top: 40px;" ng-show="uploadDone">
+    <h4><i class="va-middle text-success fa fa-2x fa-check-circle-o"></i>&nbsp;Initial setup successfully completed! Well done!</h4>
+    <p>Click <a href="#/">here</a> to start</p>
+</div>

@@ -34,7 +34,7 @@
                                     <td>
                                         <div class="pull-right">
                                             <span class="label label-danger hand" style="margin-right: 3px;">
-                                                <dialog header="'Remove Template'" body="'Are you sure you want to remove this template?'" ng-model="onTemplateRemove" params="[$index, template]" type="proceed"></dialog>
+                                                <dialog size="md" header="'Remove Template'" body="'Are you sure you want to remove this template?'" ng-model="onTemplateRemove" params="[$index, template]" type="proceed"></dialog>
                                                 REMOVE&nbsp;<i class="fa fa-times"></i>
                                             </span>
                                             <span ng-show="campaign.template.selection.name === template.name" class="label hand" ng-class="(campaign.template.selection != null && campaign.template.selection.name === template.name) ? 'label-info' : 'label-default'" ng-click="onTemplateDeselected()">DESELECT</span>
@@ -64,29 +64,75 @@
             </div>
 
             <div ng-show="campaign.template.selection != null">
-                <ul class="list-unstyled selected-template">
-                    <li>
-                        <div>
-                            <span><i class="fa fa-file-text-o fa-2x"></i></span>
-                            <span class="selected-template-header" ng-bind="campaign.template.selection.name"></span>
-                        </div>
-                    </li>
-                </ul>
-                <dl class="dl-horizontal right">
-                    <dt>DATE:</dt>
-                    <dd><span ng-bind="campaign.template.selection.created | date:'medium'"></span></dd>
-                    <dt>DESCRIPTION:</dt>
-                    <dd><span ng-bind="campaign.template.selection.description"></span></dd>
-                    <dt>SIZE:</dt>
-                    <dd><span ng-bind="123+'KB'"></span></dd>
-                </dl>
-                <span class="label label-default hand" ng-click="onTemplatePreviewOpen()">
-                    <dialog class="template-preview" size="lg" header="'Template Preview'" ng-model="campaign.template.selection" template="/tpl/template-preview-modal.html"></dialog>
-                    PREVIEW&nbsp;<i class="fa fa-file-text-o"></i>
-                </span>
+
+                <div class="row">
+                    <ul class="list-unstyled selected-template">
+                        <li>
+                            <div>
+                                <span><i class="fa fa-file-text-o fa-2x"></i></span>
+                                <span class="selected-template-header" ng-bind="campaign.template.selection.name"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <dl class="dl-horizontal right">
+                        <dt>DATE:</dt>
+                        <dd><span ng-bind="campaign.template.selection.created | date:'medium'"></span></dd>
+                        <dt>DESCRIPTION:</dt>
+                        <dd><span ng-bind="campaign.template.selection.description"></span></dd>
+                        <dt>FILE:</dt>
+                        <dd><var><span ng-bind="campaign.template.selection.filename"></span></var></dd>
+                        <dt>METADATA:</dt>
+                        <dd>
+                            <span ng-show="campaign.template.selection.metadata === null"><span class="label label-warning">NOT SET...</span></span>
+                            <span ng-show="campaign.template.selection.metadata != null"><i class="text-success fa fa-check-o va-middle"></i><span class="label label-success">FOUND!</span></span>
+                        </dd>
+                        <dt>ATTACHMENTS:</dt>
+                        <dd>
+                            <span popover-placement="right" popover-template="/tpl/template-attached-files.html" popover-trigger="mouseenter">
+                                <a>{{campaign.template.selection.attachments.length}}&nbsp;file(s)</a>
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="row">
+                    <span class="label label-default hand template-action">
+                        <dialog size="lg" header="'Template Analysis'" template="/tpl/template-analyze-modal.html" ng-model="campaign.template.selection"/>
+                        <span ng-show="campaign.template.selection.metadata === null">ANALYZE</span>
+                        <span ng-show="campaign.template.selection.metadata != null">METADATA</span>&nbsp;<i class="fa fa-file-code-o"></i>
+                    </span>
+                    <span class="label label-default hand template-action">
+                        <dialog size="md" header="'Attach File'" body="'Not implemented yet!'"/>
+                        ATTACH FILE&nbsp;<i class="fa fa-file-text-o"></i>
+                    </span>
+                    <span class="label label-default hand template-action">
+                        <dialog class="template-preview" size="lg" header="'Template Preview'" ng-model="campaign.template.selection" template="/tpl/template-preview-modal.html"></dialog>
+                        PREVIEW&nbsp;<i class="fa fa-file-text-o"></i>
+                    </span>
+                </div>
             </div>
 
         </div>
 
     </div>
 </div>
+
+<script id="/tpl/template-attached-files.html" type="text/ng-template">
+    <table class="table table-condensed" style="width: 200px;">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-left">FILENAME</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="attachment in campaign.template.selection.attachments">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="text-left">{{attachment.filename}}</td>
+            </tr>
+        </tbody>
+    </table>
+</script>

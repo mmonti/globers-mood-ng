@@ -1,0 +1,59 @@
+<div ng-controller="templateAnalyzeController">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">Template Analysis</h4>
+    </div>
+    <div class="modal-body">
+
+        <div ng-show="!templateMetadata">
+            <div class="separator-50"></div>
+            <div class="text-center">
+                <h4><i class="fa-2x text-info fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Analyzing template structure...</h4>
+            </div>
+        </div>
+
+        <div ng-show="templateMetadata">
+            <i class="text-success fa fa-check-square-o fa-2x va-middle"></i> &nbsp; After scanning the selected template we found the following elements...
+
+            <tabset class="template-analyze-tabset-content tabs-left">
+                <tab ng-repeat="(heading, elements) in templateMetadata" heading="{{getTabName(heading)}}">
+
+                    <div class="template-analyze-tab-content">
+
+                        <fieldset ng-disabled="heading=='HIDDEN'">
+                            <div class="form-horizontal form-group-sm" ng-repeat="element in elements">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Key</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static"><span class="label label-info" ng-bind="element.key"/></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" placeholder="Name" ng-model="element.name">
+                                    </div>
+                                    <div class="col-md-offset-7"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Description</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" placeholder="Description" ng-model="element.description">
+                                    </div>
+                                    <div class="col-md-offset-3"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </tab>
+            </tabset>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="setMetadata()">SET METADATA</button>
+        <button class="btn btn-default" ng-click="close()">CLOSE</button>
+    </div>
+</div>

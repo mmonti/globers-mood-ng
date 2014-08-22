@@ -5,19 +5,18 @@ angular.module('globersMoodApp').factory('statsService',
         function($http, logger, configuration) {
 
     return {
-        mostActiveCampaigns : function(successCallback, errorCallback) {
+        campaign : function(campaignId, successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
-                url : configuration.getServiceEndpoint("stats.list")
+                url : configuration.getServiceEndpoint("stats.campaign", { campaignId: campaignId })
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
         },
-
-        metadata : function(successCallback, errorCallback) {
+        datastore : function(successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
-                url : configuration.getServiceEndpoint("stats.metadata"),
+                url : configuration.getServiceEndpoint("stats.datastore.entity"),
                 transformResponse: function(data, headersGetter) {
                     if (!data) {
                         return;
@@ -30,7 +29,6 @@ angular.module('globersMoodApp').factory('statsService',
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
         },
-
         weeklyFeedback : function(successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
