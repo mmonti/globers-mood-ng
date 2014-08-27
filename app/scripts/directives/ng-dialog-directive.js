@@ -56,10 +56,11 @@ angular.module('globersMoodApp').directive('dialog',
             }
 
             var config = {
-                controller: function($scope, $modalInstance, dialog, model, params) {
+                controller: function($scope, $modalInstance, dialog, model, params, ref) {
                     var fnArgs = params() || [];
                     fnArgs.unshift($modalInstance);
                     angular.extend($scope, { params : fnArgs });
+                    angular.extend($scope, { ref : ref});
                     
                     var getFn = function(scope, fn, args) {
                         return function() { fn.apply(scope, args) };
@@ -97,6 +98,9 @@ angular.module('globersMoodApp').directive('dialog',
                     },
                     params: function() {
                         return scope.params;
+                    },
+                    ref: function() {
+                        return scope.$parent;
                     }
                 }
             };

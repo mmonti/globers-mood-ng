@@ -17,16 +17,52 @@
             <i class="text-success fa fa-check-square-o fa-2x va-middle"></i> &nbsp; After scanning the selected template we found the following elements...
 
             <tabset class="template-analyze-tabset-content tabs-left">
-                <tab ng-repeat="(heading, elements) in templateMetadata" heading="{{getTabName(heading)}}">
+
+                <tab ng-repeat="(heading, elements) in templateMetadata" heading="{{getTabName(heading)}}" active="tabs($index).active">
 
                     <div class="template-analyze-tab-content">
 
+                        <div class="form-group" ng-switch="heading">
+                            <div ng-switch-when="CHOICE">
+                                <h4>CHOICE Elements:</h4>
+                                <p></p>
+                                <div class="separator-10"></div>
+                            </div>
+                            <div ng-switch-when="FORM">
+                                <h4>FORM Elements:</h4>
+                                <p></p>
+                                <div class="separator-10"></div>
+                            </div>
+                            <div ng-switch-when="HIDDEN">
+                                <h4>HIDDEN Elements:</h4>
+                                <p></p>
+                                <div class="separator-10"></div>
+                            </div>
+                            <div ng-switch-when="TEXT">
+                                <h4>TEXT Elements:</h4>
+                                <p></p>
+                                <div class="separator-10"></div>
+                            </div>
+                            <div ng-switch-when="MULTILINE_TEXT">
+                                <h4>MULTILINE TEXT Elements:</h4>
+                                <p></p>
+                                <div class="separator-10"></div>
+                            </div>
+                        </div>
+
                         <fieldset ng-disabled="heading=='HIDDEN'">
                             <div class="form-horizontal form-group-sm" ng-repeat="element in elements">
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Key</label>
                                     <div class="col-sm-10">
-                                        <p class="form-control-static"><span class="label label-info" ng-bind="element.key"/></p>
+
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <p class="form-control-static"><span class="label label-info" ng-bind="element.key"/></p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -46,7 +82,31 @@
                             </div>
                         </fieldset>
                     </div>
+                </tab>
+                <tab heading="MAPPING">
+                    <div class="template-analyze-tab-content">
+                        <h4>Mappings:</h4>
+                        <p>Value Mapping lets you set the meaning of each value in an element. For example given a range of <br/> values <var>(-2, -1, 0, 1, 2)</var> you can map those values to <var>(Really Bad, Bad, Neutral, Good, Very Good)</var>.</p>
 
+                        <div class="separator-10"></div>
+
+                        <div class="form-horizontal form-group-sm" ng-repeat="(key, element) in templateMetadata.CHOICE">
+
+                            <div class="separator-10"></div>
+
+                            <div class="form-group">
+                               <span><i class="fa fa-chevron-right va-middle"></i>&nbsp;&nbsp;Element:&nbsp;</span><span class="label label-default">{{element.key}}:</span>&nbsp;<a class="text-normal" ng-click="customize = !customize">customize</a>
+                            </div>
+
+                            <div ng-show="customize" class="form-group" ng-repeat="mapping in element.valueMappings">
+                                <label class="col-sm-2 control-label">Value ({{mapping.key}}):</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" placeholder="Mapping to..." ng-model="mapping.value">
+                                </div>
+                                <div class="col-md-offset-7"></div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
             </tabset>
         </div>

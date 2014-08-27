@@ -1,6 +1,6 @@
 'use strict';
 
-var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'timer', 'highcharts-ng', 'angularFileUpload']).
+var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', 'ui.bootstrap', 'timer', 'smart-table', 'highcharts-ng', 'angularFileUpload']).
 
     config(function($stateProvider, $urlRouterProvider){
         // = For any unmatched url, send to /main
@@ -15,7 +15,7 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
             })
             .state('campaigns-create', {
                 url: "/campaigns/create",
-                templateUrl: "/views/campaign-create-view.html",
+                templateUrl: "/views/campaign-create/campaign-create-view.html",
                 controller: "campaignCreateController"
             })
             .state('campaigns-all', {
@@ -25,22 +25,22 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
             })
             .state('campaign-view', {
                 url: "/campaigns/:id",
-                templateUrl: "/views/campaign-view.html",
-                controller: "campaignController"
+                templateUrl: "/views/campaign-view/campaign-view.html",
+                controller: "campaignViewController"
             })
             .state('setup-view', {
                 url: "/settings/setup",
-                templateUrl: "/views/setup-view.html",
+                templateUrl: "/views/settings/setup-view.html",
                 controller: "setupController"
             })
             .state('initial-setup-view', {
                 url: "/settings/initial-setup",
-                templateUrl: "/views/initial-setup-view.html",
+                templateUrl: "/views/settings/initial-setup-view.html",
                 controller: "initialSetupController"
             })
             .state('preferences-view', {
                 url: "/settings/preferences",
-                templateUrl: "/views/preferences-view.html",
+                templateUrl: "/views/settings/preferences-view.html",
                 controller: "preferenceController"
             });
     }).

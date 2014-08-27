@@ -17,6 +17,7 @@
     <!-- endbuild -->
 
     <link rel="stylesheet" href="http://bootswatch.com/united/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="styles/local/bootstrap.min.css">-->
 
     <!--<link rel="stylesheet" href="http://stephenmuscat.com/twilli_air/1.2/assets/bootstrap/css/bootstrap.min.css">-->
     <!--<link rel="stylesheet" href="http://stephenmuscat.com/twilli_air/1.2/assets/bootstrap/css/bootstrap-theme.min.css">-->
@@ -77,6 +78,9 @@
     <script src="bower_components/ng-file-upload/angular-file-upload.min.js"></script>
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/highcharts-ng/dist/highcharts-ng.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/cal-heatmap/cal-heatmap.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -90,7 +94,7 @@
     <script src="scripts/controllers/footer-controller.js"></script>
     <script src="scripts/controllers/initial-setup-controller.js"></script>
     <script src="scripts/controllers/setup-controller.js"></script>
-    <script src="scripts/controllers/campaign-controller.js"></script>
+    <script src="scripts/controllers/campaign-view-controller.js"></script>
     <script src="scripts/controllers/campaign-create-controller.js"></script>
     <script src="scripts/controllers/campaign-all-controller.js"></script>
     <script src="scripts/controllers/dashboard-controller.js"></script>
@@ -104,6 +108,7 @@
     <script src="scripts/directives/ng-frame-directive.js"></script>
     <script src="scripts/directives/ng-reset-directive.js"></script>
     <script src="scripts/directives/ng-spinner-directive.js"></script>
+    <script src="scripts/directives/ng-calheatmap-directive.js"></script>
     <!-- // -->
 
     <!-- // -->
@@ -115,11 +120,15 @@
     <script src="scripts/services/template-service.js"></script>
     <script src="scripts/services/user-service.js"></script>
     <script src="scripts/services/customer-service.js"></script>
+    <script src="scripts/services/feedback-service.js"></script>
 
     <!-- // -->
     <script src="scripts/factories/underscore-factory.js"></script>
     <script src="scripts/factories/pagination-factory.js"></script>
     <script src="scripts/factories/logger-factory.js"></script>
+
+    <!-- // -->
+    <script src="scripts/filters/date-relative-filter.js"></script>
     <!-- endbuild -->
 </body>
 </html>

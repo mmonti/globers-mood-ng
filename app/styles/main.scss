@@ -15,6 +15,7 @@ $fa-font-path: "../bower_components/components-font-awesome/fonts";
 @import "dashboard";
 @import "tabs";
 @import "popover";
+@import "./../bower_components/cal-heatmap/cal-heatmap.css";
 @import "./../bower_components/components-font-awesome/scss/font-awesome";
 
 // CSS
@@ -163,4 +164,12 @@ div.form-group-sm div.form-group {
 // = Grids
 .col-frequency {
   width: 60px;
+}
+
+// = Icons
+.icon-ligthgray {
+  color: #ddd;
+}
+.icon-x-large {
+  font-size: x-large;
 }

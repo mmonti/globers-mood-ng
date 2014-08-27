@@ -1,0 +1,79 @@
+<div class="col-lg-12">
+    <h4><i class="fa fa-user icon-x-large icon-ligthgray va-middle"></i>&nbsp;&nbsp;&nbsp;Target(s)</h4>
+    <p>Click on <span class="label label-default">remind</span> action button to resend the campaign to an specific user.</p>
+    <div class="separator-10"></div>
+</div>
+
+<div class="col-lg-8">
+
+    <button class="btn btn-default" ng-disabled="campaign.closed">
+        <dialog header="'Add Target(s)'" body="'Not implemented yet!'"></dialog>
+        Add target
+    </button>
+
+    <div class="separator-10"></div>
+
+    <table st-table="campaign.targets" class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th st-sort="name" class="text-left">NAME</th>
+            <th st-sort="email" class="text-left">EMAIL</th>
+            <th class="text-left">FEEDBACK</th>
+            <th class="text-left">ACTION</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="target in campaign.targets">
+            <td class="text-center">{{$index + 1}}</td>
+            <td>{{target.name}}</td>
+            <td>{{target.email}}</td>
+            <td><span class="label" ng-class="{'label-success' : target.feedback, 'label-danger' : !target.feedback}">{{target.feedback ? "RECEIVED" : "PENDING" }}</span></td>
+            <td>
+                <fieldset ng-disabled="campaign.closed">
+                    <span ng-show="!target.feedback && !campaign.closed" class="btn btn-xs btn-default">
+                        <dialog header="'Remind'" body="'Not implemented yet!'"></dialog>
+                        REMIND
+                    </span>
+                    <span class="btn btn-xs btn-primary">
+                        <dialog header="'Remove Target'" body="'Not implemented yet!'"></dialog>
+                        REMOVE
+                    </span>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+
+    <div class="row pagination-container">
+        <div class="pull-left pagination-legend">
+            <span>Showing page {{ pagination.page.number }} of {{ pagination.getTotalPages() }} page(s) - {{ pagination.page.size }} campaigns per page.</span>
+        </div>
+        <div class="pull-right pagination-widget">
+            <pagination
+                    boundary-links="true"
+                    total-items="pagination.page.totalElements"
+                    ng-model="pagination.page.number"
+                    rotate="false"
+                    max-size="maxSize"
+                    num-pages="pagination.page.totalPages"
+                    items-per-page="pagination.page.size">
+            </pagination>
+        </div>
+    </div>
+
+</div>
+<div class="col-lg-4">
+
+    <div class="text-center">
+        <div class="thumbnail">
+            <div class="caption">
+                <h4><i class="fa fa-envelope-o fa-2x icon-ligthgray va-middle"></i>&nbsp;&nbsp;&nbsp;Response Rate</h4>
+
+                <progressbar class="progress-striped active" max="campaign.targets.length" value="campaign.feedbackNumber" type="success"><i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i></progressbar>
+
+                <p><span>{{(campaign.feedbackNumber / campaign.targets.length) * 100}}%</span> of the users replied to this campaign</p>
+            </div>
+        </div>
+    </div>
+
+</div>

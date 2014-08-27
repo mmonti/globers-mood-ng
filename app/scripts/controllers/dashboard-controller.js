@@ -106,7 +106,11 @@ angular.module('globersMoodApp').controller('dashboardController', ['$scope', '$
         statsService.weeklyFeedback(weeklyFeedbackSuccessCallback);
     }();
 
-    $scope.refresh = function() {
+    $scope.refreshLatestCampaigns = function() {
+        fetchCampaigns();
+    };
+
+    $scope.refreshWeeklyFeedback = function() {
         statsService.weeklyFeedback(weeklyFeedbackSuccessCallback);
     };
 

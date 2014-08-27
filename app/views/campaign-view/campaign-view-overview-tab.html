@@ -1,0 +1,38 @@
+<div class="col-lg-12">
+    <h4><i class="fa fa-chevron-circle-right icon-ligthgray icon-x-large va-middle"></i>&nbsp;&nbsp;&nbsp;Campaign: {{campaign.name}} ({{campaign.id}})</h4>
+    <p>Description: <var>{{campaign.description}}</var></p>
+    <div class="separator-10"></div>
+</div>
+
+<div class="col-lg-6">
+    <dl class="dl-horizontal right">
+        <dt class="text-primary">STATUS</dt>
+        <dd><span class="label label-default" ng-class="{'label-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label-info': (campaign.status === 'STARTED'), 'label-success': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></dd>
+        <dt class="text-primary">TEMPLATE</dt>
+        <dd><span>{{ campaign.template.name }}</span></dd>
+        <dt class="text-primary">TARGET(S)</dt>
+        <dd><span>{{ campaign.targets.length }}</span></dd>
+        <dt class="text-primary">FEEDBACK(S)</dt>
+        <dd><span>{{ campaign.feedbacks.length }}</span></dd>
+    </dl>
+</div>
+
+<div class="col-lg-6">
+    <dl class="dl-horizontal right">
+        <dt class="text-primary">CREATION</dt>
+        <dd><span>{{ campaign.created | date: 'MM-dd-yyyy hh:mm:ss' }}</span></dd>
+        <dt class="text-primary">EXPIRATION</dt>
+        <dd><span>{{ ((campaign.expirationDate) === null) ? "NO EXPIRATION" : (campaign.expirationDate | date: 'MM-dd-yyyy hh:mm:ss')}}</span></dd>
+        <dt class="text-primary">START DATE</dt>
+        <dd><span>{{ ((campaign.startDate) === null) ? "NO STARTED" : (campaign.startDate | date: 'MM-dd-yyyy hh:mm:ss') }}</span></dd>
+        <dt class="text-primary">END DATE</dt>
+        <dd><span>{{ campaign.endDate | date: 'MM-dd-yyyy hh:mm:ss' }}</span></dd>
+    </dl>
+</div>
+
+<div class="col-lg-12">
+    <h4>Feedback Heatmap</h4>
+    <p>This map represents the feedback(s) received for this campaign in the last week per hour.</p>
+    <div class="separator-10"></div>
+    <cal-heat-map config="heatMapConfig" update="heatMapData"></cal-heat-map>
+</div>

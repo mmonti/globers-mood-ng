@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-lg-8">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputSender" class="control-label col-lg-2">Sender Mail:</label>
+                <div class="col-lg-6">
+                    <input type="email" id="inputSender" class="form-control" placeholder="Email address..." ng-model="campaign.mail.sender" ng-blur="onMailSenderChange()"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAlias" class="control-label col-lg-2">Sender Alias:</label>
+                <div class="col-lg-6">
+                    <input type="text" id="inputAlias" class="form-control" placeholder="Sender Alias..." ng-model="campaign.mail.alias"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputSubject" class="control-label col-lg-2">Subject:</label>
+                <div class="col-lg-6">
+                    <input type="text" id="inputSubject" class="form-control" placeholder="Email Subject..." ng-model="campaign.mail.subject"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-offset-4"/>
+</div>
+

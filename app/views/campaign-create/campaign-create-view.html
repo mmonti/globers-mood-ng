@@ -7,19 +7,19 @@
         <form name="form">
             <tabset>
                 <tab heading="Basic" active="tabs[0].active">
-                    <div ng-include="'/views/campaign-create-basic-tab.html'"></div>
+                    <div ng-include="'/views/campaign-create/campaign-create-basic-tab.html'"></div>
                 </tab>
                 <tab heading="Template" active="tabs[1].active">
-                    <div ng-include="'/views/campaign-create-template-tab.html'"></div>
+                    <div ng-include="'/views/campaign-create/campaign-create-template-tab.html'"></div>
                 </tab>
-               <!--<tab heading="Metadata" active="tabs[2].active">-->
-                   <!--<p>Not implemented yet!</p>-->
-               <!--</tab>-->
                 <tab heading="Targets" active="tabs[2].active">
-                    <div ng-include="'/views/campaign-create-targets-tab.html'"></div>
+                    <div ng-include="'/views/campaign-create/campaign-create-targets-tab.html'"></div>
                 </tab>
                 <tab heading="Dispatching" active="tabs[3].active">
-                    <div ng-include="'/views/campaign-create-dispatching-tab.html'"></div>
+                    <div ng-include="'/views/campaign-create/campaign-create-dispatching-tab.html'"></div>
+                </tab>
+                <tab heading="Mail Settings" active="tabs[4].active">
+                    <div ng-include="'/views/campaign-create/campaign-create-mail-tab.html'"></div>
                 </tab>
             </tabset>
         </form>

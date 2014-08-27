@@ -2,7 +2,7 @@
 
 angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
 
-    $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false}];
+    $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false},{active:false}];
 
     var getNewCampaign = function() {
         var reference = {
@@ -15,6 +15,11 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                 isRecursive: function() {
                     return reference.basic.frequency != "ONCE";
                 }
+            },
+            mail: {
+                alias: null,
+                subject: null,
+                sender: null
             },
             targets: {
                 limitDomain: true,
@@ -57,6 +62,11 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                 return {
                     name: reference.basic.name,
                     description: reference.basic.description,
+                    mailSettings: {
+                        alias: reference.mail.alias,
+                        mail: reference.mail.sender,
+                        subject: reference.mail.subject
+                    },
                     frequency: reference.basic.frequency,
                     template: {
                         id: reference.template.selection.id
@@ -85,13 +95,17 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         return targetList;
     };
 
-    var sanitizeTargets = function(limitDomain, targetInput) {
+    var isValidEmail = function(limitDomain, mail) {
         // = Regexp from https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L4
         var EMAIL_REGEXP = (limitDomain) ? /^[A-Za-z0-9._%+-]+@globant.com$/ : /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+        return mail.trim().match(EMAIL_REGEXP);
+    }
+
+    var sanitizeTargets = function(limitDomain, targetInput) {
         var targetList = targets(targetInput);
         var invalidTargets = [];
         var validTargets = _.filter(targetList, function(target){
-            var match = target.trim().match(EMAIL_REGEXP);
+            var match = isValidEmail(limitDomain, target);
             if (!match) {
                 invalidTargets.push(target);
             }
@@ -112,7 +126,8 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         _.each(targets.valid, function(email) {
             var targetUser =_.where($scope.targets.source, {email: email});
             if (!_.isUndefined(targetUser)) {
-                validTargets.push((_.isArray(targetUser) && targetUser.length > 0) ? targetUser[0] : { email: email, name: email });
+                var email = email.trim();
+                validTargets.push((_.isArray(targetUser) && targetUser.length > 0) ? targetUser[0] : { name: email, email: email });
             }
         });
         $scope.campaign.targets.destinations = _.union($scope.campaign.targets.destinations, validTargets);
@@ -203,6 +218,29 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         $scope.campaign.basic.frequencyIsOpen = !$scope.campaign.basic.frequencyIsOpen;
     };
 
+    // == Mail
+    var mailSender = null;
+    preferenceService.namespace("mail", function(data, status, headers, config) {
+        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        var preferenceMailAlias = _.find(data, function(preference) { return preference.preferenceKey === "sender.alias"; });
+        $scope.campaign.mail.alias = preferenceMailAlias.preferenceValue;
+        var preferenceMailSubject = _.find(data, function(preference) { return preference.preferenceKey === "mail.subject"; });
+        $scope.campaign.mail.subject = preferenceMailSubject.preferenceValue;
+        var preferenceMailSender = _.find(data, function(preference) { return preference.preferenceKey === "sender.mail"; });
+        mailSender = $scope.campaign.mail.sender = preferenceMailSender.preferenceValue;
+    });
+
+    $scope.onMailSenderChange = function() {
+        if (!$scope.campaign.mail.sender) {
+            $scope.campaign.mail.sender = mailSender;
+        }
+        if (isValidEmail(false, $scope.campaign.mail.sender) === null) {
+            $scope.campaign.mail.sender = mailSender;
+        } else {
+            mailSender = $scope.campaign.mail.sender;
+        }
+    };
+
     // == Users
     var fetchUsers = function() {
         console.info("fetching users...")
@@ -262,7 +300,6 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         $scope.campaign = getNewCampaign();
         $scope.tabs[0].active = true;
     };
-
 
     fetchUsers();
     fetchTemplates();

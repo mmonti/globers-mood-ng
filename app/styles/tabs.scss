@@ -110,3 +110,15 @@
   border-color: #ddd #ddd #ddd transparent;
   *border-left-color: #ffffff;
 }
+
+.campaign-view-tab-content {
+  height: 435px; overflow-y: auto
+}
+
+.campaign-view-tabset-content > .tab-content {
+  margin-top: 18px !important;
+}
+
+.campaign-view-tabset-content > .nav.nav-tabs {
+  height: 450px !important;
+}
