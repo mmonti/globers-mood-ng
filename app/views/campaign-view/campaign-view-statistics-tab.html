@@ -1,4 +1,77 @@
-<div class="col-lg-12">
-    <h4><i class="fa fa-bar-chart-o icon-x-large icon-ligthgray va-middle"></i>&nbsp;&nbsp;&nbsp;Statistics</h4>
-    <div class="separator-10"></div>
+<div ng-controller="campaignViewStatisticsController">
+    <div class="col-lg-12">
+        <h4><i class="fa fa-bar-chart-o icon-x-large icon-ligthgray va-middle"></i>&nbsp;&nbsp;&nbsp;Statistics</h4>
+        <div class="separator-10"></div>
+
+        <tabset type="pills">
+            <tab heading="CHOICE">
+
+                <div class="col-lg-6">
+
+                    <div ng-repeat="(keyElement, value) in statistics.statistics.frequencies">
+
+                        <h4 ng-click="expand = !expand" class="hand"><i class="fa fa-chevron-circle-right icon-ligthgray icon-x-large va-middle"></i>&nbsp;&nbsp;&nbsp;{{fromChoice(keyElement, 'name')}} &nbsp; <span class="label label-default text-normal">{{keyElement}}</span></h4>
+                        <p>Description:&nbsp;<var>{{fromChoice(keyElement, 'description')}}</var></p>
+
+                        <div class="separator-10"></div>
+
+                        <fieldset ng-show="expand">
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="hand text-center" ng-repeat="(key, value) in statistics.statistics.frequencies[keyElement]">
+                                        <span tooltip-placement="top" tooltip="Value: ({{key}})">{{valueMapping(keyElement, key)}}</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>COUNT</td>
+                                    <td class="text-center" ng-repeat="(key, value) in statistics.statistics.frequencies[keyElement]">
+                                        {{value['count']}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ACUM. FREQ.</td>
+                                    <td class="text-center" ng-repeat="(key, value) in statistics.statistics.frequencies[keyElement]">
+                                        {{value['cumFreq']}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PCT. (%)</td>
+                                    <td class="text-center" ng-repeat="(key, value) in statistics.statistics.frequencies[keyElement]">
+                                        {{value['pct']*100}}%
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ACUM. (%)</td>
+                                    <td class="text-center" ng-repeat="(key, value) in statistics.statistics.frequencies[keyElement]">
+                                        {{value['cumPct']*100}}%
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="separator-20"></div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+
+            </tab>
+
+            <tab heading="TEXT">
+
+            </tab>
+
+            <tab heading="MULTILINE">
+
+            </tab>
+
+        </tabset>
+
+    </div>
 </div>

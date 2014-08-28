@@ -1,8 +1,13 @@
 'use strict';
 
-angular.module('globersMoodApp').controller('campaignViewController', [ '$scope', '$stateParams', '$interval', 'pagination', 'preferenceService', 'campaignService', 'feedbackService', function ($scope, $stateParams, $interval, pagination, preferenceService, campaignService, feedbackService) {
+angular.module('globersMoodApp').controller('campaignViewController', [ '$scope', '$stateParams', '$interval', 'pagination', 'preferenceService', 'campaignService', 'feedbackService', 'dispatchService', 'statsService', function ($scope, $stateParams, $interval, pagination, preferenceService, campaignService, feedbackService, dispatchService, statsService) {
 
     var campaignId = $stateParams.id;
+
+    $scope.campaign = {};
+    $scope.statistics = {};
+
+    // = Load campaign Data
     campaignService.campaign($stateParams.id, function(data, status, headers, config) {
         data.targets = _.map(data.targets, function(target) {
             _.each(data.feedbacks, function(feedback) {
@@ -27,33 +32,58 @@ angular.module('globersMoodApp').controller('campaignViewController', [ '$scope'
         $scope.campaign = data;
     });
 
-    $scope.heatMapData = {};
-    feedbackService.feedbackOfCampaign(campaignId, function(data, status, headers, config) {
-        var timeStamps = {};
-        for (var key in _.groupBy(data, 'created')) {
-            timeStamps[key] = 1;
-        }
-//        $scope.heatMapData = timeStamps;
+    // = Stats
+    statsService.campaign(campaignId, function(data, status, headers, config) {
+        console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+        $scope.statistics = data;
     });
+
 
     // = Charts
     $scope.heatMapConfig = {
+        start: (3).daysBefore('now'),
         domain: "day",
-//        subDomain: "",
-//        domain: "day",
-//        subDomain: "hour",
-//        dataType: "json",
-        start: (6).daysBefore('today'),
-//        highlight: new Date(),
-        tooltip: true,
+        subDomain: "hour",
+        subDomainTextFormat: "%H",
         range: 7,
+        scale: [1, 5, 10, 15],
         cellSize: 20,
-        cellRadius: 10,
-        data: $scope.heatMapData,
-        legend: [1, 5, 10, 15, 20],
+        cellPadding: 3,
+        cellRadius: 0,
+        domainGutter: 10,
+        highlight: new Date(),
+        cellLabel : {
+            empty: "No data on {date}",
+            filled: "{count} {name} {connector} {date}"
+        },
+        colLimit: 4,
+        legend: [5, 10, 15, 20, 25],
+        legendCellSize: 12,
         legendVerticalPosition: "center",
         legendHorizontalPosition: "right",
-        legendOrientation: "vertical"
+        legendOrientation: "vertical",
+        onClick: function(d, n) {
+            $scope.$apply(function(){
+
+            })
+        }
     };
 
+    feedbackService.feedbackOfCampaign(campaignId, function(data, status, headers, config) {
+        var timeStamps = {};
+        for (var key in _.groupBy(data, 'created')) {
+            timeStamps[Math.round(+new Date(Number(key))/1000)] = 1;
+        }
+        $scope.heatMapConfig.data = timeStamps;
+    });
+
+    // == Targets
+    $scope.onResend = {
+        proceed: function(dialog, index, campaignId, target) {
+            dispatchService.remind(campaignId, target.id, function(data, status, headers, config) {
+                console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
+                dialog.close();
+            })
+        }
+    };
 }]);

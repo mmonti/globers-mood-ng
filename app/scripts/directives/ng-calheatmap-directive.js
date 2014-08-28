@@ -5,20 +5,22 @@ angular.module('globersMoodApp').directive('calHeatMap', [ function() {
         restrict: 'E',
         scope: {
             config: "=",
-            update: "="
+            click: "="
         },
-        template: '<div id="cal-heatmap" config="config" update="update">',
         link: function postLink(scope, element, attrs) {
             var defaultConfig = {
                 itemSelector: element[0]
-            }
+            };
 
             angular.extend(defaultConfig, scope.config);
+
             var heatMap = new CalHeatMap();
             heatMap.init(defaultConfig);
 
-            scope.$watch('update', function(value){
-                heatMap.update(value, true);
+            scope.$watch('config.data', function(value){
+                if (value) {
+                    heatMap.update(value, true);
+                }
             });
         }
     };

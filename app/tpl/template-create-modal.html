@@ -1,0 +1,56 @@
+<div ng-controller="templateCreateController">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Add New Template</h4>
+    </div>
+    <div class="modal-body template-create-body">
+
+        <div class="separator-10"></div>
+
+        <form class="form-horizontal" role="form">
+
+            <fieldset ng-disabled="uploadDone">
+                <div class="form-group has-feedback">
+                    <label for="inputName" class="control-label col-lg-2">Name:</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <input type="text" id="inputName" class="form-control" placeholder="Name" ng-model="template.name" ng-required="true"/>
+                            <span class="fa form-control-feedback icon-template-validate-name" ng-class="checkTemplateName() ? 'fa-check text-success' : 'fa-warning text-warning'"></span>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="randomName()" class="btn btn-default"><i class="fa fa-cogs"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescription" class="control-label col-lg-2">Description:</label>
+                    <div class="col-lg-offset-2"></div>
+                    <div class="col-lg-10">
+                        <textarea id="inputDescription" class="form-control" placeholder="Description" rows="4" ng-model="template.description" ng-required="true"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescription" class="control-label col-lg-2">Template:</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="file" class="btn btn-default file" tabindex="-1" ng-file-select="onFileSelect($files)" accept="text/html"><i class="fa fa-folder-open"></i></button>
+                                <button type="button" class="btn btn-default file" ng-click="clear()">
+                                    <span class="glyphicon glyphicon-remove-circle"></span>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control" value="{{template.file.name}}" ng-readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+    <div class="modal-footer template-create-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">CLOSE</button>
+        <button type="button" class="btn btn-primary file" ng-click="onCreate()" ng-disabled="!isModelReady()">CREATE</button>
+    </div>
+</div>

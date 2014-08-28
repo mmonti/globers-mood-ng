@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-7">
                 <!--ng-class="{'col-lg-12' : weeklyChart.series.length === 0, 'col-lg-7': weeklyChart.series.length > 0}"-->
-                <h4>Latest Campaigns<span class="pull-right text-normal"><a ng-click="refreshLatestCampaigns()">refresh</a>&nbsp;&nbsp;<i class="fa fa-refresh"></i></span></h4>
+                <h4>Latest Campaigns<span class="text-normal text-primary hand" ng-click="refreshLatestCampaigns()" tooltip-placement="right" tooltip="Refresh Latest Campaigns">&nbsp;&nbsp;<i class="fa fa-refresh"></i></span></h4>
 
                 <table class="table dashboard">
                     <thead>
@@ -75,11 +75,11 @@
             <div class="col-lg-5 dashboard-chart-section">
                 <div class="form-inline">
                     <div class="form-group">
-                        <h4>Weekly Feedback</h4>
+                        <h4>Weekly Feedback<span class="text-normal text-primary hand" ng-click="refreshWeeklyFeedback()" tooltip-placement="right" tooltip="Refresh Weekly Feedback">&nbsp;&nbsp;<i class="fa fa-refresh"></i></span></h4>
                     </div>
-                    <div class="form-group pull-right weekly-chart">
-                        <span><a ng-click="refreshWeeklyFeedback()">refresh</a>&nbsp;&nbsp;<i class="fa fa-refresh"></i></span>
-                    </div>
+                    <!--<div class="form-group pull-right weekly-chart">-->
+                        <!--<span><a ng-click="refreshWeeklyFeedback()">refresh</a>&nbsp;&nbsp;<i class="fa fa-refresh"></i></span>-->
+                    <!--</div>-->
                 </div>
 
                 <div class="separator-20"/>

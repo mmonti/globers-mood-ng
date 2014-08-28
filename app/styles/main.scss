@@ -123,7 +123,6 @@ div.pagination-container div.pagination-legend {
   margin-right:-4px;
 }
 
-
 .callout {
   padding: 20px;
   margin: 10px 0;
@@ -172,4 +171,16 @@ div.form-group-sm div.form-group {
 }
 .icon-x-large {
   font-size: x-large;
+}
+
+rect.now {
+  stroke: black;
+}
+
+rect.highlight {
+  stroke-width: 1;
+}
+
+text.now {
+  fill: black !important;
 }

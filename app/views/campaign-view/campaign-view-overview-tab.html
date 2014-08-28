@@ -30,9 +30,12 @@
     </dl>
 </div>
 
+{{campaign.text}}
+
 <div class="col-lg-12">
     <h4>Feedback Heatmap</h4>
     <p>This map represents the feedback(s) received for this campaign in the last week per hour.</p>
     <div class="separator-10"></div>
-    <cal-heat-map config="heatMapConfig" update="heatMapData"></cal-heat-map>
+
+    <cal-heat-map config="heatMapConfig" click="onHeatMapClick"></cal-heat-map>
 </div>

@@ -1,6 +1,6 @@
 // = Template Selector
 .template-selector {
-  height: 90px;
+  height: 149px;
   overflow-y: scroll;
 }
 .template-selector table tbody tr:first-child td {
@@ -65,4 +65,8 @@ div.template-analyze-tabset-content div.tab-content {
 
 div.template-analyze-tabset-content ul.nav.nav-tabs {
   height: 290px !important;
+}
+
+.icon-template-validate-name {
+  right: 45px !important;
 }

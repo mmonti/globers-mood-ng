@@ -2,23 +2,61 @@
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">Template Analysis</h4>
+        <h4 class="modal-title">
+            <span ng-show="templateMetadata.valid">Template Analysis</span>
+            <span ng-show="!templateMetadata.valid">Template Rules</span>
+        </h4>
     </div>
     <div class="modal-body">
 
-        <div ng-show="!templateMetadata">
+        <div ng-show="!templateMetadata.valid">
+            <div >
+                <dl>
+                    <dt class="text-primary">Survey Templates</dt>
+                    <dd>
+                        <div class="separator-10"></div>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-chevron-right"></i>&nbsp;Must contain a FORM element</li>
+                            <li><i class="fa fa-chevron-right"></i>&nbsp;Must contain HIDDEN elements with the campaign information. <span class="label label-warning">Required:</span>&nbsp;<var>campaignId, token and email.</var></li>
+                            <li><i class="fa fa-chevron-right"></i>&nbsp;Contains or not any elements of type CHOICE, TEXT or MULTILINE TEXT.</li>
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt class="text-primary">Static Templates</dt>
+                    <dd>
+                        <div class="separator-10"></div>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-chevron-right"></i>&nbsp;Static templates does not contains any elements of a survey. They are plain html files.</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div ng-show="!templateMetadata.elements && templateMetadata.valid">
             <div class="separator-50"></div>
             <div class="text-center">
                 <h4><i class="fa-2x text-info fa fa-refresh fa-spin"></i>&nbsp;&nbsp;Analyzing template structure...</h4>
             </div>
+            <div class="separator-50"></div>
         </div>
 
-        <div ng-show="templateMetadata">
+        <div ng-show="templateMetadata.valid && templateMetadata.static">
+            <div class="separator-50"></div>
+            <div class="text-center">
+                <h4><i class="fa-2x text-info fa fa-file-code-o"></i>&nbsp;&nbsp;This template is static and doesn't not contains survey elements...</h4>
+            </div>
+            <div class="separator-50"></div>
+        </div>
+
+        <div ng-show="templateMetadata.valid && !templateMetadata.static">
             <i class="text-success fa fa-check-square-o fa-2x va-middle"></i> &nbsp; After scanning the selected template we found the following elements...
 
             <tabset class="template-analyze-tabset-content tabs-left">
 
-                <tab ng-repeat="(heading, elements) in templateMetadata" heading="{{getTabName(heading)}}" active="tabs($index).active">
+                <tab ng-repeat="(heading, elements) in templateMetadata.elements" heading="{{getTabName(heading)}}" active="tabs($index).active">
 
                     <div class="template-analyze-tab-content">
 
@@ -90,7 +128,7 @@
 
                         <div class="separator-10"></div>
 
-                        <div class="form-horizontal form-group-sm" ng-repeat="(key, element) in templateMetadata.CHOICE">
+                        <div class="form-horizontal form-group-sm" ng-repeat="(key, element) in templateMetadata.elements.CHOICE">
 
                             <div class="separator-10"></div>
 
@@ -113,7 +151,7 @@
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="setMetadata()">SET METADATA</button>
         <button class="btn btn-default" ng-click="close()">CLOSE</button>
+        <button class="btn btn-primary" ng-click="setMetadata()" ng-show="templateMetadata.valid && templateMetadata.survey">SET METADATA</button>
     </div>
 </div>

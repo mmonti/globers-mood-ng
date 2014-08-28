@@ -7,14 +7,14 @@ angular.module('globersMoodApp').factory('configuration',
     var configuration = {
 
         // = Current Environment.
-        environment: "dev",
+        environment: "prod",
 
         // = Environment configuration.
         dev : {
             base: "http://127.0.0.1:8080/rest/api"
         },
         prod : {
-            base: "http://globers-mood-rest-prod.appspot.com/rest/api"
+            base: "http://project-survey-prod.appspot.com/rest/api"
         },
 
         services : {
@@ -69,7 +69,9 @@ angular.module('globersMoodApp').factory('configuration',
             "stats.campaign" : "/v1/stats/campaign/{campaignId}",
 
             "setup.store.body" : "/v1/setup",
-            "setup.store.file" : "/v1/setup/file-import"
+            "setup.store.file" : "/v1/setup/file-import",
+
+            "dispatch.remind" : "/v1/dispatch/campaign/{campaignId}/user/{userId}"
         }
 
         // = DashBoard

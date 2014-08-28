@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-9">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-lg-2" style="padding-top: 6px !important;">Token Enabled:</label>
+                <div class="col-lg-10">
+                    <div class="btn-group btn-group-sm">
+                        <button name="securityTokenEnabled" type="button" class="btn" ng-class="(campaign.security.tokenEnabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.security.tokenEnabled" btn-radio="true">Enable</button>
+                        <button name="securityTokenEnabled" type="button" class="btn" ng-class="(!campaign.security.tokenEnabled) ? 'btn-info' : 'btn-default'" ng-model="campaign.security.tokenEnabled" btn-radio="false">Disable</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-offset-3"></div>
+</div>

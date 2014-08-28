@@ -2,7 +2,7 @@
 
 angular.module('globersMoodApp').controller('campaignCreateController', ['$scope', '$location', '$modal', '_', 'preferenceService', 'campaignService', 'projectService', 'templateService', 'userService', function($scope, $location, $modal, _, preferenceService, campaignService, projectService, templateService, userService) {
 
-    $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false},{active:false}];
+    $scope.tabs = [{active:true},{active:false},{active:false},{active:false},{active:false},{active:false},{active:false}];
 
     var getNewCampaign = function() {
         var reference = {
@@ -20,6 +20,9 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                 alias: null,
                 subject: null,
                 sender: null
+            },
+            security: {
+                tokenEnabled: true
             },
             targets: {
                 limitDomain: true,
@@ -67,6 +70,7 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
                         mail: reference.mail.sender,
                         subject: reference.mail.subject
                     },
+                    tokenEnabled: reference.security.tokenEnabled,
                     frequency: reference.basic.frequency,
                     template: {
                         id: reference.template.selection.id

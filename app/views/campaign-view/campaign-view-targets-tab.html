@@ -32,7 +32,7 @@
             <td>
                 <fieldset ng-disabled="campaign.closed">
                     <span ng-show="!target.feedback && !campaign.closed" class="btn btn-xs btn-default">
-                        <dialog header="'Remind'" body="'Not implemented yet!'"></dialog>
+                        <dialog size="md" header="'Remind Campaign'" body="'You are about to re-send the survey to the selected user. Are you sure you want to continue?'" ng-model="onResend" params="[$index, campaign.id, target]" type="proceed"></dialog>
                         REMIND
                     </span>
                     <span class="btn btn-xs btn-primary">
@@ -68,10 +68,8 @@
         <div class="thumbnail">
             <div class="caption">
                 <h4><i class="fa fa-envelope-o fa-2x icon-ligthgray va-middle"></i>&nbsp;&nbsp;&nbsp;Response Rate</h4>
-
-                <progressbar class="progress-striped active" max="campaign.targets.length" value="campaign.feedbackNumber" type="success"><i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i></progressbar>
-
-                <p><span>{{(campaign.feedbackNumber / campaign.targets.length) * 100}}%</span> of the users replied to this campaign</p>
+                <progressbar class="progress-striped active" max="100" value="(campaign.feedbackNumber / campaign.targets.length) * 100 | number: 2" type="success"><i>{{campaign.feedbackNumber}} / {{campaign.targets.length}}</i></progressbar>
+                <p><span>{{(campaign.feedbackNumber / campaign.targets.length) * 100 | number: 2}}%</span> of the users replied to this campaign</p>
             </div>
         </div>
     </div>
