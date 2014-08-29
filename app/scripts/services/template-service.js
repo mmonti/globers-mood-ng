@@ -22,10 +22,10 @@ angular.module('globersMoodApp').factory('templateService',
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
         },
-        analyze : function(templateId, successCallback, errorCallback) {
+        getMetadata : function(templateId, successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',
-                url : configuration.getServiceEndpoint("template.analyze", { templateId: templateId })
+                url : configuration.getServiceEndpoint("template.metadata", { templateId: templateId })
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback); // errorCallback || injectedErrorHandler

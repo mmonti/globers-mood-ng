@@ -1,10 +1,10 @@
-<div class="col-lg-12">
+<div class="col-lg-12 pad-left-0 pad-right-0">
     <h4><i class="fa fa-chevron-circle-right icon-ligthgray icon-x-large va-middle"></i>&nbsp;&nbsp;&nbsp;Campaign: {{campaign.name}} ({{campaign.id}})</h4>
     <p>Description: <var>{{campaign.description}}</var></p>
     <div class="separator-10"></div>
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-6 pad-left-0 pad-right-0">
     <dl class="dl-horizontal right">
         <dt class="text-primary">STATUS</dt>
         <dd><span class="label label-default" ng-class="{'label-warning': (campaign.status === 'WAITING_FOR_FEEDBACK'), 'label-info': (campaign.status === 'STARTED'), 'label-success': (campaign.status === 'CLOSED')}">{{ campaign.status }}</span></dd>
@@ -17,7 +17,7 @@
     </dl>
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-6 pad-left-0 pad-right-0">
     <dl class="dl-horizontal right">
         <dt class="text-primary">CREATION</dt>
         <dd><span>{{ campaign.created | date: 'MM-dd-yyyy hh:mm:ss' }}</span></dd>
@@ -30,12 +30,12 @@
     </dl>
 </div>
 
-{{campaign.text}}
-
-<div class="col-lg-12">
+<div class="col-lg-12 pad-left-0 pad-right-0 pad-top-0">
     <h4>Feedback Heatmap</h4>
-    <p>This map represents the feedback(s) received for this campaign in the last week per hour.</p>
-    <div class="separator-10"></div>
+    <p class="pad-bottom-5">This map represents the feedback(s) received for this campaign in the last week per hour.</p>
+    <div class="col-lg-8 pad-left-0 pad-right-0"><cal-heat-map config="heatMapConfig" click="onHeatMapClick"></cal-heat-map></div>
+    <div class="col-lg-4 heatMapSummary pad-right-0">
+        {{summary.date | date: 'MM/dd/yyyy HH:mm:ss'}}
+    </div>
 
-    <cal-heat-map config="heatMapConfig" click="onHeatMapClick"></cal-heat-map>
 </div>

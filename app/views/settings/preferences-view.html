@@ -35,8 +35,14 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="preference in preferences | filter: {namespace: preferenceFilterTerm}">
-                            <td>{{preference.preferenceKey}}</td>
-                            <td>{{preference.preferenceValue}}<span ng-show="!preference.readOnly" ng-click="open(preference.preferenceKey, preference.preferenceValue);">&nbsp;<i class="fa fa-pencil-square-o red"></i>&nbsp;edit</span></td>
+                            <td><span>{{preference.preferenceKey}}</span></td>
+                            <td>
+                                <span>{{preference.preferenceValue}}</span>
+                                <span ng-show="!preference.readOnly" class="hand">
+                                    <dialog size="md" template="/tpl/preference-update-modal.html" ng-model="preference"/>
+                                    <i class="fa fa-pencil-square-o red"></i><span>edit</span>
+                                </span>
+                            </td>
                             <td><span class="label label-primary">{{preference.namespace}}</span></td>
                         </tr>
                     </tbody>

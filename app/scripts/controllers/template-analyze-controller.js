@@ -30,7 +30,7 @@ angular.module('globersMoodApp').controller('templateAnalyzeController',
         });
 
     } else {
-        templateService.analyze(templateId, function(data, status, headers, config) {
+        templateService.getMetadata(templateId, function(data, status, headers, config) {
             console.debug("Response from=["+config.url+"] - Method=["+config.method+"] - Status=["+status+"]");
             if (data.valid) {
                 angular.extend($scope.templateMetadata, { elements: _.groupBy(data.elements, "elementType") });

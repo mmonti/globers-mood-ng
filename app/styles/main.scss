@@ -86,6 +86,22 @@ div.tabbable ul.nav.nav-tabs li {
   }
 }
 
+// = Padding
+@for $index from 0 through 10 {
+  .pad-left-#{$index} {
+    padding-left: #{$index}px !important;
+  }
+  .pad-right-#{$index} {
+    padding-right: #{$index}px !important;
+  }
+  .pad-top-#{$index} {
+    padding-top: #{$index}px !important;
+  }
+  .pad-bottom-#{$index} {
+    padding-bottom: #{$index}px !important;
+  }
+}
+
 
 // = Command
 .command-bar {
@@ -183,4 +199,54 @@ rect.highlight {
 
 text.now {
   fill: black !important;
+}
+
+div.nav-pills-statistics div.tab-content {
+  border-right: 1px #f3f3f3 solid;
+  margin-top: auto;
+  padding-top: 15px;
+}
+div.nav-pills-statistics ul.nav.nav-pills {
+  background-color: #f3f3f3;
+  border-top-right-radius: 8px;
+}
+div.nav-pills-statistics div.tab-content {
+  height: 340px !important;
+  overflow-y: auto;
+  margin-bottom: 0px !important;
+}
+
+div.keyElement h4.title {
+  margin-bottom: 5px !important;
+}
+div.keyElement p.footer-key {
+  margin-bottom: 2px !important;
+}
+div.keyElement p.footer-description {
+  margin-bottom: 15px !important;
+}
+
+div.second-column-container {
+  min-height: 400px;
+  overflow-y: overlay;
+}
+
+div.heatMapSummary {
+  padding-left: 50px;
+  min-height: 135px;
+}
+
+blockquote.multiline-feedback {
+  margin-bottom: 10px;
+}
+
+blockquote.multiline-feedback p {
+  font-size: smaller;
+}
+blockquote.multiline-feedback footer {
+  font-size: small;
+}
+
+table.frequency-table {
+  font-size: 12px;
 }

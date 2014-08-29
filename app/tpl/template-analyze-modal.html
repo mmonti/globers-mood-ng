@@ -136,7 +136,7 @@
                                <span><i class="fa fa-chevron-right va-middle"></i>&nbsp;&nbsp;Element:&nbsp;</span><span class="label label-default">{{element.key}}:</span>&nbsp;<a class="text-normal" ng-click="customize = !customize">customize</a>
                             </div>
 
-                            <div ng-show="customize" class="form-group" ng-repeat="mapping in element.valueMappings">
+                            <div collapse="customize" class="form-group" ng-repeat="mapping in element.valueMappings">
                                 <label class="col-sm-2 control-label">Value ({{mapping.key}}):</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" placeholder="Mapping to..." ng-model="mapping.value">

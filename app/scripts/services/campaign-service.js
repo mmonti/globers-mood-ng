@@ -46,6 +46,14 @@ angular.module('globersMoodApp').factory('campaignService',
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
+        },
+        usersOfCampaign : function(campaignId, successCallback, errorCallback) {
+            var request = $http({
+                method : 'GET',
+                url : configuration.getServiceEndpoint("campaign.users.get", { campaignId: campaignId })
+            });
+            request.success(successCallback);
+            request.error(errorCallback || logger.errorServiceCallback); // errorCallback || injectedErrorHandler
         }
 
     };
