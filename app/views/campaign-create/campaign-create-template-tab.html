@@ -8,8 +8,8 @@
 
                     <div class="col-lg-10">
                         <button name="addNewTemplate" class="btn btn-default">
-                            <dialog size="lg" template="/tpl/template-create-modal.html"/>
-                            Add new template ...
+                            <dialog size="lg" template="/tpl/template-create-modal.html"></dialog>
+                            <span>Add new template ...</span>
                         </button>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                                         <div class="pull-right">
                                             <span class="label label-danger hand" style="margin-right: 3px;">
                                                 <dialog size="md" header="'Remove Template'" body="'Are you sure you want to remove this template?'" ng-model="onTemplateRemove" params="[$index, template]" type="proceed"></dialog>
-                                                REMOVE&nbsp;<i class="fa fa-times"></i>
+                                                <span class="pad-right-5">REMOVE</span><i class="fa fa-times"></i>
                                             </span>
                                             <span ng-show="campaign.template.selection.name === template.name" class="label hand" ng-class="(campaign.template.selection != null && campaign.template.selection.name === template.name) ? 'label-info' : 'label-default'" ng-click="onTemplateDeselected()">DESELECT</span>
                                             <span ng-show="campaign.template.selection.name != template.name" class="label hand" ng-class="(campaign.template.selection != null && campaign.template.selection.name === template.name) ? 'label-info' : 'label-default'" ng-click="onTemplateSelected($index)">SELECT</span>
@@ -114,18 +114,18 @@
 
                 <div class="row">
                     <span class="label label-default hand template-action">
-                        <dialog size="lg" header="'Template Analysis'" template="/tpl/template-metadata-modal.html" ng-model="campaign.template.selection"/>
+                        <dialog size="lg" header="'Template Analysis'" template="/tpl/template-metadata-modal.html" ng-model="campaign.template.selection"></dialog>
                         <span ng-show="campaign.template.selection.metadata == null">ANALYZE</span>
                         <span ng-show="campaign.template.selection.metadata != null && !campaign.template.selection.metadata.valid">REVIEW</span>
-                        <span ng-show="campaign.template.selection.metadata != null && campaign.template.selection.metadata.valid">METADATA</span>&nbsp;<i class="fa fa-file-code-o"></i>
+                        <span ng-show="campaign.template.selection.metadata != null && campaign.template.selection.metadata.valid" class="pad-right-5">METADATA</span><i class="fa fa-file-code-o va-middle"></i>
                     </span>
                     <span class="label label-default hand template-action" ng-show="campaign.template.selection.metadata.valid">
-                        <dialog size="md" header="'Attach File'" body="'Not implemented yet!'"/>
-                        ATTACH FILE&nbsp;<i class="fa fa-file-text-o"></i>
+                        <dialog size="md" header="'Attach File'" body="'Not implemented yet!'"></dialog>
+                        <span class="pad-right-5">ATTACH FILE</span><i class="fa fa-file-text-o va-middle"></i>
                     </span>
                     <span class="label label-default hand template-action">
                         <dialog class="template-preview" size="lg" header="'Template Preview'" ng-model="campaign.template.selection" template="/tpl/template-preview-modal.html"></dialog>
-                        PREVIEW&nbsp;<i class="fa fa-file-text-o"></i>
+                        <span class="pad-right-5">PREVIEW</span><i class="fa fa-file-text-o va-middle"></i>
                     </span>
                 </div>
             </div>

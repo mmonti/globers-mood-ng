@@ -16,7 +16,7 @@ angular.module('globersMoodApp').factory('templateService',
         setMetadata : function(templateId, metadata, successCallback, errorCallback) {
             var request = $http({
                 method : 'PUT',
-                url : configuration.getServiceEndpoint("template.set.metadata", { templateId: templateId }),
+                url : configuration.getServiceEndpoint("template.metadata", { templateId: templateId }),
                 data: metadata
             });
             request.success(successCallback);
