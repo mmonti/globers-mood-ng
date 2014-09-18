@@ -7,7 +7,7 @@ angular.module('globersMoodApp').factory('configuration',
     var configuration = {
 
         // = Current Environment.
-        environment: "prod",
+        environment: "dev",
 
         // = Environment configuration.
         dev : {
@@ -30,6 +30,7 @@ angular.module('globersMoodApp').factory('configuration',
             "user.list" : "/v1/user",
             "user.assigned" : "/v1/user/assigned",
             "user.unassigned" : "/v1/user/unassigned",
+            "user.userOfProject" : "/v1/user/project/{projectId}",
 
             "customer.get" : "/v1/customer/{customerId}",
             "customer.list" : "/v1/customer",
@@ -38,8 +39,6 @@ angular.module('globersMoodApp').factory('configuration',
             "project.get" : "/v1/project/{projectId}",
             "project.list" : "/v1/project",
             "project.store" : "/v1/project",
-            "project.assign.user" : "/v1/project/{projectId}/assign/{userId}",
-            "project.release.user" : "/v1/project/{projectId}/release/{userId}",
 
             "campaign.get" : "/v1/campaign/{campaignId}",
             "campaign.list" : "/v1/campaign",

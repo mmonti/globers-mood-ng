@@ -57,8 +57,8 @@
                     <fieldset ng-show="selectedKeyElement(keyElement)" collapse="!selectedKeyElement(keyElement)">
 
                         <div class="pad-bottom-10">
-                            <h4>Frequency</h4>
-                            <p class="text-primary">The table below shows the frequency data related with the responses received as feedback.</p>
+                            <h4><i class="fa fa-tasks va-middle icon-ligthgray fa-2x pad-right-10"></i>Frequency</h4>
+                            <p class="text-info">The table below shows the frequency data related with the responses received as feedback.</p>
                         </div>
 
                         <table class="table table-condensed frequency-table">
@@ -111,6 +111,11 @@
                     <div ng-repeat="(entryKey, entryValue) in feedbacks.byKey[keyElement]">
 
                         <fieldset ng-show="selectedKeyElement(keyElement)" collapse="!selectedKeyElement(keyElement)">
+                            <div class="pad-bottom-10">
+                                <h4><i class="fa fa-comments-o va-middle icon-ligthgray fa-2x pad-right-10"></i>Entries</h4>
+                                <p class="text-info">The list below shows all the entries provided as feedback.</p>
+                            </div>
+
                             <blockquote class="multiline-feedback pad-top-0 pad-bottom-0">
                                 <p>{{entryValue.value}}<span class="badge pull-right">{{$index + 1}}</span></p>
                                 <footer class="small">{{entryValue.user.email}}</footer>

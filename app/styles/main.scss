@@ -1,8 +1,8 @@
 //$iconSpritePath: "../images/glyphicons-halflings.png";
 //$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
-$icon-font-path: "../bower_components/components-font-awesome/fonts";
-$fa-font-path: "../bower_components/components-font-awesome/fonts";
+$icon-font-path: "../bower_components/font-awesome/fonts";
+$fa-font-path: "../bower_components/font-awesome/fonts";
 
 @import "datepicker";
 @import "timepicker";
@@ -16,7 +16,7 @@ $fa-font-path: "../bower_components/components-font-awesome/fonts";
 @import "tabs";
 @import "popover";
 @import "./../bower_components/cal-heatmap/cal-heatmap.css";
-@import "./../bower_components/components-font-awesome/scss/font-awesome";
+@import "./../bower_components/font-awesome/scss/font-awesome";
 
 // CSS
 // Original Bootstrap's CSS depends on empty href attributes to style cursors for several components (pagination, tabs etc.).
@@ -250,4 +250,14 @@ blockquote.multiline-feedback footer {
 
 table.frequency-table {
   font-size: 12px;
+}
+
+table.table-header-projects-list {
+  margin-bottom: 0px !important;
+}
+
+div.projects-container {
+  height: 220px;
+  min-height: 220px;
+  overflow-y: auto;
 }

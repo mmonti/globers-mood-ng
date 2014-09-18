@@ -43,15 +43,15 @@
                 <!--</div>-->
             <!--</div>-->
 
-            <!--<div class="form-group">-->
-                <!--<label class="control-label col-lg-3">From Projects:</label>-->
+            <div class="form-group">
+                <label class="control-label col-lg-3">From Projects:</label>
 
-                <!--<div class="col-lg-9">-->
-                    <!--<button name="addNewTemplate" class="btn btn-default">Browse Projects...-->
-                        <!--<dialog header="'Browse Projects'" body="'Not implemented yet!'"></dialog>-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
+                <div class="col-lg-9">
+                    <button name="addNewTemplate" class="btn btn-default">Browse Projects...
+                        <dialog size="md" template="/tpl/browse-projects.html"></dialog>
+                    </button>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -78,15 +78,17 @@
                 <thead>
                 <tr>
                     <th class="first-column text-center">#</th>
+                    <th class="first-column text-center">
+                        <input type="checkbox" id="checkAllTarget" ng-click="onCheckAll()">
+                    </th>
                     <th><span class="header-title">Target Mail</span></th>
                     <th>
-                        <!--<fieldset ng-disabled="campaign.ts.destinations.length == 0">-->
-                        <!--<div class="pull-right target-selector-control">-->
-                        <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-th-list"></i></button>-->
-                        <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil">&nbsp;&nbsp;</i>add context</button>-->
-                        <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-times">&nbsp;&nbsp;</i>remove</button>-->
-                        <!--</div>-->
-                        <!--</fieldset>-->
+                        <fieldset ng-hide="campaign.targets.destinations.length === 0">
+                            <div class="pull-right target-selector-control">
+                                <button type="button" class="btn btn-default btn-xs" ng-class="{ 'btn-success': campaign.targets.project != null }"><i class="fa fa-exchange"></i></button>
+                                <dialog size="md" template="/tpl/create-assign-project.html"></dialog>
+                            </div>
+                        </fieldset>
                     </th>
                 </tr>
                 </thead>
@@ -105,13 +107,13 @@
                         <tr ng-repeat="target in campaign.targets.destinations | filter: targetFilterTerm">
                             <td class="first-column text-center">{{$index + 1}}</td>
                             <td class="first-column text-center">
-                                <input type="checkbox" id="checkTarget" ng-model="campaign.targets.selected">
+                                <input type="checkbox" id="checkTarget" ng-model="campaign.targets.destinations[$index].selected">
                             </td>
                             <td><span>{{target.email}}</span></td>
                             <td>
-                                <div class="text-center">
-                                    <span><button type="button" class="btn btn-default btn-sm"><i class="fa fa-list"></i></button></span>
-                                    <span><button type="button" class="btn btn-default btn-sm" ng-click="onDiscardTarget($index)"><i class="fa fa-times-circle-o"></i></button></span>
+                                <div class="text-center pull-right">
+                                    <span class="label label-success" ng-show="campaign.targets.destinations[$index].project != null" tooltip-placement="top" tooltip="{{campaign.targets.destinations[$index].project.name}}">P</span>
+                                    <a class="label label-danger" ng-click="onDiscardTarget($index)">REMOVE</a>
                                 </div>
                             </td>
                         </tr>
@@ -130,3 +132,127 @@
         </div>
     </div>
 </div>
+
+<script id="/tpl/create-assign-project.html" type="text/ng-template">
+    <div ng-controller="projectCreateAssignController">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Create/Assign to Project</h4>
+        </div>
+        <div class="modal-body template-create-project">
+            <form role="form" ng-submit="onProjectCreate()" name="createProjectForm">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Project Name" ng-model="projectName">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">CREATE!</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
+            <div class="separator-10"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="filterByProjectForm">
+                        <div class="form-group">
+                            <label for="projectNameFilterTerm" class="col-sm-2 control-label">Filter by</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="projectNameFilterTerm" ng-model="projectNameFilterTerm" placeholder="Project Name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-header-projects-list">
+                        <thead>
+                        <tr>
+                            <th class="first-column text-center">#</th>
+                            <th><span class="header-title">Project Name</span></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="projects-container">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr ng-repeat="project in projects | filter: projectNameFilterTerm">
+                                <td class="first-column text-center">{{$index + 1}}</td>
+                                <td><span>{{project.name}}</span></td>
+                                <td>
+                                    <div class="text-right pull-right">
+                                        <a class="label label-success" ng-click="onSelectProject(project)">ASSIGN</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer template-preview-footer">
+            <button class="btn btn-primary" ng-click="close()">CLOSE</button>
+        </div>
+    </div>
+</script>
+
+<script id="/tpl/browse-projects.html" type="text/ng-template">
+    <div ng-controller="projectBrowseController">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Browse Projects</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="filterByProject">
+                        <div class="form-group">
+                            <label for="projectNameFilterTerm" class="col-sm-2 control-label">Filter by:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="projectNameFilterTerm" ng-model="projectNameFilterTerm" placeholder="Project Name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-header-projects-list">
+                        <thead>
+                        <tr>
+                            <th class="first-column text-center">#</th>
+                            <th><span class="header-title">Project Name</span></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="projects-container">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr ng-repeat="project in projects | filter: projectNameFilterTerm">
+                                <td class="first-column text-center">{{$index + 1}}</td>
+                                <td><span>{{project.name}}</span></td>
+                                <td>
+                                    <div class="text-right pull-right">
+                                        <a class="label label-success" ng-click="onImportFromProject(project)">IMPORT</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer template-preview-footer">
+            <button class="btn btn-primary" ng-click="close()">CLOSE</button>
+        </div>
+    </div>
+</script>

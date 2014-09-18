@@ -12,6 +12,15 @@ angular.module('globersMoodApp').factory('projectService',
             });
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
+        },
+        store : function(project, successCallback, errorCallback) {
+            var request = $http({
+                method : 'POST',
+                url : configuration.getServiceEndpoint("project.store"),
+                data: project
+            });
+            request.success(successCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
         }
     }
 }]);

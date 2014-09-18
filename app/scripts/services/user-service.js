@@ -13,6 +13,14 @@ angular.module('globersMoodApp').factory('userService',
             request.success(successCallback);
             request.error(errorCallback || logger.errorServiceCallback);
         },
+        usersOfProject: function(projectId, successCallback, errorCallback) {
+            var request = $http({
+                method : 'GET',
+                url : configuration.getServiceEndpoint("user.userOfProject", { projectId: projectId })
+            });
+            request.success(successCallback);
+            request.error(errorCallback || logger.errorServiceCallback);
+        },
         assignedUsers : function(successCallback, errorCallback) {
             var request = $http({
                 method : 'GET',

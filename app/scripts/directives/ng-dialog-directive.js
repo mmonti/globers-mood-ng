@@ -109,7 +109,9 @@ angular.module('globersMoodApp').directive('dialog',
                 $modal.open(angular.extend(config, template));
             };
 
-            element.parent().bind("click", function() { scope.open() });
+            element.parent().bind("click", function(event) {
+                scope.open()
+            });
         }
     };
 }]);

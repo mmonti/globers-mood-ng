@@ -121,16 +121,22 @@ angular.module('globersMoodApp').controller('campaignCreateController', ['$scope
         };
     };
 
+    $scope.onCheckAll = function() {
+        _.each($scope.campaign.targets.destinations, function(target) {
+            target.selected = !target.selected;
+        });
+    }
+
     $scope.onTargetSelected = function() {
         if (_.isUndefined($scope.targets.input) || (!_.isUndefined($scope.targets.input) && _.isEmpty($scope.targets.input.trim()))) {
             return;
         }
         var targets = sanitizeTargets($scope.campaign.targets.limitDomain, $scope.targets.input);
         var validTargets = [];
-        _.each(targets.valid, function(email) {
-            var targetUser =_.where($scope.targets.source, {email: email});
+        _.each(targets.valid, function(paramEmail) {
+            var targetUser =_.where($scope.targets.source, { email: paramEmail });
             if (!_.isUndefined(targetUser)) {
-                var email = email.trim();
+                var email = paramEmail.trim();
                 validTargets.push((_.isArray(targetUser) && targetUser.length > 0) ? targetUser[0] : { name: email, email: email });
             }
         });
