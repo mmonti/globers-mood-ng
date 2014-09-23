@@ -67,6 +67,7 @@ var application = angular.module('globersMoodApp', ['ngSanitize', 'ui.router', '
                 return promise.then(success, error);
             }
         }];
+        $httpProvider.interceptors.push('requestInterceptor');
         $httpProvider.responseInterceptors.push(interceptor);
     }).
 

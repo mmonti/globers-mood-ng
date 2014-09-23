@@ -7,7 +7,18 @@ angular.module('globersMoodApp').factory('configuration',
     var configuration = {
 
         // = Current Environment.
-        environment: "prod",
+        environment: "dev",
+
+        // = Use AuthTokenHeader
+        useAuthTokenHeader: true,
+        authTokenHeaderName: 'X-Auth-Token',    // Auth Token Header name.
+//        authTokenCookieKey: 'authToken',        // Key used to store in the token in the cookieStore.
+
+        // = Auth Token value.
+        authTokenValue: 'pR0j3c7-5urv3y5',
+
+        // = Endpoint base
+        endpointBase: '/rest/api',
 
         // = Environment configuration.
         dev : {
@@ -90,6 +101,26 @@ angular.module('globersMoodApp').factory('configuration',
 
     // = Public API
     return {
+        getEndpointBase : function() {
+            return configuration.endpointBase;
+        },
+
+        useAuthTokenHeader : function() {
+            return configuration.useAuthTokenHeader;
+        },
+
+        getAuthTokenHeaderName : function() {
+            return configuration.authTokenHeaderName;
+        },
+
+        getAuthTokenValue : function() {
+            return configuration.authTokenValue;
+        },
+
+//        getAuthTokenCookieKey : function() {
+//            return configuration.authTokenCookieKey;
+//        },
+
         getEnvironment : function() {
             return configuration.environment;
         },

@@ -89,14 +89,14 @@
                                 <td>PCT. (%)</td>
                                 <td class="text-center"
                                     ng-repeat="(key, value) in statistics.frequencies[keyElement]">
-                                    <span>{{value['pct']*100}}%</span>
+                                    <span>{{value['pct']*100 | number:2}}%</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>ACUM. (%)</td>
                                 <td class="text-center"
                                     ng-repeat="(key, value) in statistics.frequencies[keyElement]">
-                                    <span>{{value['cumPct']*100}}%</span>
+                                    <span>{{value['cumPct']*100 | number:2}}%</span>
                                 </td>
                             </tr>
                             </tbody>
@@ -108,20 +108,19 @@
 
             <div ng-show="selectedPill('MULTILINE_TEXT')">
                 <div ng-repeat="keyElement in getMultilineElementKeys()">
+
+                    <div class="pad-bottom-10">
+                        <h4><i class="fa fa-comments-o va-middle icon-ligthgray fa-2x pad-right-10"></i>Entries</h4>
+                        <p class="text-info">The list below shows all the entries provided as feedback.</p>
+                    </div>
+
                     <div ng-repeat="(entryKey, entryValue) in feedbacks.byKey[keyElement]">
-
                         <fieldset ng-show="selectedKeyElement(keyElement)" collapse="!selectedKeyElement(keyElement)">
-                            <div class="pad-bottom-10">
-                                <h4><i class="fa fa-comments-o va-middle icon-ligthgray fa-2x pad-right-10"></i>Entries</h4>
-                                <p class="text-info">The list below shows all the entries provided as feedback.</p>
-                            </div>
-
                             <blockquote class="multiline-feedback pad-top-0 pad-bottom-0">
                                 <p>{{entryValue.value}}<span class="badge pull-right">{{$index + 1}}</span></p>
                                 <footer class="small">{{entryValue.user.email}}</footer>
                             </blockquote>
                         </fieldset>
-
                     </div>
                 </div>
             </div>
